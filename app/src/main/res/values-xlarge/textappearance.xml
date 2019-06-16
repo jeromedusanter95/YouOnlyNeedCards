@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- WelcomeActivity -->
+    <style name="AppTheme.Text.WelcomeActivity.Button">
+        <item name="android:textSize">@dimen/text_size_11</item>"
+    </style>
+
+    <!-- SettingsActivity -->
+    <style name="AppTheme.Text.SettingsActivity.Title">
+        <item name="android:textSize">@dimen/text_size_11</item>
+    </style>
+
+    <style name="AppTheme.Text.SettingsActivity.Parameter">
+        <item name="android:textSize">@dimen/text_size_5</item>
+    </style>
+
+    <style name="AppTheme.Text.SettingsActivity.Button">
+        <item name="android:textSize">@dimen/text_size_5</item>
+    </style>
+</resources>

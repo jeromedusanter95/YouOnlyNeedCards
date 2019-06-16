@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">YouOnlyNeedCards</string>
+
+    <!-- WELCOME ACTIVITY -->
+    <string name="main_activity_new_game">Nouvelle partie</string>
+    <string name="main_activity_old_game">Reprendre la partie</string>
+
+    <!--SETTINGS GAME ACTIVITY-->
+    <string name="settings_game_activity_title">Paramètres de la partie</string>
+    <string name="settings_game_activity_money">Miser de l\'argent ? :</string>
+    <string name="settings_game_activity_how_many_money">Combien d\'argent ? :</string>
+    <string name="settings_game_activity_number_chips">Nombre de jetons par joueur :</string>
+    <string name="settings_game_activity_blind">Petite Blind / Grosse Blind :</string>
+    <string name="settings_game_activity_blind_increase">Blinds augmentent au cours de la partie ? :</string>
+    <string name="settings_game_activity_blind_increase_frequency">Fréquence de l\'augmentation des blinds :</string>
+    <string name="settings_game_activity_start_game">Commencer</string>
+
+    <!--POKER ACTIVITY-->
+    <string name="poker_activity_add_player">Ajoutez un joueur</string>
+    <string name="poker_activity_hint_add_player">Nom du joueur ?</string>
+    <string name="poker_activity_call">Suivre</string>
+    <string name="poker_activity_check">Check</string>
+    <string name="poker_activity_raise">Relancer</string>
+    <string name="poker_activity_fold">Se coucher</string>
+    <string name="poker_activity_how_many_raise">Relancer de :</string>
+    <string name="poker_activity_all_in">All-in</string>
+    <string name="poker_activity_who_won_the_turn">Qui a gagné le tour ?</string>
+</resources>

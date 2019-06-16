@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="forest_green">#228B22</color>
+    <color name="japanese_laurel">#006400</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="pizazz">#FF9000</color>
+    <color name="white_alpha_25">#40ffffff</color>
+    <color name="governor_bay">#3F51B5</color>
+    <color name="gray">#808080</color>
+    <color name="medium_carmine">#ae3f3f</color>
+    <color name="transparent">#00ffffff</color>
+</resources>

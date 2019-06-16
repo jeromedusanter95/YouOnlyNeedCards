@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/settings_activity_padding"
+    android:background="@color/forest_green"
+    tools:context=".app.settings.SettingsActivity"
+    >
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/settings_game_activity_title"
+        android:textAppearance="@style/AppTheme.Text.SettingsActivity.Title"
+        app:layout_constraintBottom_toTopOf="@id/textViewMoney"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewMoney"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_game_activity_money"
+        android:textAppearance="@style/AppTheme.Text.SettingsActivity.Parameter"
+        app:layout_constraintBottom_toTopOf="@id/switchMoney"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewTitle"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewMoneyAnswer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/sizing_1"
+        android:layout_marginLeft="@dimen/sizing_1"
+        android:textAppearance="@style/AppTheme.Text.SettingsActivity.Parameter"
+        app:layout_constraintBottom_toTopOf="@id/switchMoney"
+        app:layout_constraintStart_toEndOf="@id/textViewMoney"
+        app:layout_constraintTop_toBottomOf="@id/textViewTitle"
+        tools:text="oui"
+        />
+
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/switchMoney"
+        style="@style/AppTheme.SwitchCompat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/textViewHowManyMoney"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewMoney"
+        />
+
+    <android.support.constraint.Group
+        android:id="@+id/groupMoney"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="textViewHowManyMoney,textViewMoneyAmount,seekBarMoney"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewHowManyMoney"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_game_activity_how_many_money"
+        android:textAppearance="@style/AppTheme.Text.SettingsActivity.Parameter"
+        app:layout_constraintBottom_toTopOf="@id/seekBarMoney"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/switchMoney"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewMoneyAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/sizing_1"
+        android:layout_marginLeft="@dimen/sizing_1"
+        android:textAppearance="@style/AppTheme.Text.SettingsActivity.Parameter"
+        app:layout_constraintBottom_toTopOf="@id/seekBarMoney"
+        app:layout_constraintStart_toEndOf="@id/textViewHowManyMoney"
+        app:layout_constraintTop_toBottomOf="@id/switchMoney"
+        tools:text="250"
+        />
+
+    <android.support.v7.widget.AppCompatSeekBar
+        android:id="@+id/seekBarMoney"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:max="1000"
+        android:thumb="@drawable/thumb_seek_bar_set_new_game"
+        app:layout_constraintBottom_toTopOf="@id/textViewChips"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewHowManyMoney"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewChips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_game_activity_number_chips"
+        android:textAppearance="@style/AppTheme.Text.SettingsActivity.Parameter"
+        app:layout_constraintBottom_toTopOf="@id/seekBarChips"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekBarMoney"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewChipsAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/sizing_1"
+        android:layout_marginLeft="@dimen/sizing_1"
+        android:textAppearance="@style/AppTheme.Text.SettingsActivity.Parameter"
+        app:layout_constraintBottom_toTopOf="@id/seekBarChips"
+        app:layout_constraintStart_toEndOf="@id/textViewChips"
+        app:layout_constraintTop_toBottomOf="@id/seekBarMoney"
+        tools:text="5000"
+        />
+
+    <android.support.v7.widget.AppCompatSeekBar
+        android:id="@+id/seekBarChips"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:max="5000"
+        android:thumb="@drawable/thumb_seek_bar_set_new_game"
+        app:layout_constraintBottom_toTopOf="@id/textViewBlind"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewChips"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewBlind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_game_activity_blind"
+        android:textAppearance="@style/AppTheme.Text.SettingsActivity.Parameter"
+        app:layout_constraintBottom_toTopOf="@id/seekBarBlind"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekBarChips"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewBlindAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/sizing_1"
+        android:layout_marginLeft="@dimen/sizing_1"
+        android:textAppearance="@style/AppTheme.Text.SettingsActivity.Parameter"
+        app:layout_constraintBottom_toTopOf="@id/seekBarBlind"
+        app:layout_constraintStart_toEndOf="@id/textViewBlind"
+        app:layout_constraintTop_toBottomOf="@id/seekBarChips"
+        tools:text="250/500"
+        />
+
+    <android.support.v7.widget.AppCompatSeekBar
+        android:id="@+id/seekBarBlind"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:max="2000"
+        android:thumb="@drawable/thumb_seek_bar_set_new_game"
+        app:layout_constraintBottom_toTopOf="@id/textViewIncreaseBlind"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewBlind"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewIncreaseBlind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_game_activity_blind_increase"
+        android:textAppearance="@style/AppTheme.Text.SettingsActivity.Parameter"
+        app:layout_constraintBottom_toTopOf="@id/switchIncreaseBlinds"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekBarBlind"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewIncreaseBlindAnswer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/sizing_1"
+        android:layout_marginLeft="@dimen/sizing_1"
+        android:textAppearance="@style/AppTheme.Text.SettingsActivity.Parameter"
+        app:layout_constraintBottom_toTopOf="@id/switchIncreaseBlinds"
+        app:layout_constraintStart_toEndOf="@id/textViewIncreaseBlind"
+        app:layout_constraintTop_toBottomOf="@id/seekBarBlind"
+        tools:text="oui"
+        />
+
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/switchIncreaseBlinds"
+        style="@style/AppTheme.SwitchCompat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/textViewIncreaseBlindFrequency"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewIncreaseBlind"
+        />
+
+    <android.support.constraint.Group
+        android:id="@+id/grouIncreasedBLinds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="textViewIncreaseBlindFrequency,textViewIncreaseBlindFrequencyAmount,seekBarFrequencyIncreaseBlind"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewIncreaseBlindFrequency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_game_activity_blind_increase_frequency"
+        android:textAppearance="@style/AppTheme.Text.SettingsActivity.Parameter"
+        app:layout_constraintBottom_toTopOf="@id/seekBarFrequencyIncreaseBlind"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/switchIncreaseBlinds"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewIncreaseBlindFrequencyAmount"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/sizing_1"
+        android:layout_marginLeft="@dimen/sizing_1"
+        android:textAppearance="@style/AppTheme.Text.SettingsActivity.Parameter"
+        app:layout_constraintBottom_toTopOf="@id/seekBarFrequencyIncreaseBlind"
+        app:layout_constraintStart_toEndOf="@id/textViewIncreaseBlindFrequency"
+        app:layout_constraintTop_toBottomOf="@id/switchIncreaseBlinds"
+        tools:text="60 min"
+        />
+
+    <android.support.v7.widget.AppCompatSeekBar
+        android:id="@+id/seekBarFrequencyIncreaseBlind"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:max="120"
+        android:thumb="@drawable/thumb_seek_bar_set_new_game"
+        app:layout_constraintBottom_toTopOf="@id/buttonStartGame"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewIncreaseBlindFrequency"
+        />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/buttonStartGame"
+        style="@style/AppTheme.Button.SettingsActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_game_activity_start_game"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekBarFrequencyIncreaseBlind"
+        />
+
+</android.support.constraint.ConstraintLayout>

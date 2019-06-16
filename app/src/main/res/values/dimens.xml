@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- increment by 8dp -->
+    <dimen name="sizing_0">4dp</dimen>
+    <dimen name="sizing_1">8dp</dimen>
+    <dimen name="sizing_2">16dp</dimen>
+    <dimen name="sizing_3">24dp</dimen>
+    <dimen name="sizing_4">32dp</dimen>
+    <dimen name="sizing_5">40dp</dimen>
+    <dimen name="sizing_6">48dp</dimen>
+    <dimen name="sizing_7">56dp</dimen>
+    <dimen name="sizing_8">64dp</dimen>
+    <dimen name="sizing_9">72dp</dimen>
+    <dimen name="sizing_10">80dp</dimen>
+    <dimen name="sizing_11">88dp</dimen>
+    <dimen name="sizing_12">96dp</dimen>
+    <dimen name="sizing_13">104dp</dimen>
+    <dimen name="sizing_14">112dp</dimen>
+    <dimen name="sizing_15">120dp</dimen>
+    <dimen name="sizing_16">128dp</dimen>
+    <dimen name="sizing_17">136dp</dimen>
+    <dimen name="sizing_18">144dp</dimen>
+    <dimen name="sizing_19">152dp</dimen>
+    <dimen name="sizing_20">160dp</dimen>
+
+    <!-- increment by 2sp begin at 10sp -->
+    <dimen name="text_size_0">10sp</dimen>
+    <dimen name="text_size_1">12sp</dimen>
+    <dimen name="text_size_2">14sp</dimen>
+    <dimen name="text_size_3">16sp</dimen>
+    <dimen name="text_size_4">18sp</dimen>
+    <dimen name="text_size_5">20sp</dimen>
+    <dimen name="text_size_6">22sp</dimen>
+    <dimen name="text_size_7">24sp</dimen>
+    <dimen name="text_size_8">26sp</dimen>
+    <dimen name="text_size_9">28sp</dimen>
+    <dimen name="text_size_10">30sp</dimen>
+    <dimen name="text_size_11">32sp</dimen>
+    <dimen name="text_size_12">34sp</dimen>
+    <dimen name="text_size_13">36sp</dimen>
+    <dimen name="text_size_14">38sp</dimen>
+    <dimen name="text_size_15">40sp</dimen>
+
+    <!-- specific -->
+    <dimen name="settings_activity_padding">@dimen/sizing_1</dimen>
+</resources>
