@@ -10,7 +10,21 @@ import android.view.View
 import android.widget.SeekBar
 import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.utils.SeekBarChangeListener
-import kotlinx.android.synthetic.main.activity_settings.*
+import kotlinx.android.synthetic.main.activity_settings.buttonStartGame
+import kotlinx.android.synthetic.main.activity_settings.groupIncreasedBlinds
+import kotlinx.android.synthetic.main.activity_settings.groupMoney
+import kotlinx.android.synthetic.main.activity_settings.seekBarBlind
+import kotlinx.android.synthetic.main.activity_settings.seekBarChips
+import kotlinx.android.synthetic.main.activity_settings.seekBarFrequencyIncreaseBlind
+import kotlinx.android.synthetic.main.activity_settings.seekBarMoney
+import kotlinx.android.synthetic.main.activity_settings.switchIncreaseBlinds
+import kotlinx.android.synthetic.main.activity_settings.switchMoney
+import kotlinx.android.synthetic.main.activity_settings.textViewBlindAmount
+import kotlinx.android.synthetic.main.activity_settings.textViewChipsAmount
+import kotlinx.android.synthetic.main.activity_settings.textViewIncreaseBlindAnswer
+import kotlinx.android.synthetic.main.activity_settings.textViewIncreaseBlindFrequencyAmount
+import kotlinx.android.synthetic.main.activity_settings.textViewMoneyAmount
+import kotlinx.android.synthetic.main.activity_settings.textViewMoneyAnswer
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -107,9 +121,9 @@ class SettingsActivity : AppCompatActivity() {
             }
             if (uiModel.isIncreaseBlindsEnabled) {
                 textViewIncreaseBlindFrequencyAmount.text = uiModel.frequencyIncreasingBlind
-                grouIncreasedBLinds.visibility = View.VISIBLE
+                groupIncreasedBlinds.visibility = View.VISIBLE
             } else {
-                grouIncreasedBLinds.visibility = View.GONE
+                groupIncreasedBlinds.visibility = View.GONE
             }
         }
     }
