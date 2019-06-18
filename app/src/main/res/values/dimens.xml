@@ -43,4 +43,6 @@
 
     <!-- specific -->
     <dimen name="settings_activity_padding">@dimen/sizing_1</dimen>
+    <dimen name="button_stroke_width">3dp</dimen>
+    <dimen name="button_radius">20dp</dimen>
 </resources>
