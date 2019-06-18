@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
-
+    <!-- Color palette -->
     <color name="forest_green">#228B22</color>
     <color name="japanese_laurel">#006400</color>
     <color name="white">#ffffff</color>
@@ -14,4 +11,9 @@
     <color name="gray">#808080</color>
     <color name="medium_carmine">#ae3f3f</color>
     <color name="transparent">#00ffffff</color>
+
+    <!-- Common -->
+    <color name="primary">@color/forest_green</color>
+    <color name="primaryDark">@color/japanese_laurel</color>
+    <color name="accent">@color/white</color>
 </resources>
