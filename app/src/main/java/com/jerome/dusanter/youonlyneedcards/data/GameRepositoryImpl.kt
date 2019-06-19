@@ -1,15 +1,18 @@
 package com.jerome.dusanter.youonlyneedcards.data
 
-import com.jerome.dusanter.youonlyneedcards.core.*
+import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
+import com.jerome.dusanter.youonlyneedcards.core.Player
+import com.jerome.dusanter.youonlyneedcards.core.Settings
+import com.jerome.dusanter.youonlyneedcards.core.StatePlayer
+import com.jerome.dusanter.youonlyneedcards.core.StateTurn
 import com.jerome.dusanter.youonlyneedcards.core.boundary.GameRepository
 
-class GameRepositoryImpl : GameRepository {
-
-    lateinit var listPlayers: MutableList<Player>
-    lateinit var settings: Settings
-    lateinit var currentPlayer: Player
+object GameRepositoryImpl : GameRepository {
 
     /** OVERRIDE METHODS **/
+    private lateinit var listPlayers: MutableList<Player>
+    lateinit var settings: Settings
+    private lateinit var currentPlayer: Player
 
     override fun check() {
         currentPlayer = currentPlayer.copy(statePlayer = StatePlayer.Check)
@@ -148,11 +151,9 @@ class GameRepositoryImpl : GameRepository {
     }
 
     override fun initializeAllPlayers(listPlayers: MutableList<Player>) {
-        this.listPlayers = listPlayers
     }
 
     override fun initializeSettings(settings: Settings) {
-        this.settings = settings
     }
 
     override fun isGameOver(): Boolean {

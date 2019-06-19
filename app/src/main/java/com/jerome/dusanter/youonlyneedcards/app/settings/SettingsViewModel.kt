@@ -6,13 +6,14 @@ import android.content.Context
 import android.content.Intent
 import com.jerome.dusanter.youonlyneedcards.app.game.GameActivity
 import com.jerome.dusanter.youonlyneedcards.core.Settings
+import com.jerome.dusanter.youonlyneedcards.core.interactor.SaveSettingsInteractor
 
 class SettingsViewModel : ViewModel() {
 
     val state = MutableLiveData<SettingsUiModel>()
     //TODO Inject properly later
     private val mapper = SettingsMapper()
-        private var settings: Settings = Settings(
+    private var settings: Settings = Settings(
         stack = 0,
         isMoneyBetEnabled = false,
         isIncreaseBlindsEnabled = false,
@@ -22,8 +23,17 @@ class SettingsViewModel : ViewModel() {
     )
 
     fun onStartGame(context: Context) {
-        context.startActivity(Intent(context, GameActivity::class.java))
+        //TODO Inject later
+        val interactor = SaveSettingsInteractor()
+        interactor.execute(settings, buildSaveSettingsListener(context))
     }
+
+    private fun buildSaveSettingsListener(context: Context): SaveSettingsInteractor.Listener =
+        object : SaveSettingsInteractor.Listener {
+            override fun onSuccess() {
+                context.startActivity(Intent(context, GameActivity::class.java))
+            }
+        }
 
     fun start() {
         state.value = mapper.map(settings)
