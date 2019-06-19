@@ -1,9 +1,318 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".app.game.GameActivity">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/sizing_1"
+    android:background="@color/primary"
+    >
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/imageViewTablePoker"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/sizing_2"
+        android:background="@drawable/table_poker"
+        app:layout_constraintBottom_toTopOf="@id/guidelineHorizontal_0.8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline0.02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.02"
+        />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline0.18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.18"
+        />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline0.16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.16"
+        />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline0.32"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.32"
+        />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline0.42"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.42"
+        />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline0.58"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.58"
+        />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline0.68"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.68"
+        />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline0.84"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.84"
+        />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline0.82"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.82"
+        />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline0.98"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.98"
+        />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineHorizontal_0.8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.8"
+        />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineHorizontal_0.08"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.08"
+        />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineHorizontal_0.72"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.72"
+        />
+
+    <com.jerome.dusanter.youonlyneedcards.app.game.PlayerProfilView
+        android:id="@+id/playerProfilView1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/guidelineHorizontal_0.8"
+        app:layout_constraintDimensionRatio="2:1"
+        app:layout_constraintEnd_toEndOf="@id/guideline0.18"
+        app:layout_constraintStart_toStartOf="@id/guideline0.02"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <com.jerome.dusanter.youonlyneedcards.app.game.PlayerProfilView
+        android:id="@+id/playerProfilView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="2:1"
+        app:layout_constraintEnd_toEndOf="@id/guideline0.32"
+        app:layout_constraintStart_toStartOf="@id/guideline0.16"
+        app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal_0.08"
+        />
+
+    <com.jerome.dusanter.youonlyneedcards.app.game.PlayerProfilView
+        android:id="@+id/playerProfilView3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="2:1"
+        app:layout_constraintEnd_toEndOf="@id/guideline0.58"
+        app:layout_constraintStart_toStartOf="@id/guideline0.42"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <com.jerome.dusanter.youonlyneedcards.app.game.PlayerProfilView
+        android:id="@+id/playerProfilView4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="2:1"
+        app:layout_constraintEnd_toEndOf="@id/guideline0.84"
+        app:layout_constraintStart_toStartOf="@id/guideline0.68"
+        app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal_0.08"
+        />
+
+    <com.jerome.dusanter.youonlyneedcards.app.game.PlayerProfilView
+        android:id="@+id/playerProfilView5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/guidelineHorizontal_0.8"
+        app:layout_constraintDimensionRatio="2:1"
+        app:layout_constraintEnd_toEndOf="@id/guideline0.98"
+        app:layout_constraintStart_toStartOf="@id/guideline0.82"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <com.jerome.dusanter.youonlyneedcards.app.game.PlayerProfilView
+        android:id="@+id/playerProfilView6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/guidelineHorizontal_0.72"
+        app:layout_constraintDimensionRatio="2:1"
+        app:layout_constraintEnd_toEndOf="@id/guideline0.84"
+        app:layout_constraintStart_toStartOf="@id/guideline0.68"
+        />
+
+    <com.jerome.dusanter.youonlyneedcards.app.game.PlayerProfilView
+        android:id="@+id/playerProfilView7"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/guidelineHorizontal_0.8"
+        app:layout_constraintDimensionRatio="2:1"
+        app:layout_constraintEnd_toEndOf="@id/guideline0.58"
+        app:layout_constraintStart_toStartOf="@id/guideline0.42"
+        />
+
+    <com.jerome.dusanter.youonlyneedcards.app.game.PlayerProfilView
+        android:id="@+id/playerProfilView8"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/guidelineHorizontal_0.72"
+        app:layout_constraintDimensionRatio="2:1"
+        app:layout_constraintEnd_toEndOf="@id/guideline0.32"
+        app:layout_constraintStart_toStartOf="@id/guideline0.16"
+        />
+
+    <View
+        android:id="@+id/viewSeparator"
+        android:layout_width="0dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="@dimen/sizing_2"
+        android:background="@color/accent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guidelineHorizontal_0.8"
+        />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/buttonStartGame"
+        style="@style/AppTheme.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/sizing_2"
+        android:text="@string/settings_game_activity_start_game"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewSeparator"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewNameOfTheTurn"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/accent"
+        android:textSize="@dimen/sizing_2"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/guidelineHorizontal_0.8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewStackOfTheTurn"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/accent"
+        android:textSize="@dimen/sizing_2"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewNameOfTheTurn"
+        />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/buttonFold"
+        style="@style/AppTheme.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/sizing_1"
+        android:text="Se coucher"
+        android:textSize="@dimen/sizing_2"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/buttonRaise"
+        app:layout_constraintTop_toBottomOf="@id/viewSeparator"
+        />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/buttonRaise"
+        style="@style/AppTheme.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/sizing_1"
+        android:text="Relancer"
+        android:textSize="@dimen/sizing_2"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/buttonFold"
+        app:layout_constraintStart_toEndOf="@id/buttonCallCheck"
+        app:layout_constraintTop_toBottomOf="@id/viewSeparator"
+        />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/buttonCallCheck"
+        style="@style/AppTheme.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sizing_1"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/buttonRaise"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewSeparator"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewCurrentPlayer"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/sizing_2"
+        android:textColor="@color/accent"
+        android:textSize="@dimen/sizing_1"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewSeparator"
+        />
 
 </android.support.constraint.ConstraintLayout>
