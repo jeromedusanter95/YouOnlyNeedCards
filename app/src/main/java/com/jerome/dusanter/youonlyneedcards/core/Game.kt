@@ -1,7 +1,12 @@
-class Game(private val repository: GameRepository) : Turn.Listener {
+package com.jerome.dusanter.youonlyneedcards.core
 
-    fun start(parameters: MutableMap<String, Any>) {
-        repository.initializeAllParameters(parameters)
+import com.jerome.dusanter.youonlyneedcards.data.GameRepositoryImpl
+
+class Game : Turn.Listener {
+    private lateinit var repository: GameRepositoryImpl
+
+    fun start(settings: Settings) {
+        repository.initializeSettings(settings)
         repository.distributeStackToPlayers()
         if (repository.isIncreaseBlindsEnabled()) {
             repository.startTimerIncreaseBlinds()

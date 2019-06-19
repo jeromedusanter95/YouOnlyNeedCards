@@ -1,3 +1,7 @@
+package com.jerome.dusanter.youonlyneedcards.core
+
+import com.jerome.dusanter.youonlyneedcards.core.boundary.GameRepository
+
 class Turn(private val repository: GameRepository, private val listener: Listener) : PartTurn.Listener {
 
     fun start() {

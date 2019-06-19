@@ -2,26 +2,30 @@ package com.jerome.dusanter.youonlyneedcards.app.settings
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.content.Context
+import android.content.Intent
+import com.jerome.dusanter.youonlyneedcards.app.game.GameActivity
+import com.jerome.dusanter.youonlyneedcards.core.Settings
 
 class SettingsViewModel : ViewModel() {
 
     val state = MutableLiveData<SettingsUiModel>()
     //TODO Inject properly later
     private val mapper = SettingsMapper()
-    private var settings: Settings = Settings(
+        private var settings: Settings = Settings(
         stack = 0,
         isMoneyBetEnabled = false,
         isIncreaseBlindsEnabled = false,
         money = 0,
         smallBlind = 0,
         frequencyIncreasingBlind = 0
-        )
+    )
 
-    fun onStartGame() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    fun onStartGame(context: Context) {
+        context.startActivity(Intent(context, GameActivity::class.java))
     }
 
-    fun start(){
+    fun start() {
         state.value = mapper.map(settings)
     }
 

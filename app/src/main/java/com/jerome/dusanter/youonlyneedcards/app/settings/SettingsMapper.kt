@@ -1,5 +1,8 @@
 package com.jerome.dusanter.youonlyneedcards.app.settings
 
+import com.jerome.dusanter.youonlyneedcards.core.Settings
+
+
 class SettingsMapper {
 
     fun map(settings: Settings): SettingsUiModel? {

@@ -10,12 +10,3 @@ data class SettingsUiModel(
     val moneyBetAnswer: String,
     val increaseBlindsAnswer: String
 )
-
-data class Settings(
-    val stack: Int,
-    val isMoneyBetEnabled: Boolean,
-    val money: Int,
-    val smallBlind: Int,
-    val isIncreaseBlindsEnabled: Boolean,
-    val frequencyIncreasingBlind: Int
-)

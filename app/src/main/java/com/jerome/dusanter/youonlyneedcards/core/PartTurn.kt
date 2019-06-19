@@ -1,3 +1,7 @@
+package com.jerome.dusanter.youonlyneedcards.core
+
+import com.jerome.dusanter.youonlyneedcards.core.boundary.GameRepository
+
 class PartTurn(
     private val stateTurn: StateTurn,
     private val repository: GameRepository,

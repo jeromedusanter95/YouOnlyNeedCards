@@ -1,3 +1,5 @@
+package com.jerome.dusanter.youonlyneedcards.core
+
 data class Player(
     val id: String,
     val name: String,
@@ -6,6 +8,15 @@ data class Player(
     var stackBetPartTurn: Int,
     var statePlayer: StatePlayer,
     var stateBlind: StateBlind
+)
+
+data class Settings(
+    val stack: Int,
+    val isMoneyBetEnabled: Boolean,
+    val money: Int,
+    val smallBlind: Int,
+    val isIncreaseBlindsEnabled: Boolean,
+    val frequencyIncreasingBlind: Int
 )
 
 enum class StateBlind(val title: String) {

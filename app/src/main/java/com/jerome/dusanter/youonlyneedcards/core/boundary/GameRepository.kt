@@ -1,3 +1,10 @@
+package com.jerome.dusanter.youonlyneedcards.core.boundary
+
+import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
+import com.jerome.dusanter.youonlyneedcards.core.Player
+import com.jerome.dusanter.youonlyneedcards.core.Settings
+import com.jerome.dusanter.youonlyneedcards.core.StateTurn
+
 interface GameRepository {
     fun check()
     fun call()
@@ -29,5 +36,5 @@ interface GameRepository {
     fun isGameOver(): Boolean
     fun save()
     fun recave()
-    fun initializeAllParameters(parameters: MutableMap<String, Any>)
+    fun initializeSettings(settings: Settings)
 }

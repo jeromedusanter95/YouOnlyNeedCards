@@ -1,7 +1,12 @@
-object GameRepositoryImpl : GameRepository {
+package com.jerome.dusanter.youonlyneedcards.data
+
+import com.jerome.dusanter.youonlyneedcards.core.*
+import com.jerome.dusanter.youonlyneedcards.core.boundary.GameRepository
+
+class GameRepositoryImpl : GameRepository {
 
     lateinit var listPlayers: MutableList<Player>
-    lateinit var parameters: MutableMap<String, Any>
+    lateinit var settings: Settings
     lateinit var currentPlayer: Player
 
     /** OVERRIDE METHODS **/
@@ -129,16 +134,16 @@ object GameRepositoryImpl : GameRepository {
     }
 
     override fun isIncreaseBlindsEnabled(): Boolean {
-        return parameters[Parameter.IsIncreaseBlindsEnabled.name] as Boolean
+        return settings.isIncreaseBlindsEnabled
     }
 
     override fun isMoneyBetEnabled(): Boolean {
-        return parameters[Parameter.IsMoneyBetEnabled.name] as Boolean
+        return settings.isMoneyBetEnabled
     }
 
     override fun distributeStackToPlayers() {
         listPlayers.forEach {
-            it.stack = parameters[Parameter.Stack.name] as Int
+            it.stack = settings.stack
         }
     }
 
@@ -146,8 +151,8 @@ object GameRepositoryImpl : GameRepository {
         this.listPlayers = listPlayers
     }
 
-    override fun initializeAllParameters(parameters: MutableMap<String, Any>) {
-        this.parameters = parameters
+    override fun initializeSettings(settings: Settings) {
+        this.settings = settings
     }
 
     override fun isGameOver(): Boolean {
