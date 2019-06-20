@@ -1,9 +1,12 @@
 package com.jerome.dusanter.youonlyneedcards.app.game
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.jerome.dusanter.youonlyneedcards.R
+import kotlinx.android.synthetic.main.activity_game.*
+import kotlinx.android.synthetic.main.layout_profil_player_view.view.*
 
 class GameActivity : AppCompatActivity() {
 
@@ -13,5 +16,125 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
         viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
+        setupListeners()
+        setupLiveDatas()
+    }
+
+    private fun setupLiveDatas() {
+        viewModel.statePlayerProfileView1.observe(
+            this,
+            Observer { uiModel ->
+                if (uiModel != null) {
+                    playerProfilView1.updateProfilPlayer(uiModel)
+                }
+            })
+
+        viewModel.statePlayerProfileView2.observe(
+            this,
+            Observer { uiModel ->
+                if (uiModel != null) {
+                    playerProfilView2.updateProfilPlayer(uiModel)
+                }
+            })
+
+        viewModel.statePlayerProfileView3.observe(
+            this,
+            Observer { uiModel ->
+                if (uiModel != null) {
+                    playerProfilView3.updateProfilPlayer(uiModel)
+                }
+            })
+
+        viewModel.statePlayerProfileView4.observe(
+            this,
+            Observer { uiModel ->
+                if (uiModel != null) {
+                    playerProfilView4.updateProfilPlayer(uiModel)
+                }
+            })
+
+        viewModel.statePlayerProfileView5.observe(
+            this,
+            Observer { uiModel ->
+                if (uiModel != null) {
+                    playerProfilView5.updateProfilPlayer(uiModel)
+                }
+            })
+
+        viewModel.statePlayerProfileView6.observe(
+            this,
+            Observer { uiModel ->
+                if (uiModel != null) {
+                    playerProfilView6.updateProfilPlayer(uiModel)
+                }
+            })
+
+        viewModel.statePlayerProfileView7.observe(
+            this,
+            Observer { uiModel ->
+                if (uiModel != null) {
+                    playerProfilView7.updateProfilPlayer(uiModel)
+                }
+            })
+
+        viewModel.statePlayerProfileView8.observe(
+            this,
+            Observer { uiModel ->
+                if (uiModel != null) {
+                    playerProfilView8.updateProfilPlayer(uiModel)
+                }
+            })
+    }
+
+    private fun setupListeners() {
+        playerProfilView1.imageButtonCheck.setOnClickListener {
+            if (!playerProfilView1.getName().isBlank()) {
+                viewModel.onAddPlayer("1", playerProfilView1.getName())
+                playerProfilView1.hideEditProfileLayoutAndShowPlayerLayout()
+            }
+        }
+        playerProfilView2.imageButtonCheck.setOnClickListener {
+            if (!playerProfilView2.getName().isBlank()) {
+                viewModel.onAddPlayer("2", playerProfilView2.getName())
+                playerProfilView2.hideEditProfileLayoutAndShowPlayerLayout()
+            }
+        }
+        playerProfilView3.imageButtonCheck.setOnClickListener {
+            if (!playerProfilView3.getName().isBlank()) {
+                viewModel.onAddPlayer("3", playerProfilView3.getName())
+                playerProfilView3.hideEditProfileLayoutAndShowPlayerLayout()
+            }
+        }
+        playerProfilView4.imageButtonCheck.setOnClickListener {
+            if (!playerProfilView4.getName().isBlank()) {
+                viewModel.onAddPlayer("4", playerProfilView4.getName())
+                playerProfilView4.hideEditProfileLayoutAndShowPlayerLayout()
+            }
+        }
+        playerProfilView5.imageButtonCheck.setOnClickListener {
+            if (!playerProfilView5.getName().isBlank()) {
+                viewModel.onAddPlayer("5", playerProfilView5.getName())
+                playerProfilView5.hideEditProfileLayoutAndShowPlayerLayout()
+            }
+        }
+
+        playerProfilView6.imageButtonCheck.setOnClickListener {
+            if (!playerProfilView6.getName().isBlank()) {
+                viewModel.onAddPlayer("6", playerProfilView6.getName())
+                playerProfilView6.hideEditProfileLayoutAndShowPlayerLayout()
+            }
+        }
+        playerProfilView7.imageButtonCheck.setOnClickListener {
+            if (!playerProfilView7.getName().isBlank()) {
+                viewModel.onAddPlayer("7", playerProfilView7.getName())
+                playerProfilView7.hideEditProfileLayoutAndShowPlayerLayout()
+            }
+        }
+        playerProfilView8.imageButtonCheck.setOnClickListener {
+            if (!playerProfilView8.getName().isBlank()) {
+                viewModel.onAddPlayer("8", playerProfilView8.getName())
+                playerProfilView8.hideEditProfileLayoutAndShowPlayerLayout()
+            }
+        }
     }
 }

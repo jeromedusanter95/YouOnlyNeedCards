@@ -1,18 +1,27 @@
 package com.jerome.dusanter.youonlyneedcards.data
 
-import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
-import com.jerome.dusanter.youonlyneedcards.core.Player
-import com.jerome.dusanter.youonlyneedcards.core.Settings
-import com.jerome.dusanter.youonlyneedcards.core.StatePlayer
-import com.jerome.dusanter.youonlyneedcards.core.StateTurn
+import com.jerome.dusanter.youonlyneedcards.core.*
 import com.jerome.dusanter.youonlyneedcards.core.boundary.GameRepository
 
 object GameRepositoryImpl : GameRepository {
 
-    /** OVERRIDE METHODS **/
-    private lateinit var listPlayers: MutableList<Player>
+    var listPlayers: MutableList<Player> = mutableListOf()
     lateinit var settings: Settings
-    private lateinit var currentPlayer: Player
+    lateinit var currentPlayer: Player
+
+    fun addPlayer(idPlayer: String, name: String): Player {
+        val player = Player(
+            id = idPlayer,
+            name = name,
+            stack = settings.stack,
+            stackBetTurn = 0,
+            stackBetPartTurn = 0,
+            statePlayer = StatePlayer.Nothing,
+            stateBlind = StateBlind.Nothing
+        )
+        listPlayers.add(player)
+        return player
+    }
 
     override fun check() {
         currentPlayer = currentPlayer.copy(statePlayer = StatePlayer.Check)

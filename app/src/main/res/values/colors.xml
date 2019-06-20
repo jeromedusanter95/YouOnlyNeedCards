@@ -16,4 +16,10 @@
     <color name="primary">@color/forest_green</color>
     <color name="primaryDark">@color/japanese_laurel</color>
     <color name="accent">@color/white</color>
+
+    <!-- PlayerProfileView -->
+    <color name="stateFold">@color/gray</color>
+    <color name="stateCurrentTurn">@color/governor_bay</color>
+    <color name="stateAddEditPlay">@color/pizazz</color>
+    <color name="stateEliminate">@color/black</color>
 </resources>

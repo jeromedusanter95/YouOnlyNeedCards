@@ -2,7 +2,7 @@ package com.jerome.dusanter.youonlyneedcards.core
 
 data class Player(
     val id: String,
-    val name: String,
+    var name: String,
     var stack: Int,
     var stackBetTurn: Int,
     var stackBetPartTurn: Int,
@@ -19,22 +19,22 @@ data class Settings(
     val frequencyIncreasingBlind: Int
 )
 
-enum class StateBlind(val title: String) {
-    Nothing(title = "---"),
-    Dealer(title = "Dealer"),
-    SmallBlind(title = "Small blind"),
-    BigBlind(title = "Big blind")
+enum class StateBlind {
+    Nothing,
+    Dealer,
+    SmallBlind,
+    BigBlind
 }
 
-enum class StatePlayer(val title: String) {
-    Nothing(title = "---"),
-    Playing(title = "Playing"),
-    Check(title = "Check"),
-    Call(title = "Call"),
-    Raise(title = "Raise"),
-    Fold(title = "Fold"),
-    AllIn(title = "AllIn"),
-    Eliminate(title = "Eliminate")
+enum class StatePlayer {
+    Nothing,
+    CurrentTurn,
+    Check,
+    Call,
+    Raise,
+    Fold,
+    AllIn,
+    Eliminate
 }
 
 enum class ActionPlayer {
@@ -50,13 +50,4 @@ enum class StateTurn {
     Flop,
     Turn,
     River
-}
-
-enum class Parameter {
-    Stack,
-    IsMoneyBetEnabled,
-    Money,
-    IsIncreaseBlindsEnabled,
-    FrequencyIncreasingBlind,
-    IncreaseBlinds
 }

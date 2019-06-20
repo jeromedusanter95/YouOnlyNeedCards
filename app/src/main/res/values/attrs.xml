@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PlayerProfileView">
+        <attr
+            format="boolean"
+            name="state_add_edit_play"
+            />
+        <attr
+            format="boolean"
+            name="state_fold"
+            />
+        <attr
+            format="boolean"
+            name="state_eliminate"
+            />
+        <attr
+            format="boolean"
+            name="state_current_turn"
+            />
+    </declare-styleable>
+</resources>

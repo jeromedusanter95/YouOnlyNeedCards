@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <item
+        android:drawable="@drawable/background_player_profile_view_fold"
+        app:state_add_edit_play="false"
+        app:state_current_turn="false"
+        app:state_eliminate="false"
+        app:state_fold="true"
+        />
+    <item
+        android:drawable="@drawable/background_player_profile_view_eliminate"
+        app:state_add_edit_play="false"
+        app:state_current_turn="false"
+        app:state_eliminate="true"
+        app:state_fold="false"
+        />
+    <item
+        android:drawable="@drawable/background_player_profile_view_current_turn"
+        app:state_add_edit_play="false"
+        app:state_current_turn="true"
+        app:state_eliminate="false"
+        app:state_fold="false"
+        />
+
+    <item
+        android:drawable="@drawable/background_player_profile_view_add_edit_play"
+        app:state_add_edit_play="true"
+        app:state_current_turn="false"
+        app:state_eliminate="false"
+        app:state_fold="false"
+        />
+
+</selector>
