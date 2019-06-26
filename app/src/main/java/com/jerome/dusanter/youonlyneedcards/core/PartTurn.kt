@@ -1,47 +1,46 @@
 package com.jerome.dusanter.youonlyneedcards.core
 
-import com.jerome.dusanter.youonlyneedcards.core.boundary.GameRepository
+import com.jerome.dusanter.youonlyneedcards.data.GameRepositoryImpl
 
 class PartTurn(
     private val stateTurn: StateTurn,
-    private val repository: GameRepository,
     private val listener: Listener
 ) {
 
     fun start() {
-        repository.resetStatePlayerExceptFoldedAndAllIn()
-        repository.resetStackBetPartTurn()
+        GameRepositoryImpl.resetStatePlayerExceptFoldedAndAllIn()
+        GameRepositoryImpl.resetStackBetPartTurn()
         if (stateTurn.name != StateTurn.PreFlop.name) {
-            repository.moveToFirstPlayerAfterBigBlind()
+            GameRepositoryImpl.moveToFirstPlayerAfterBigBlind()
         } else {
-            repository.moveToFirstPlayerAvailable()
+            GameRepositoryImpl.moveToFirstPlayerAvailable()
         }
-        repository.getPossibleActions()
+        GameRepositoryImpl.getPossibleActions()
     }
 
     fun handleActionPlayer(actionPlayer: ActionPlayer, stackRaised: Int) {
         when (actionPlayer) {
             ActionPlayer.AllIn -> {
-                repository.allin()
+                GameRepositoryImpl.allin()
             }
             ActionPlayer.Call -> {
-                repository.call()
+                GameRepositoryImpl.call()
             }
             ActionPlayer.Check -> {
-                repository.check()
+                GameRepositoryImpl.check()
             }
             ActionPlayer.Fold -> {
-                repository.fold()
+                GameRepositoryImpl.fold()
             }
             ActionPlayer.Raise -> {
-                repository.raise(stackRaised = stackRaised)
+                GameRepositoryImpl.raise(stackRaised = stackRaised)
             }
         }
-        if (repository.isPartTurnOver()) {
+        if (GameRepositoryImpl.isPartTurnOver()) {
             listener.onEndPartTurn()
         } else {
-            repository.moveToNextPlayerAvailable()
-            repository.getPossibleActions()
+            GameRepositoryImpl.moveToNextPlayerAvailable()
+            GameRepositoryImpl.getPossibleActions()
         }
     }
 

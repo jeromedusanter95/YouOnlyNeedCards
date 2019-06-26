@@ -2,45 +2,43 @@ package com.jerome.dusanter.youonlyneedcards.core
 
 import com.jerome.dusanter.youonlyneedcards.data.GameRepositoryImpl
 
-class Game : Turn.Listener {
-    private lateinit var repository: GameRepositoryImpl
 
-    fun start(settings: Settings) {
-        repository.initializeSettings(settings)
-        repository.distributeStackToPlayers()
-        if (repository.isIncreaseBlindsEnabled()) {
-            repository.startTimerIncreaseBlinds()
+class Game : Turn.Listener {
+
+    fun start() {
+        if (GameRepositoryImpl.isIncreaseBlindsEnabled()) {
+            GameRepositoryImpl.startTimerIncreaseBlinds()
         }
         startTurn()
     }
 
     private fun startTurn() {
-        val turn = Turn(repository, this)
+        val turn = Turn(this)
         turn.start()
     }
 
     private fun end() {
-        if (repository.isMoneyBetEnabled()) {
-            repository.distributeMoneyToWinners()
+        if (GameRepositoryImpl.isMoneyBetEnabled()) {
+            GameRepositoryImpl.distributeMoneyToWinners()
         }
     }
 
     fun save() {
-        repository.save()
+        GameRepositoryImpl.save()
     }
 
     fun recave() {
-        repository.recave()
+        GameRepositoryImpl.recave()
     }
 
     override fun onEndTurn() {
-        if (repository.isGameOver()) {
+        if (GameRepositoryImpl.isGameOver()) {
             end()
         } else {
-            if (repository.shouldIncreaseBlinds()
+            if (GameRepositoryImpl.shouldIncreaseBlinds()
             ) {
-                repository.increaseBlinds()
-                repository.startTimerIncreaseBlinds()
+                GameRepositoryImpl.increaseBlinds()
+                GameRepositoryImpl.startTimerIncreaseBlinds()
             }
             startTurn()
         }
