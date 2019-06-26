@@ -25,7 +25,7 @@ class GameActivity : AppCompatActivity() {
             this,
             Observer { uiModel ->
                 if (uiModel != null) {
-                    playerProfilView1.updateProfilPlayer(uiModel)
+                    playerProfilView1.updateProfilePlayer(uiModel)
                 }
             })
 
@@ -33,7 +33,7 @@ class GameActivity : AppCompatActivity() {
             this,
             Observer { uiModel ->
                 if (uiModel != null) {
-                    playerProfilView2.updateProfilPlayer(uiModel)
+                    playerProfilView2.updateProfilePlayer(uiModel)
                 }
             })
 
@@ -41,7 +41,7 @@ class GameActivity : AppCompatActivity() {
             this,
             Observer { uiModel ->
                 if (uiModel != null) {
-                    playerProfilView3.updateProfilPlayer(uiModel)
+                    playerProfilView3.updateProfilePlayer(uiModel)
                 }
             })
 
@@ -49,7 +49,7 @@ class GameActivity : AppCompatActivity() {
             this,
             Observer { uiModel ->
                 if (uiModel != null) {
-                    playerProfilView4.updateProfilPlayer(uiModel)
+                    playerProfilView4.updateProfilePlayer(uiModel)
                 }
             })
 
@@ -57,7 +57,7 @@ class GameActivity : AppCompatActivity() {
             this,
             Observer { uiModel ->
                 if (uiModel != null) {
-                    playerProfilView5.updateProfilPlayer(uiModel)
+                    playerProfilView5.updateProfilePlayer(uiModel)
                 }
             })
 
@@ -65,7 +65,7 @@ class GameActivity : AppCompatActivity() {
             this,
             Observer { uiModel ->
                 if (uiModel != null) {
-                    playerProfilView6.updateProfilPlayer(uiModel)
+                    playerProfilView6.updateProfilePlayer(uiModel)
                 }
             })
 
@@ -73,7 +73,7 @@ class GameActivity : AppCompatActivity() {
             this,
             Observer { uiModel ->
                 if (uiModel != null) {
-                    playerProfilView7.updateProfilPlayer(uiModel)
+                    playerProfilView7.updateProfilePlayer(uiModel)
                 }
             })
 
@@ -81,7 +81,7 @@ class GameActivity : AppCompatActivity() {
             this,
             Observer { uiModel ->
                 if (uiModel != null) {
-                    playerProfilView8.updateProfilPlayer(uiModel)
+                    playerProfilView8.updateProfilePlayer(uiModel)
                 }
             })
     }
@@ -124,17 +124,23 @@ class GameActivity : AppCompatActivity() {
                 playerProfilView6.hideEditProfileLayoutAndShowPlayerLayout()
             }
         }
+
         playerProfilView7.imageButtonCheck.setOnClickListener {
             if (!playerProfilView7.getName().isBlank()) {
                 viewModel.onAddPlayer("7", playerProfilView7.getName())
                 playerProfilView7.hideEditProfileLayoutAndShowPlayerLayout()
             }
         }
+
         playerProfilView8.imageButtonCheck.setOnClickListener {
             if (!playerProfilView8.getName().isBlank()) {
                 viewModel.onAddPlayer("8", playerProfilView8.getName())
                 playerProfilView8.hideEditProfileLayoutAndShowPlayerLayout()
             }
+        }
+
+        buttonStartGame.setOnClickListener {
+            viewModel.onStartGame()
         }
     }
 }

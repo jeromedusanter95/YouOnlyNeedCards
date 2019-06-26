@@ -43,7 +43,7 @@ class PlayerProfileView @JvmOverloads constructor(
         return editTextAddPlayer.text.toString()
     }
 
-    fun updateProfilPlayer(uiModel: PlayerProfileUiModel) {
+    fun updateProfilePlayer(uiModel: PlayerProfileUiModel) {
         textViewName.text = uiModel.name
         textViewStack.text = uiModel.stack
         textViewStatePlayer.text = uiModel.statePlayer

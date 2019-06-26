@@ -1,9 +1,8 @@
 package com.jerome.dusanter.youonlyneedcards.data
 
 import com.jerome.dusanter.youonlyneedcards.core.*
-import com.jerome.dusanter.youonlyneedcards.core.boundary.GameRepository
 
-object GameRepositoryImpl : GameRepository {
+object GameRepositoryImpl {
 
     var listPlayers: MutableList<Player> = mutableListOf()
     lateinit var settings: Settings
@@ -23,17 +22,21 @@ object GameRepositoryImpl : GameRepository {
         return player
     }
 
-    override fun check() {
+    fun initializeStateBlind() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun check() {
         currentPlayer = currentPlayer.copy(statePlayer = StatePlayer.Check)
         updatePlayer(currentPlayer)
     }
 
-    override fun call() {
+    fun call() {
         currentPlayer = currentPlayer.copy(statePlayer = StatePlayer.Call)
         updatePlayer(currentPlayer)
     }
 
-    override fun raise(stackRaised: Int) {
+    fun raise(stackRaised: Int) {
         currentPlayer = currentPlayer.copy(
             statePlayer = StatePlayer.Raise,
             stack = currentPlayer.stack - stackRaised,
@@ -43,12 +46,12 @@ object GameRepositoryImpl : GameRepository {
         updatePlayer(currentPlayer)
     }
 
-    override fun fold() {
+    fun fold() {
         currentPlayer = currentPlayer.copy(statePlayer = StatePlayer.Fold)
         updatePlayer(currentPlayer)
     }
 
-    override fun allin() {
+    fun allin() {
         currentPlayer = currentPlayer.copy(
             statePlayer = StatePlayer.AllIn,
             stackBetTurn = currentPlayer.stackBetTurn + currentPlayer.stack,
@@ -58,31 +61,27 @@ object GameRepositoryImpl : GameRepository {
         updatePlayer(currentPlayer)
     }
 
-    override fun getPossibleActions(): List<ActionPlayer> {
+    fun getPossibleActions(): List<ActionPlayer> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun moveToNextPlayerAvailable() {
+    fun moveToNextPlayerAvailable() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun isPartTurnOver(): Boolean {
+    fun isPartTurnOver(): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun moveToFirstPlayerAfterBigBlind() {
+    fun moveToFirstPlayerAfterBigBlind() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun moveToFirstPlayerAvailable() {
+    fun moveToFirstPlayerAvailable() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun initializeStateBlind() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun resetStatePlayer() {
+    fun resetStatePlayer() {
         listPlayers.forEach {
             if (it.statePlayer != StatePlayer.Eliminate) {
                 it.statePlayer = StatePlayer.Nothing
@@ -90,23 +89,23 @@ object GameRepositoryImpl : GameRepository {
         }
     }
 
-    override fun createAllPots() {
+    fun createAllPots() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun distributeStackToWinners() {
+    fun distributeStackToWinners() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getNextPartTurn(): StateTurn {
+    fun getNextPartTurn(): StateTurn {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun isTurnOver(): Boolean {
+    fun isTurnOver(): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun resetStatePlayerExceptFoldedAndAllIn() {
+    fun resetStatePlayerExceptFoldedAndAllIn() {
         listPlayers.forEach {
             if (it.statePlayer != StatePlayer.Eliminate
                 && it.statePlayer != StatePlayer.Fold
@@ -117,63 +116,51 @@ object GameRepositoryImpl : GameRepository {
         }
     }
 
-    override fun resetStackBetTurn() {
+    fun resetStackBetTurn() {
         listPlayers.forEach {
             it.stackBetTurn = 0
         }
     }
 
-    override fun resetStackBetPartTurn() {
+    fun resetStackBetPartTurn() {
         listPlayers.forEach {
             it.stackBetPartTurn = 0
         }
     }
 
-    override fun distributeMoneyToWinners() {
+    fun distributeMoneyToWinners() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun shouldIncreaseBlinds(): Boolean {
+    fun shouldIncreaseBlinds(): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun increaseBlinds() {
+    fun increaseBlinds() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun startTimerIncreaseBlinds() {
+    fun startTimerIncreaseBlinds() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun isIncreaseBlindsEnabled(): Boolean {
+    fun isIncreaseBlindsEnabled(): Boolean {
         return settings.isIncreaseBlindsEnabled
     }
 
-    override fun isMoneyBetEnabled(): Boolean {
+    fun isMoneyBetEnabled(): Boolean {
         return settings.isMoneyBetEnabled
     }
 
-    override fun distributeStackToPlayers() {
-        listPlayers.forEach {
-            it.stack = settings.stack
-        }
-    }
-
-    override fun initializeAllPlayers(listPlayers: MutableList<Player>) {
-    }
-
-    override fun initializeSettings(settings: Settings) {
-    }
-
-    override fun isGameOver(): Boolean {
+    fun isGameOver(): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun save() {
+    fun save() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun recave() {
+    fun recave() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

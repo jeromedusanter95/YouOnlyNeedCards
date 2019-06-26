@@ -1,32 +1,32 @@
 package com.jerome.dusanter.youonlyneedcards.core
 
-import com.jerome.dusanter.youonlyneedcards.core.boundary.GameRepository
+import com.jerome.dusanter.youonlyneedcards.data.GameRepositoryImpl
 
-class Turn(private val repository: GameRepository, private val listener: Listener) : PartTurn.Listener {
+class Turn(private val listener: Listener) : PartTurn.Listener {
 
     fun start() {
-        repository.initializeStateBlind()
-        repository.resetStatePlayer()
-        repository.resetStackBetTurn()
+        GameRepositoryImpl.initializeStateBlind()
+        GameRepositoryImpl.resetStatePlayer()
+        GameRepositoryImpl.resetStackBetTurn()
         startPartTurn(StateTurn.PreFlop)
     }
 
     private fun startPartTurn(stateTurn: StateTurn) {
-        val partTurn = PartTurn(stateTurn, repository, this)
+        val partTurn = PartTurn(stateTurn,this)
         partTurn.start()
     }
 
     private fun end() {
-        repository.createAllPots()
-        repository.distributeStackToWinners()
+        GameRepositoryImpl.createAllPots()
+        GameRepositoryImpl.distributeStackToWinners()
         listener.onEndTurn()
     }
 
     override fun onEndPartTurn() {
-        if (repository.isTurnOver()) {
+        if (GameRepositoryImpl.isTurnOver()) {
             end()
         } else {
-            startPartTurn(repository.getNextPartTurn())
+            startPartTurn(GameRepositoryImpl.getNextPartTurn())
         }
     }
 

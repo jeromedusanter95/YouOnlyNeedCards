@@ -2,11 +2,14 @@ package com.jerome.dusanter.youonlyneedcards.app.game
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import com.jerome.dusanter.youonlyneedcards.core.Game
 import com.jerome.dusanter.youonlyneedcards.core.Player
 import com.jerome.dusanter.youonlyneedcards.core.interactor.AddPlayerInteractor
+import com.jerome.dusanter.youonlyneedcards.core.interactor.StartGameInteractor
 
 class GameViewModel : ViewModel() {
 
+    // Live data of ProfilePlayerView
     val statePlayerProfileView1 = MutableLiveData<PlayerProfileUiModel>()
     val statePlayerProfileView2 = MutableLiveData<PlayerProfileUiModel>()
     val statePlayerProfileView3 = MutableLiveData<PlayerProfileUiModel>()
@@ -15,6 +18,9 @@ class GameViewModel : ViewModel() {
     val statePlayerProfileView6 = MutableLiveData<PlayerProfileUiModel>()
     val statePlayerProfileView7 = MutableLiveData<PlayerProfileUiModel>()
     val statePlayerProfileView8 = MutableLiveData<PlayerProfileUiModel>()
+
+    // Live data of Game
+    val stateGame = MutableLiveData<GameUiModel>()
 
     fun onAddPlayer(id: String, name: String) {
         AddPlayerInteractor().execute(id, name, buildAddPlayerListener())
@@ -39,4 +45,15 @@ class GameViewModel : ViewModel() {
             "8" -> statePlayerProfileView8.value = PlayerProfileMapper().map(player)
         }
     }
+
+    fun onStartGame() {
+        StartGameInteractor().execute(buildStartGameListener())
+    }
+
+    private fun buildStartGameListener(): StartGameInteractor.Listener =
+        object : StartGameInteractor.Listener {
+            override fun onSuccess(game: Game) {
+
+            }
+        }
 }
