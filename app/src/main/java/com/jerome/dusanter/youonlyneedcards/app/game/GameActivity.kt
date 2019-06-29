@@ -4,9 +4,22 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.jerome.dusanter.youonlyneedcards.R
-import kotlinx.android.synthetic.main.activity_game.*
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.*
+import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
+import kotlinx.android.synthetic.main.activity_game.buttonLeft
+import kotlinx.android.synthetic.main.activity_game.buttonMiddle
+import kotlinx.android.synthetic.main.activity_game.buttonRight
+import kotlinx.android.synthetic.main.activity_game.buttonStartGame
+import kotlinx.android.synthetic.main.activity_game.playerProfilView1
+import kotlinx.android.synthetic.main.activity_game.playerProfilView2
+import kotlinx.android.synthetic.main.activity_game.playerProfilView3
+import kotlinx.android.synthetic.main.activity_game.playerProfilView4
+import kotlinx.android.synthetic.main.activity_game.playerProfilView5
+import kotlinx.android.synthetic.main.activity_game.playerProfilView6
+import kotlinx.android.synthetic.main.activity_game.playerProfilView7
+import kotlinx.android.synthetic.main.activity_game.playerProfilView8
+import kotlinx.android.synthetic.main.layout_profil_player_view.view.imageButtonCheck
 
 class GameActivity : AppCompatActivity() {
 
@@ -84,6 +97,25 @@ class GameActivity : AppCompatActivity() {
                     playerProfilView8.updateProfilePlayer(uiModel)
                 }
             })
+
+        viewModel.stateGame.observe(
+            this,
+            Observer { gameUiModel ->
+                if (gameUiModel != null) {
+                    updateTable(gameUiModel.actionPlayerList)
+                }
+            }
+        )
+    }
+
+    private fun updateTable(actionPlayerList: List<ActionPlayer>) {
+        buttonStartGame.visibility = View.GONE
+        buttonLeft.visibility = View.VISIBLE
+        buttonMiddle.visibility = View.VISIBLE
+        buttonRight.visibility = View.VISIBLE
+        buttonLeft.text = actionPlayerList[0].name
+        buttonMiddle.text = actionPlayerList[1].name
+        buttonRight.text = actionPlayerList[2].name
     }
 
     private fun setupListeners() {

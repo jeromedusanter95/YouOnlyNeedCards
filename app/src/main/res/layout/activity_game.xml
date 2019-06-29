@@ -257,7 +257,7 @@
         />
 
     <android.support.v7.widget.AppCompatButton
-        android:id="@+id/buttonFold"
+        android:id="@+id/buttonRight"
         style="@style/AppTheme.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -267,12 +267,12 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/buttonRaise"
+        app:layout_constraintStart_toEndOf="@id/buttonMiddle"
         app:layout_constraintTop_toBottomOf="@id/viewSeparator"
         />
 
     <android.support.v7.widget.AppCompatButton
-        android:id="@+id/buttonRaise"
+        android:id="@+id/buttonMiddle"
         style="@style/AppTheme.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -281,20 +281,20 @@
         android:textSize="@dimen/sizing_2"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/buttonFold"
-        app:layout_constraintStart_toEndOf="@id/buttonCallCheck"
+        app:layout_constraintEnd_toStartOf="@id/buttonRight"
+        app:layout_constraintStart_toEndOf="@id/buttonLeft"
         app:layout_constraintTop_toBottomOf="@id/viewSeparator"
         />
 
     <android.support.v7.widget.AppCompatButton
-        android:id="@+id/buttonCallCheck"
+        android:id="@+id/buttonLeft"
         style="@style/AppTheme.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/sizing_1"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/buttonRaise"
+        app:layout_constraintEnd_toStartOf="@id/buttonMiddle"
         app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"

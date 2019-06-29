@@ -7,7 +7,9 @@ data class Player(
     var stackBetTurn: Int,
     var stackBetPartTurn: Int,
     var statePlayer: StatePlayer,
-    var stateBlind: StateBlind
+    var stateBlind: StateBlind,
+    var actionPlayer: ActionPlayer
+
 )
 
 data class Settings(
@@ -27,17 +29,13 @@ enum class StateBlind {
 }
 
 enum class StatePlayer {
-    Nothing,
+    Playing,
     CurrentTurn,
-    Check,
-    Call,
-    Raise,
-    Fold,
-    AllIn,
     Eliminate
 }
 
 enum class ActionPlayer {
+    Nothing,
     Check,
     Call,
     Raise,

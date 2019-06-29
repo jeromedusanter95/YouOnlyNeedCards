@@ -9,7 +9,8 @@ class PlayerProfileMapper {
             name = player.name,
             stack = player.stack.toString() + SettingsConstants.CHIPS,
             stateBlind = player.stateBlind.name,
-            statePlayer = player.statePlayer.name
+            statePlayer = player.statePlayer.name,
+            actionPlayer = player.actionPlayer.name
         )
     }
 }

@@ -1,9 +1,10 @@
+/*
 package com.jerome.dusanter.youonlyneedcards.core
 
 import com.jerome.dusanter.youonlyneedcards.data.GameRepositoryImpl
 
 
-class Game : Turn.Listener {
+class Game {
 
     fun start() {
         if (GameRepositoryImpl.isIncreaseBlindsEnabled()) {
@@ -13,7 +14,7 @@ class Game : Turn.Listener {
     }
 
     private fun startTurn() {
-        val turn = Turn(this)
+        val turn = StateTurn.Turn(this)
         turn.start()
     }
 
@@ -31,7 +32,7 @@ class Game : Turn.Listener {
         GameRepositoryImpl.recave()
     }
 
-    override fun onEndTurn() {
+    fun onEndTurn() {
         if (GameRepositoryImpl.isGameOver()) {
             end()
         } else {
@@ -44,3 +45,4 @@ class Game : Turn.Listener {
         }
     }
 }
+*/

@@ -7,13 +7,13 @@ class SettingsMapper {
 
     fun map(settings: Settings): SettingsUiModel? {
         return SettingsUiModel(
-            stack = (Math.round((settings.stack / 10).toFloat()) * 10).toString()
+            stack = settings.stack.toString()
                 + SettingsConstants.CHIPS,
             isIncreaseBlindsEnabled = settings.isIncreaseBlindsEnabled,
             isMoneyBetEnabled = settings.isMoneyBetEnabled,
-            smallBlind = (Math.round((settings.smallBlind / 10).toFloat()) * 10).toString()
+            smallBlind = settings.smallBlind.toString()
                 + "/"
-                + Math.round((settings.smallBlind / 10).toFloat()) * 10 * 2
+                + settings.smallBlind * 2
                 + SettingsConstants.CHIPS,
             frequencyIncreasingBlind = settings.frequencyIncreasingBlind.toString()
                 + SettingsConstants.MIN,

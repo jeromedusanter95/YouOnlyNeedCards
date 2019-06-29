@@ -1,21 +1,21 @@
+/*
 package com.jerome.dusanter.youonlyneedcards.core
 
 import com.jerome.dusanter.youonlyneedcards.data.GameRepositoryImpl
 
-class PartTurn(
-    private val stateTurn: StateTurn,
-    private val listener: Listener
-) {
+class PartTurn {
+
+    private var isPartTurnOver: Boolean = false
 
     fun start() {
         GameRepositoryImpl.resetStatePlayerExceptFoldedAndAllIn()
         GameRepositoryImpl.resetStackBetPartTurn()
-        if (stateTurn.name != StateTurn.PreFlop.name) {
+        if (stateTurn == StateTurn.PreFlop) {
             GameRepositoryImpl.moveToFirstPlayerAfterBigBlind()
         } else {
             GameRepositoryImpl.moveToFirstPlayerAvailable()
         }
-        GameRepositoryImpl.getPossibleActions()
+        listener.getPossibleActions(GameRepositoryImpl.getPossibleActions())
     }
 
     fun handleActionPlayer(actionPlayer: ActionPlayer, stackRaised: Int) {
@@ -37,15 +37,12 @@ class PartTurn(
             }
         }
         if (GameRepositoryImpl.isPartTurnOver()) {
-            listener.onEndPartTurn()
+            isPartTurnOver = true
         } else {
             GameRepositoryImpl.moveToNextPlayerAvailable()
-            GameRepositoryImpl.getPossibleActions()
+            listener.getPossibleActions(GameRepositoryImpl.getPossibleActions())
         }
-    }
-
-    interface Listener {
-        fun onEndPartTurn()
     }
 }
 
+*/

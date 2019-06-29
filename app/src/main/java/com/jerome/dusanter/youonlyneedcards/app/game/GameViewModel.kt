@@ -2,7 +2,7 @@ package com.jerome.dusanter.youonlyneedcards.app.game
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.jerome.dusanter.youonlyneedcards.core.Game
+import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.Player
 import com.jerome.dusanter.youonlyneedcards.core.interactor.AddPlayerInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.StartGameInteractor
@@ -47,13 +47,16 @@ class GameViewModel : ViewModel() {
     }
 
     fun onStartGame() {
-        StartGameInteractor().execute(buildStartGameListener())
+        StartGameInteractor().execute(buildGameListener())
     }
 
-    private fun buildStartGameListener(): StartGameInteractor.Listener =
+    private fun buildGameListener(): StartGameInteractor.Listener =
         object : StartGameInteractor.Listener {
-            override fun onSuccess(game: Game) {
-
+            override fun getPossibleActions(actionPlayerList: List<ActionPlayer>, playerList: List<Player>) {
+                stateGame.value = GameMapper().map(actionPlayerList)
+                playerList.forEach {
+                    updatePlayerById(player = it)
+                }
             }
         }
 }

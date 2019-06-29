@@ -1,8 +1,11 @@
+/*
 package com.jerome.dusanter.youonlyneedcards.core
 
 import com.jerome.dusanter.youonlyneedcards.data.GameRepositoryImpl
 
-class Turn(private val listener: Listener) : PartTurn.Listener {
+class Turn(private val listener: GameListener) {
+
+    lateinit var currentPartTurn: PartTurn
 
     fun start() {
         GameRepositoryImpl.initializeStateBlind()
@@ -12,8 +15,8 @@ class Turn(private val listener: Listener) : PartTurn.Listener {
     }
 
     private fun startPartTurn(stateTurn: StateTurn) {
-        val partTurn = PartTurn(stateTurn,this)
-        partTurn.start()
+        currentPartTurn = PartTurn(stateTurn, listener)
+        currentPartTurn.start()
     }
 
     private fun end() {
@@ -22,15 +25,12 @@ class Turn(private val listener: Listener) : PartTurn.Listener {
         listener.onEndTurn()
     }
 
-    override fun onEndPartTurn() {
+    fun onEndPartTurn() {
         if (GameRepositoryImpl.isTurnOver()) {
             end()
         } else {
             startPartTurn(GameRepositoryImpl.getNextPartTurn())
         }
     }
-
-    interface Listener {
-        fun onEndTurn()
-    }
 }
+*/

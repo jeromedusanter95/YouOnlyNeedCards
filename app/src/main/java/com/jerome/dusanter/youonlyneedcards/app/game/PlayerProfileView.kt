@@ -7,8 +7,17 @@ import android.util.AttributeSet
 import android.view.View
 import com.jerome.dusanter.youonlyneedcards.R.drawable
 import com.jerome.dusanter.youonlyneedcards.R.layout
+import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.StatePlayer
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.*
+import kotlinx.android.synthetic.main.layout_profil_player_view.view.constraintLayoutAddPlayer
+import kotlinx.android.synthetic.main.layout_profil_player_view.view.constraintLayoutEditPlayer
+import kotlinx.android.synthetic.main.layout_profil_player_view.view.constraintLayoutShowPlayer
+import kotlinx.android.synthetic.main.layout_profil_player_view.view.editTextAddPlayer
+import kotlinx.android.synthetic.main.layout_profil_player_view.view.imageButtonClose
+import kotlinx.android.synthetic.main.layout_profil_player_view.view.textViewName
+import kotlinx.android.synthetic.main.layout_profil_player_view.view.textViewStack
+import kotlinx.android.synthetic.main.layout_profil_player_view.view.textViewStateBlind
+import kotlinx.android.synthetic.main.layout_profil_player_view.view.textViewStatePlayer
 
 
 class PlayerProfileView @JvmOverloads constructor(
@@ -20,7 +29,15 @@ class PlayerProfileView @JvmOverloads constructor(
     init {
         View.inflate(context, layout.layout_profil_player_view, this)
         setupListeners()
-        changeBackgroundColor(PlayerProfileUiModel(statePlayer = "Nothing", name = "", stateBlind = "", stack = ""))
+        changeBackgroundColor(
+            PlayerProfileUiModel(
+                statePlayer = "Playing",
+                name = "",
+                stateBlind = "",
+                stack = "",
+                actionPlayer = "Nothing"
+            )
+        )
     }
 
     private fun setupListeners() {
@@ -52,28 +69,8 @@ class PlayerProfileView @JvmOverloads constructor(
     }
 
     private fun changeBackgroundColor(uiModel: PlayerProfileUiModel) {
-        background = when (uiModel.statePlayer) {
-            StatePlayer.CurrentTurn.name -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                resources.getDrawable(
-                    drawable.background_player_profile_view_current_turn,
-                    null
-                )
-            } else {
-                resources.getDrawable(
-                    drawable.background_player_profile_view_current_turn
-                )
-            }
-            StatePlayer.Eliminate.name -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                resources.getDrawable(
-                    drawable.background_player_profile_view_eliminate,
-                    null
-                )
-            } else {
-                resources.getDrawable(
-                    drawable.background_player_profile_view_eliminate
-                )
-            }
-            StatePlayer.Fold.name -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (uiModel.actionPlayer == ActionPlayer.Fold.name) {
+            background = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 resources.getDrawable(
                     drawable.background_player_profile_view_fold,
                     null
@@ -83,15 +80,38 @@ class PlayerProfileView @JvmOverloads constructor(
                     drawable.background_player_profile_view_fold
                 )
             }
-            else -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                resources.getDrawable(
-                    drawable.background_player_profile_view_add_edit_play,
-                    null
-                )
-            } else {
-                resources.getDrawable(
-                    drawable.background_player_profile_view_add_edit_play
-                )
+        } else {
+            background = when (uiModel.statePlayer) {
+                StatePlayer.CurrentTurn.name -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    resources.getDrawable(
+                        drawable.background_player_profile_view_current_turn,
+                        null
+                    )
+                } else {
+                    resources.getDrawable(
+                        drawable.background_player_profile_view_current_turn
+                    )
+                }
+                StatePlayer.Eliminate.name -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    resources.getDrawable(
+                        drawable.background_player_profile_view_eliminate,
+                        null
+                    )
+                } else {
+                    resources.getDrawable(
+                        drawable.background_player_profile_view_eliminate
+                    )
+                }
+                else -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    resources.getDrawable(
+                        drawable.background_player_profile_view_add_edit_play,
+                        null
+                    )
+                } else {
+                    resources.getDrawable(
+                        drawable.background_player_profile_view_add_edit_play
+                    )
+                }
             }
         }
     }
@@ -101,5 +121,6 @@ data class PlayerProfileUiModel(
     val name: String,
     val stack: String,
     val stateBlind: String,
-    val statePlayer: String
+    val statePlayer: String,
+    val actionPlayer: String
 )
