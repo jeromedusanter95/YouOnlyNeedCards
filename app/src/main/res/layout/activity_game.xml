@@ -219,9 +219,10 @@
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/buttonStartGame"
-        style="@style/AppTheme.Button"
+        style="@style/AppTheme.Button.GameActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/sizing_2"
         android:layout_marginRight="@dimen/sizing_2"
         android:text="@string/settings_game_activity_start_game"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -230,12 +231,10 @@
         />
 
     <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/textViewNameOfTheTurn"
-        android:textStyle="bold"
+        android:id="@+id/textViewPartTurnName"
+        style="@style/AppTheme.Text.GameActivity.Informations"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/accent"
-        android:textSize="@dimen/sizing_2"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/guidelineHorizontal_0.8"
         app:layout_constraintEnd_toEndOf="parent"
@@ -244,26 +243,23 @@
         />
 
     <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/textViewStackOfTheTurn"
-        android:textStyle="bold"
+        android:id="@+id/textViewTurnStack"
+        style="@style/AppTheme.Text.GameActivity.Informations"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/accent"
-        android:textSize="@dimen/sizing_2"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewNameOfTheTurn"
+        app:layout_constraintTop_toBottomOf="@id/textViewPartTurnName"
         />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/buttonRight"
-        style="@style/AppTheme.Button"
+        style="@style/AppTheme.Button.GameActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/sizing_1"
         android:layout_marginLeft="@dimen/sizing_1"
-        android:text="Se coucher"
-        android:textSize="@dimen/sizing_2"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -273,12 +269,11 @@
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/buttonMiddle"
-        style="@style/AppTheme.Button"
+        style="@style/AppTheme.Button.GameActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/sizing_1"
         android:layout_marginLeft="@dimen/sizing_1"
-        android:text="Relancer"
-        android:textSize="@dimen/sizing_2"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/buttonRight"
@@ -288,10 +283,9 @@
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/buttonLeft"
-        style="@style/AppTheme.Button"
+        style="@style/AppTheme.Button.GameActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/sizing_1"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/buttonMiddle"
@@ -302,14 +296,12 @@
         />
 
     <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/textViewCurrentPlayer"
-        android:textStyle="bold"
+        android:id="@+id/textViewCurrentPlayerInformations"
+        style="@style/AppTheme.Text.GameActivity.Informations"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/sizing_2"
         android:layout_marginLeft="@dimen/sizing_2"
-        android:textColor="@color/accent"
-        android:textSize="@dimen/sizing_1"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/viewSeparator"

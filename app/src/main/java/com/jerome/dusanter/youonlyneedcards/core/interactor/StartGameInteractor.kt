@@ -11,11 +11,19 @@ class StartGameInteractor {
         }
         GameRepositoryImpl.initializeStateBlind()
         GameRepositoryImpl.initializeCurrentPlayerAfterBigBlind()
-        listener.getPossibleActions(GameRepositoryImpl.getPossibleActions(), GameRepositoryImpl.listPlayers)
+        listener.getPossibleActions(
+            GameRepositoryImpl.getPossibleActions(),
+            GameRepositoryImpl.listPlayers,
+            GameRepositoryImpl.stackTurn
+        )
     }
 
     interface Listener {
-        fun getPossibleActions(actionPlayerList: List<ActionPlayer>, playerList: List<Player>)
+        fun getPossibleActions(
+            actionPlayerList: List<ActionPlayer>,
+            playerList: List<Player>,
+            stackTurn: Int
+        )
     }
 }
 

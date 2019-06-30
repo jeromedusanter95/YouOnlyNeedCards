@@ -40,4 +40,10 @@
         <item name="android:textAppearance">@style/AppTheme.Text.SettingsActivity.Button</item>
     </style>
 
+    <!-- GameActivity -->
+
+    <style name="AppTheme.Button.GameActivity">
+        <item name="android:textAppearance">@style/AppTheme.Text.GameActivity.Button</item>
+    </style>
+
 </resources>

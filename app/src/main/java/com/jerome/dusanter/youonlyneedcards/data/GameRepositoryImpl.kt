@@ -13,6 +13,7 @@ object GameRepositoryImpl {
     var listPlayers: MutableCircularList<Player> = MutableCircularList(mutableListOf())
     lateinit var settings: Settings
     lateinit var currentPlayer: Player
+     var stackTurn = 0
 
     fun addPlayer(idPlayer: String, name: String): Player {
         val player = Player(
@@ -107,6 +108,7 @@ object GameRepositoryImpl {
         listPlayers[index].stack -= stack
         listPlayers[index].stackBetTurn += stack
         listPlayers[index].stackBetPartTurn += stack
+        stackTurn += stack
     }
 
     fun check() {

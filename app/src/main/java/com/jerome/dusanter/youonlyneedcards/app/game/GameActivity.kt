@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.jerome.dusanter.youonlyneedcards.R
-import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import kotlinx.android.synthetic.main.activity_game.buttonLeft
 import kotlinx.android.synthetic.main.activity_game.buttonMiddle
 import kotlinx.android.synthetic.main.activity_game.buttonRight
@@ -19,6 +18,9 @@ import kotlinx.android.synthetic.main.activity_game.playerProfilView5
 import kotlinx.android.synthetic.main.activity_game.playerProfilView6
 import kotlinx.android.synthetic.main.activity_game.playerProfilView7
 import kotlinx.android.synthetic.main.activity_game.playerProfilView8
+import kotlinx.android.synthetic.main.activity_game.textViewCurrentPlayerInformations
+import kotlinx.android.synthetic.main.activity_game.textViewPartTurnName
+import kotlinx.android.synthetic.main.activity_game.textViewTurnStack
 import kotlinx.android.synthetic.main.layout_profil_player_view.view.imageButtonCheck
 
 class GameActivity : AppCompatActivity() {
@@ -102,20 +104,25 @@ class GameActivity : AppCompatActivity() {
             this,
             Observer { gameUiModel ->
                 if (gameUiModel != null) {
-                    updateTable(gameUiModel.actionPlayerList)
+                    updateTable(gameUiModel)
                 }
             }
         )
     }
 
-    private fun updateTable(actionPlayerList: List<ActionPlayer>) {
+    private fun updateTable(gameUiModel: GameUiModel) {
         buttonStartGame.visibility = View.GONE
         buttonLeft.visibility = View.VISIBLE
         buttonMiddle.visibility = View.VISIBLE
         buttonRight.visibility = View.VISIBLE
-        buttonLeft.text = actionPlayerList[0].name
-        buttonMiddle.text = actionPlayerList[1].name
-        buttonRight.text = actionPlayerList[2].name
+        textViewPartTurnName.visibility = View.VISIBLE
+        textViewTurnStack.visibility = View.VISIBLE
+        buttonLeft.text = gameUiModel.actionPlayerList[0].name
+        buttonMiddle.text = gameUiModel.actionPlayerList[1].name
+        buttonRight.text = gameUiModel.actionPlayerList[2].name
+        textViewCurrentPlayerInformations.text = gameUiModel.informationsCurrentPlayer
+        textViewPartTurnName.text = gameUiModel.namePartTurn
+        textViewTurnStack.text = gameUiModel.stackTurn
     }
 
     private fun setupListeners() {

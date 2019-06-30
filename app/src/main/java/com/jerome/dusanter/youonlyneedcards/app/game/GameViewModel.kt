@@ -4,6 +4,8 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.Player
+import com.jerome.dusanter.youonlyneedcards.core.StatePlayer
+import com.jerome.dusanter.youonlyneedcards.core.StateTurn
 import com.jerome.dusanter.youonlyneedcards.core.interactor.AddPlayerInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.StartGameInteractor
 
@@ -52,8 +54,19 @@ class GameViewModel : ViewModel() {
 
     private fun buildGameListener(): StartGameInteractor.Listener =
         object : StartGameInteractor.Listener {
-            override fun getPossibleActions(actionPlayerList: List<ActionPlayer>, playerList: List<Player>) {
-                stateGame.value = GameMapper().map(actionPlayerList)
+            override fun getPossibleActions(
+                actionPlayerList: List<ActionPlayer>,
+                playerList: List<Player>,
+                stackTurn: Int
+            ) {
+                val currentPlayer = playerList.find { it.statePlayer == StatePlayer.CurrentTurn }
+                stateGame.value = GameMapper().map(
+                    actionPlayerList = actionPlayerList,
+                    namePartTurn = StateTurn.PreFlop.name,
+                    stackTurn = stackTurn,
+                    nameCurrentPlayer = currentPlayer!!.name,
+                    stackCurrentPlayer = currentPlayer.stack
+                )
                 playerList.forEach {
                     updatePlayerById(player = it)
                 }

@@ -17,4 +17,14 @@
     <style name="AppTheme.Text.SettingsActivity.Button">
         <item name="android:textSize">@dimen/text_size_5</item>
     </style>
+
+    <!-- GameActivity -->
+
+    <style name="AppTheme.Text.GameActivity.Button">
+        <item name="android:textSize">@dimen/text_size_5</item>
+    </style>
+
+    <style name="AppTheme.Text.GameActivity.Informations">
+        <item name="android:textSize">@dimen/text_size_5</item>
+    </style>
 </resources>
