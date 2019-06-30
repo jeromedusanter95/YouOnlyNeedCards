@@ -10,6 +10,7 @@ import com.jerome.dusanter.youonlyneedcards.core.interactor.AddPlayerInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.GetParametersToRaiseInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.PlayInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.PlayRequest
+import com.jerome.dusanter.youonlyneedcards.core.interactor.PopulateGameWithFakeDataInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.StartGameInteractor
 
 class GameViewModel : ViewModel() {
@@ -200,6 +201,17 @@ class GameViewModel : ViewModel() {
 
             override fun endOfTurn() {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        }
+
+    fun populateGameWithFakeDatas() {
+        PopulateGameWithFakeDataInteractor().execute(buildPopulateGameWithFakeDataInteractor())
+    }
+
+    private fun buildPopulateGameWithFakeDataInteractor(): PopulateGameWithFakeDataInteractor.Listener =
+        object : PopulateGameWithFakeDataInteractor.Listener {
+            override fun onSuccess() {
+                StartGameInteractor().execute(buildGameListener())
             }
         }
 }

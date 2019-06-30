@@ -22,7 +22,6 @@ import kotlinx.android.synthetic.main.activity_game.playerProfilView8
 import kotlinx.android.synthetic.main.activity_game.textViewCurrentPlayerInformations
 import kotlinx.android.synthetic.main.activity_game.textViewPartTurnName
 import kotlinx.android.synthetic.main.activity_game.textViewTurnStack
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.imageButtonCheck
 
 class GameActivity : AppCompatActivity() {
 
@@ -34,6 +33,11 @@ class GameActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
         setupListeners()
         setupLiveDatas()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.populateGameWithFakeDatas()
     }
 
     private fun setupLiveDatas() {
@@ -166,7 +170,7 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun setupListeners() {
-        playerProfilView1.imageButtonCheck.setOnClickListener {
+        /*playerProfilView1.imageButtonCheck.setOnClickListener {
             if (!playerProfilView1.getName().isBlank()) {
                 viewModel.onAddPlayer("1", playerProfilView1.getName())
                 playerProfilView1.hideEditProfileLayoutAndShowPlayerLayout()
@@ -220,7 +224,7 @@ class GameActivity : AppCompatActivity() {
 
         buttonStartGame.setOnClickListener {
             viewModel.onStartGame()
-        }
+        }*/
 
         buttonLeft.setOnClickListener {
             viewModel.onClickButtonLeft(buttonLeft.text.toString())

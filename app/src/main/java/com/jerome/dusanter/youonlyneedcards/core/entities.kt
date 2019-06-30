@@ -4,11 +4,11 @@ data class Player(
     val id: String,
     var name: String,
     var stack: Int,
-    var stackBetTurn: Int,
-    var stackBetPartTurn: Int,
-    var statePlayer: StatePlayer,
-    var stateBlind: StateBlind,
-    var actionPlayer: ActionPlayer
+    var stackBetTurn: Int = 0,
+    var stackBetPartTurn: Int = 0,
+    var statePlayer: StatePlayer = StatePlayer.Playing,
+    var stateBlind: StateBlind = StateBlind.Nothing,
+    var actionPlayer: ActionPlayer = ActionPlayer.Nothing
 
 )
 

@@ -9,11 +9,6 @@ import com.jerome.dusanter.youonlyneedcards.R.drawable
 import com.jerome.dusanter.youonlyneedcards.R.layout
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.StatePlayer
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.constraintLayoutAddPlayer
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.constraintLayoutEditPlayer
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.constraintLayoutShowPlayer
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.editTextAddPlayer
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.imageButtonClose
 import kotlinx.android.synthetic.main.layout_profil_player_view.view.textViewName
 import kotlinx.android.synthetic.main.layout_profil_player_view.view.textViewStack
 import kotlinx.android.synthetic.main.layout_profil_player_view.view.textViewStateBlind
@@ -41,24 +36,24 @@ class PlayerProfileView @JvmOverloads constructor(
     }
 
     private fun setupListeners() {
-        constraintLayoutAddPlayer.setOnClickListener {
+        /*constraintLayoutAddPlayer.setOnClickListener {
             constraintLayoutEditPlayer.visibility = View.VISIBLE
             constraintLayoutAddPlayer.visibility = View.GONE
         }
         imageButtonClose.setOnClickListener {
             constraintLayoutEditPlayer.visibility = View.GONE
             constraintLayoutAddPlayer.visibility = View.VISIBLE
-        }
+        }*/
     }
 
-    fun hideEditProfileLayoutAndShowPlayerLayout() {
+    /*fun hideEditProfileLayoutAndShowPlayerLayout() {
         constraintLayoutEditPlayer.visibility = View.GONE
         constraintLayoutShowPlayer.visibility = View.VISIBLE
     }
 
     fun getName(): String {
         return editTextAddPlayer.text.toString()
-    }
+    }*/
 
     fun updateProfilePlayer(uiModel: PlayerProfileUiModel) {
         textViewName.text = uiModel.name
