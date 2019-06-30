@@ -48,6 +48,64 @@ class GameViewModel : ViewModel() {
         }
     }
 
+    private fun updatePlayerOrHidePlayer(list: List<Player>) {
+        val player1 = list.find { it.id == "1" }
+        if (player1 != null) {
+            statePlayerProfileView1.value = PlayerProfileMapper().map(player1)
+        } else {
+            statePlayerProfileView1.value = null
+        }
+
+        val player2 = list.find { it.id == "2" }
+        if (player2 != null) {
+            statePlayerProfileView2.value = PlayerProfileMapper().map(player2)
+        } else {
+            statePlayerProfileView2.value = null
+        }
+
+        val player3 = list.find { it.id == "3" }
+        if (player3 != null) {
+            statePlayerProfileView3.value = PlayerProfileMapper().map(player3)
+        } else {
+            statePlayerProfileView3.value = null
+        }
+
+        val player4 = list.find { it.id == "4" }
+        if (player4 != null) {
+            statePlayerProfileView4.value = PlayerProfileMapper().map(player4)
+        } else {
+            statePlayerProfileView4.value = null
+        }
+
+        val player5 = list.find { it.id == "5" }
+        if (player5 != null) {
+            statePlayerProfileView5.value = PlayerProfileMapper().map(player5)
+        } else {
+            statePlayerProfileView5.value = null
+        }
+
+        val player6 = list.find { it.id == "6" }
+        if (player6 != null) {
+            statePlayerProfileView6.value = PlayerProfileMapper().map(player6)
+        } else {
+            statePlayerProfileView6.value = null
+        }
+
+        val player7 = list.find { it.id == "7" }
+        if (player7 != null) {
+            statePlayerProfileView7.value = PlayerProfileMapper().map(player7)
+        } else {
+            statePlayerProfileView7.value = null
+        }
+
+        val player8 = list.find { it.id == "8" }
+        if (player8 != null) {
+            statePlayerProfileView8.value = PlayerProfileMapper().map(player8)
+        } else {
+            statePlayerProfileView8.value = null
+        }
+    }
+
     fun onStartGame() {
         StartGameInteractor().execute(buildGameListener())
     }
@@ -67,9 +125,7 @@ class GameViewModel : ViewModel() {
                     nameCurrentPlayer = currentPlayer!!.name,
                     stackCurrentPlayer = currentPlayer.stack
                 )
-                playerList.forEach {
-                    updatePlayerById(player = it)
-                }
+                updatePlayerOrHidePlayer(playerList)
             }
         }
 }

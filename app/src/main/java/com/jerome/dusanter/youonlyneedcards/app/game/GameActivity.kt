@@ -41,6 +41,8 @@ class GameActivity : AppCompatActivity() {
             Observer { uiModel ->
                 if (uiModel != null) {
                     playerProfilView1.updateProfilePlayer(uiModel)
+                } else {
+                    playerProfilView1.visibility = View.GONE
                 }
             })
 
@@ -49,6 +51,8 @@ class GameActivity : AppCompatActivity() {
             Observer { uiModel ->
                 if (uiModel != null) {
                     playerProfilView2.updateProfilePlayer(uiModel)
+                } else {
+                    playerProfilView2.visibility = View.GONE
                 }
             })
 
@@ -57,6 +61,8 @@ class GameActivity : AppCompatActivity() {
             Observer { uiModel ->
                 if (uiModel != null) {
                     playerProfilView3.updateProfilePlayer(uiModel)
+                } else {
+                    playerProfilView3.visibility = View.GONE
                 }
             })
 
@@ -65,6 +71,8 @@ class GameActivity : AppCompatActivity() {
             Observer { uiModel ->
                 if (uiModel != null) {
                     playerProfilView4.updateProfilePlayer(uiModel)
+                } else {
+                    playerProfilView4.visibility = View.GONE
                 }
             })
 
@@ -73,6 +81,8 @@ class GameActivity : AppCompatActivity() {
             Observer { uiModel ->
                 if (uiModel != null) {
                     playerProfilView5.updateProfilePlayer(uiModel)
+                } else {
+                    playerProfilView5.visibility = View.GONE
                 }
             })
 
@@ -81,6 +91,8 @@ class GameActivity : AppCompatActivity() {
             Observer { uiModel ->
                 if (uiModel != null) {
                     playerProfilView6.updateProfilePlayer(uiModel)
+                } else {
+                    playerProfilView6.visibility = View.GONE
                 }
             })
 
@@ -89,6 +101,8 @@ class GameActivity : AppCompatActivity() {
             Observer { uiModel ->
                 if (uiModel != null) {
                     playerProfilView7.updateProfilePlayer(uiModel)
+                } else {
+                    playerProfilView7.visibility = View.GONE
                 }
             })
 
@@ -97,6 +111,8 @@ class GameActivity : AppCompatActivity() {
             Observer { uiModel ->
                 if (uiModel != null) {
                     playerProfilView8.updateProfilePlayer(uiModel)
+                } else {
+                    playerProfilView8.visibility = View.GONE
                 }
             })
 
