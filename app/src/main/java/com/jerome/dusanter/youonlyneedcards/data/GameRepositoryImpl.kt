@@ -140,17 +140,14 @@ object GameRepositoryImpl {
 
     fun call() {
         currentPlayer = currentPlayer.copy(actionPlayer = ActionPlayer.Call)
+        withDrawMoneyToPlayer(getCurrentPlayerIndex(), maxRaisePartTurn)
         updatePlayer(currentPlayer)
     }
 
-    fun raise() {
-        /*currentPlayer = currentPlayer.copy(
-            actionPlayer = ActionPlayer.Raise,
-            stack = currentPlayer.stack - stackRaised,
-            stackBetTurn = currentPlayer.stackBetTurn + stackRaised,
-            stackBetPartTurn = currentPlayer.stackBetPartTurn + stackRaised
-        )
-        updatePlayer(currentPlayer)*/
+    fun raise(stackRaised: Int) {
+        currentPlayer = currentPlayer.copy(actionPlayer = ActionPlayer.Raise)
+        withDrawMoneyToPlayer(getCurrentPlayerIndex(), stackRaised)
+        updatePlayer(currentPlayer)
     }
 
     fun fold() {
@@ -159,13 +156,13 @@ object GameRepositoryImpl {
     }
 
     fun allin() {
-        currentPlayer = currentPlayer.copy(
-            actionPlayer = ActionPlayer.AllIn,
-            stackBetTurn = currentPlayer.stackBetTurn + currentPlayer.stack,
-            stackBetPartTurn = currentPlayer.stackBetPartTurn + currentPlayer.stack,
-            stack = 0
-        )
+        currentPlayer = currentPlayer.copy(actionPlayer = ActionPlayer.AllIn)
+        withDrawMoneyToPlayer(getCurrentPlayerIndex(), currentPlayer.stack)
         updatePlayer(currentPlayer)
+    }
+
+    private fun getCurrentPlayerIndex(): Int {
+        return listPlayers.indexOf(listPlayers.find { it.statePlayer == StatePlayer.CurrentTurn })
     }
 
     fun getPossibleActions(): List<ActionPlayer> {
@@ -190,11 +187,13 @@ object GameRepositoryImpl {
     }
 
     fun moveToNextPlayerAvailable() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val previousCurrentPlayerIndex = getCurrentPlayerIndex()
+        listPlayers[getIndexNextPlayerNotEliminated(previousCurrentPlayerIndex)].statePlayer = StatePlayer.Playing
+        listPlayers[getIndexNextPlayerNotEliminated(previousCurrentPlayerIndex + 1)].statePlayer = StatePlayer.CurrentTurn
     }
 
     fun isPartTurnOver(): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return false
     }
 
     fun moveToFirstPlayerAfterBigBlind() {
@@ -218,7 +217,7 @@ object GameRepositoryImpl {
     }
 
     fun isTurnOver(): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return false
     }
 
     fun resetActionPlayerExceptFoldedAndAllIn() {

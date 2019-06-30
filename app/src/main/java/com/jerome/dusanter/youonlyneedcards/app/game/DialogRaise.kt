@@ -14,6 +14,7 @@ import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.utils.SeekBarChangeListener
 import kotlinx.android.synthetic.main.layout_dialog_raise.buttonAllin
 import kotlinx.android.synthetic.main.layout_dialog_raise.buttonMinRaise
+import kotlinx.android.synthetic.main.layout_dialog_raise.imageButtonCheck
 import kotlinx.android.synthetic.main.layout_dialog_raise.imageButtonClose
 import kotlinx.android.synthetic.main.layout_dialog_raise.seekBarRaise
 import kotlinx.android.synthetic.main.layout_dialog_raise.textViewMoneyToRaise
@@ -26,13 +27,14 @@ class DialogRaise : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.layout_dialog_raise, container, false)
 
-    var stackRaised = arguments[EXTRA_BIG_BLIND] as Int
+    var stackRaised = 0
     var isAllIn = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         buttonMinRaise.text = (arguments[EXTRA_BIG_BLIND] as Int).toString()
         seekBarRaise.progress = arguments[EXTRA_BIG_BLIND] as Int
+        stackRaised = arguments[EXTRA_BIG_BLIND] as Int
         setupListeners()
     }
 
@@ -57,6 +59,12 @@ class DialogRaise : DialogFragment() {
         buttonMinRaise.setOnClickListener {
             setTextViewMoneyToRaise(arguments[EXTRA_BIG_BLIND] as Int)
             seekBarRaise.progress = arguments[EXTRA_BIG_BLIND] as Int
+        }
+
+        imageButtonCheck.setOnClickListener {
+            dismiss()
+            val activity = activity as GameActivity
+            activity.onRaise(isAllIn, stackRaised)
         }
 
         imageButtonClose.setOnClickListener {

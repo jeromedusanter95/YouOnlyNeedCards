@@ -9,6 +9,7 @@ import com.jerome.dusanter.youonlyneedcards.core.StateTurn
 import com.jerome.dusanter.youonlyneedcards.core.interactor.AddPlayerInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.GetParametersToRaiseInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.PlayInteractor
+import com.jerome.dusanter.youonlyneedcards.core.interactor.PlayRequest
 import com.jerome.dusanter.youonlyneedcards.core.interactor.StartGameInteractor
 
 class GameViewModel : ViewModel() {
@@ -165,18 +166,32 @@ class GameViewModel : ViewModel() {
             }
         }
 
-    fun play(actionPlayer: String) {
-        PlayInteractor().execute(actionPlayer, buildPlayListener())
+    private fun play(actionPlayer: String) {
+        PlayInteractor().execute(PlayRequest(actionPlayer), buildPlayListener())
     }
 
     fun play(actionPlayer: String, stackRaised: Int) {
-        PlayInteractor().execute(actionPlayer, buildPlayListener())
+        PlayInteractor().execute(PlayRequest(actionPlayer, stackRaised), buildPlayListener())
     }
 
     private fun buildPlayListener(): PlayInteractor.Listener =
         object : PlayInteractor.Listener {
-            override fun getPossiblesAction(actionPlayerList: List<ActionPlayer>) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            override fun getPossiblesActions(
+                actionPlayerList: List<ActionPlayer>,
+                playerList: List<Player>,
+                stackTurn: Int
+            ) {
+                val currentPlayer = playerList.find { it.statePlayer == StatePlayer.CurrentTurn }
+                stateGame.value = GameMapper().map(
+                    actionPlayerList,
+                    currentPlayer!!.name,
+                    currentPlayer.stack,
+                    StateTurn.PreFlop.name,
+                    stackTurn
+                )
+                playerList.forEach {
+                    updatePlayerById(it)
+                }
             }
 
             override fun endOfPartTurn() {

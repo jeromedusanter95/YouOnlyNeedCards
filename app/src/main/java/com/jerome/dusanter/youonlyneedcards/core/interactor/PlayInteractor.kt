@@ -1,12 +1,13 @@
 package com.jerome.dusanter.youonlyneedcards.core.interactor
 
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
+import com.jerome.dusanter.youonlyneedcards.core.Player
 import com.jerome.dusanter.youonlyneedcards.data.GameRepositoryImpl
 
 class PlayInteractor {
 
-    fun execute(actionPlayer: String, listener: Listener) {
-        when (actionPlayer) {
+    fun execute(request: PlayRequest, listener: Listener) {
+        when (request.actionPlayer) {
             ActionPlayer.AllIn.name -> {
                 GameRepositoryImpl.allin()
             }
@@ -20,7 +21,7 @@ class PlayInteractor {
                 GameRepositoryImpl.fold()
             }
             ActionPlayer.Raise.name -> {
-                GameRepositoryImpl.raise()
+                GameRepositoryImpl.raise(request.stackRaised)
             }
         }
         when {
@@ -28,14 +29,28 @@ class PlayInteractor {
             GameRepositoryImpl.isPartTurnOver() -> listener.endOfPartTurn()
             else -> {
                 GameRepositoryImpl.moveToNextPlayerAvailable()
-                listener.getPossiblesAction(GameRepositoryImpl.getPossibleActions())
+                listener.getPossiblesActions(
+                    GameRepositoryImpl.getPossibleActions(),
+                    GameRepositoryImpl.listPlayers,
+                    GameRepositoryImpl.stackTurn
+                )
             }
         }
     }
 
     interface Listener {
-        fun getPossiblesAction(actionPlayerList: List<ActionPlayer>)
+        fun getPossiblesActions(
+            actionPlayerList: List<ActionPlayer>,
+            playerList: List<Player>,
+            stackTurn: Int
+        )
+
         fun endOfPartTurn()
         fun endOfTurn()
     }
 }
+
+data class PlayRequest(
+    val actionPlayer: String,
+    val stackRaised: Int = 0
+)

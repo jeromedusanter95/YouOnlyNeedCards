@@ -22,7 +22,6 @@ import kotlinx.android.synthetic.main.activity_game.playerProfilView8
 import kotlinx.android.synthetic.main.activity_game.textViewCurrentPlayerInformations
 import kotlinx.android.synthetic.main.activity_game.textViewPartTurnName
 import kotlinx.android.synthetic.main.activity_game.textViewTurnStack
-import kotlinx.android.synthetic.main.layout_dialog_raise.imageButtonCheck
 import kotlinx.android.synthetic.main.layout_profil_player_view.view.imageButtonCheck
 
 class GameActivity : AppCompatActivity() {
@@ -138,15 +137,17 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun showDialogRaise(dialogEventUiModel: DialogRaiseUiModel) {
-        val dialog = DialogRaise.newInstance(dialogEventUiModel)
-        dialog.imageButtonCheck.setOnClickListener {
-            if (dialog.isAllIn) {
-                viewModel.play(ActionPlayer.AllIn.name, dialog.stackRaised)
-            } else {
-                viewModel.play(ActionPlayer.Raise.name, dialog.stackRaised)
-            }
+        val dialog = DialogRaise
+            .newInstance(dialogEventUiModel)
+        dialog.show(fragmentManager, "GameActivity")
+    }
+
+    fun onRaise(isAllin: Boolean, stackRaised: Int) {
+        if (isAllin) {
+            viewModel.play(ActionPlayer.AllIn.name, stackRaised)
+        } else {
+            viewModel.play(ActionPlayer.Raise.name, stackRaised)
         }
-        dialog.show(fragmentManager, "GameActivity Dialog raise")
     }
 
     private fun updateTable(gameUiModel: GameUiModel) {
