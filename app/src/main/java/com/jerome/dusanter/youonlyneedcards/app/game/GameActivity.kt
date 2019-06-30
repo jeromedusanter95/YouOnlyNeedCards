@@ -182,4 +182,8 @@ class GameActivity : AppCompatActivity() {
             viewModel.onStartGame()
         }
     }
+
+    override fun onBackPressed() {
+        //Do nothing
+    }
 }

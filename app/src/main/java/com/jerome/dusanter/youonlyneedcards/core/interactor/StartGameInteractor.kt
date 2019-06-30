@@ -9,6 +9,7 @@ class StartGameInteractor {
         if (GameRepositoryImpl.isIncreaseBlindsEnabled()) {
             GameRepositoryImpl.startTimerIncreaseBlinds()
         }
+        GameRepositoryImpl.initializeListWithGoodOrder()
         GameRepositoryImpl.initializeStateBlind()
         GameRepositoryImpl.initializeCurrentPlayerAfterBigBlind()
         listener.getPossibleActions(

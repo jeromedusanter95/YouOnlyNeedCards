@@ -13,7 +13,9 @@ object GameRepositoryImpl {
     var listPlayers: MutableCircularList<Player> = MutableCircularList(mutableListOf())
     lateinit var settings: Settings
     lateinit var currentPlayer: Player
-     var stackTurn = 0
+    var stackTurn = 0
+    var maxRaisePartTurn = 0
+    var stateTurn = StateTurn.PreFlop
 
     fun addPlayer(idPlayer: String, name: String): Player {
         val player = Player(
@@ -28,6 +30,12 @@ object GameRepositoryImpl {
         )
         listPlayers.add(player)
         return player
+    }
+
+    fun initializeListWithGoodOrder() {
+        listPlayers.sortWith(Comparator { player1, player2 ->
+            player1.id.toInt().compareTo(player2.id.toInt())
+        })
     }
 
     fun initializeStateBlind() {
@@ -63,7 +71,12 @@ object GameRepositoryImpl {
     }
 
     private fun getDealerIndex(): Int {
-        return listPlayers.indexOf(listPlayers.find { it.stateBlind == StateBlind.Dealer })
+        val dealerPlayer = listPlayers.find { it.stateBlind == StateBlind.Dealer }
+        return if (dealerPlayer != null) {
+            listPlayers.indexOf(dealerPlayer)
+        } else {
+            0
+        }
     }
 
     private fun getIndexNextPlayerNotEliminated(startIndex: Int): Int {
@@ -109,6 +122,15 @@ object GameRepositoryImpl {
         listPlayers[index].stackBetTurn += stack
         listPlayers[index].stackBetPartTurn += stack
         stackTurn += stack
+        if (maxRaisePartTurn < stack) {
+            maxRaisePartTurn = stack
+        }
+    }
+
+    fun initializeCurrentPlayerAfterBigBlind() {
+        val bigBlindIndex = getBigBlindIndex()
+        currentPlayer = listPlayers[getIndexNextPlayerNotEliminated(bigBlindIndex + 1)]
+        currentPlayer.statePlayer = StatePlayer.CurrentTurn
     }
 
     fun check() {
@@ -147,11 +169,23 @@ object GameRepositoryImpl {
     }
 
     fun getPossibleActions(): List<ActionPlayer> {
-        //TODO implement this function later
         val list = mutableListOf<ActionPlayer>()
-        list.add(ActionPlayer.Check)
-        list.add(ActionPlayer.Raise)
-        list.add(ActionPlayer.Fold)
+        when {
+            maxRaisePartTurn == 0 -> {
+                list.add(ActionPlayer.Check)
+                list.add(ActionPlayer.Raise)
+                list.add(ActionPlayer.Fold)
+            }
+            maxRaisePartTurn >= currentPlayer.stackBetPartTurn + currentPlayer.stack -> {
+                list.add(ActionPlayer.AllIn)
+                list.add(ActionPlayer.Fold)
+            }
+            else -> {
+                list.add(ActionPlayer.Call)
+                list.add(ActionPlayer.Raise)
+                list.add(ActionPlayer.Fold)
+            }
+        }
         return list
     }
 
@@ -253,10 +287,5 @@ object GameRepositoryImpl {
         return map {
             if (block(it)) newValue else it
         }
-    }
-
-    fun initializeCurrentPlayerAfterBigBlind() {
-        val bigBlindIndex = getBigBlindIndex()
-        listPlayers[getIndexNextPlayerNotEliminated(bigBlindIndex + 1)].statePlayer = StatePlayer.CurrentTurn
     }
 }
