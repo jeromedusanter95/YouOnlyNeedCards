@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.jerome.dusanter.youonlyneedcards.R
+import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import kotlinx.android.synthetic.main.activity_game.buttonLeft
 import kotlinx.android.synthetic.main.activity_game.buttonMiddle
 import kotlinx.android.synthetic.main.activity_game.buttonRight
@@ -21,6 +22,7 @@ import kotlinx.android.synthetic.main.activity_game.playerProfilView8
 import kotlinx.android.synthetic.main.activity_game.textViewCurrentPlayerInformations
 import kotlinx.android.synthetic.main.activity_game.textViewPartTurnName
 import kotlinx.android.synthetic.main.activity_game.textViewTurnStack
+import kotlinx.android.synthetic.main.layout_dialog_raise.imageButtonCheck
 import kotlinx.android.synthetic.main.layout_profil_player_view.view.imageButtonCheck
 
 class GameActivity : AppCompatActivity() {
@@ -124,6 +126,27 @@ class GameActivity : AppCompatActivity() {
                 }
             }
         )
+
+        viewModel.stateDialogRaise.observe(
+            this,
+            Observer { dialogRaiseUiModel ->
+                if (dialogRaiseUiModel != null) {
+                    showDialogRaise(dialogRaiseUiModel)
+                }
+            }
+        )
+    }
+
+    private fun showDialogRaise(dialogEventUiModel: DialogRaiseUiModel) {
+        val dialog = DialogRaise.newInstance(dialogEventUiModel)
+        dialog.imageButtonCheck.setOnClickListener {
+            if (dialog.isAllIn) {
+                viewModel.play(ActionPlayer.AllIn.name, dialog.stackRaised)
+            } else {
+                viewModel.play(ActionPlayer.Raise.name, dialog.stackRaised)
+            }
+        }
+        dialog.show(fragmentManager, "GameActivity Dialog raise")
     }
 
     private fun updateTable(gameUiModel: GameUiModel) {
@@ -196,6 +219,18 @@ class GameActivity : AppCompatActivity() {
 
         buttonStartGame.setOnClickListener {
             viewModel.onStartGame()
+        }
+
+        buttonLeft.setOnClickListener {
+            viewModel.onClickButtonLeft(buttonLeft.text.toString())
+        }
+
+        buttonMiddle.setOnClickListener {
+            viewModel.onClickButtonMiddle(buttonMiddle.text.toString())
+        }
+
+        buttonRight.setOnClickListener {
+            viewModel.onClickButtonRight(buttonRight.text.toString())
         }
     }
 

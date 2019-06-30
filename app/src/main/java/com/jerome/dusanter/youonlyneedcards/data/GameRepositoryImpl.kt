@@ -143,14 +143,14 @@ object GameRepositoryImpl {
         updatePlayer(currentPlayer)
     }
 
-    fun raise(stackRaised: Int) {
-        currentPlayer = currentPlayer.copy(
+    fun raise() {
+        /*currentPlayer = currentPlayer.copy(
             actionPlayer = ActionPlayer.Raise,
             stack = currentPlayer.stack - stackRaised,
             stackBetTurn = currentPlayer.stackBetTurn + stackRaised,
             stackBetPartTurn = currentPlayer.stackBetPartTurn + stackRaised
         )
-        updatePlayer(currentPlayer)
+        updatePlayer(currentPlayer)*/
     }
 
     fun fold() {

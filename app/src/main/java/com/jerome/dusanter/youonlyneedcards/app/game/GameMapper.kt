@@ -18,4 +18,9 @@ class GameMapper {
             stackTurn = "$stackTurn ${SettingsConstants.CHIPS}"
         )
     }
+
+
+    fun map(bigBlind: Int, stackPlayer: Int): DialogRaiseUiModel {
+        return DialogRaiseUiModel(bigBlind = bigBlind, stackPlayer = stackPlayer)
+    }
 }

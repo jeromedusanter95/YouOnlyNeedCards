@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="settings_activity_padding">@dimen/sizing_3</dimen>
+    <dimen name="dialog_raise_width">400dp</dimen>
+    <dimen name="dialog_raise_height">400dp</dimen>
 </resources>

@@ -7,6 +7,8 @@ import com.jerome.dusanter.youonlyneedcards.core.Player
 import com.jerome.dusanter.youonlyneedcards.core.StatePlayer
 import com.jerome.dusanter.youonlyneedcards.core.StateTurn
 import com.jerome.dusanter.youonlyneedcards.core.interactor.AddPlayerInteractor
+import com.jerome.dusanter.youonlyneedcards.core.interactor.GetParametersToRaiseInteractor
+import com.jerome.dusanter.youonlyneedcards.core.interactor.PlayInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.StartGameInteractor
 
 class GameViewModel : ViewModel() {
@@ -23,6 +25,9 @@ class GameViewModel : ViewModel() {
 
     // Live data of Game
     val stateGame = MutableLiveData<GameUiModel>()
+
+    // Live data dialog event
+    val stateDialogRaise = MutableLiveData<DialogRaiseUiModel>()
 
     fun onAddPlayer(id: String, name: String) {
         AddPlayerInteractor().execute(id, name, buildAddPlayerListener())
@@ -126,6 +131,60 @@ class GameViewModel : ViewModel() {
                     stackCurrentPlayer = currentPlayer.stack
                 )
                 updatePlayerOrHidePlayer(playerList)
+            }
+        }
+
+    fun onClickButtonLeft(actionPlayer: String?) {
+        if (actionPlayer != null && actionPlayer != ActionPlayer.Raise.name) {
+            play(actionPlayer)
+        } else if (actionPlayer == ActionPlayer.Raise.name) {
+            GetParametersToRaiseInteractor().execute(buildGetBigBlindInteractor())
+        }
+    }
+
+    fun onClickButtonMiddle(actionPlayer: String?) {
+        if (actionPlayer != null && actionPlayer != ActionPlayer.Raise.name) {
+            play(actionPlayer)
+        } else if (actionPlayer == ActionPlayer.Raise.name) {
+            GetParametersToRaiseInteractor().execute(buildGetBigBlindInteractor())
+        }
+    }
+
+    fun onClickButtonRight(actionPlayer: String?) {
+        if (actionPlayer != null && actionPlayer != ActionPlayer.Raise.name) {
+            play(actionPlayer)
+        } else if (actionPlayer == ActionPlayer.Raise.name) {
+            GetParametersToRaiseInteractor().execute(buildGetBigBlindInteractor())
+        }
+    }
+
+    private fun buildGetBigBlindInteractor(): GetParametersToRaiseInteractor.Listener =
+        object : GetParametersToRaiseInteractor.Listener {
+            override fun onSuccess(bigBlind: Int, stackPlayer: Int) {
+                stateDialogRaise.value = GameMapper().map(bigBlind, stackPlayer)
+            }
+        }
+
+    fun play(actionPlayer: String) {
+        PlayInteractor().execute(actionPlayer, buildPlayListener())
+    }
+
+    fun play(actionPlayer: String, stackRaised: Int) {
+        PlayInteractor().execute(actionPlayer, buildPlayListener())
+    }
+
+    private fun buildPlayListener(): PlayInteractor.Listener =
+        object : PlayInteractor.Listener {
+            override fun getPossiblesAction(actionPlayerList: List<ActionPlayer>) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun endOfPartTurn() {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun endOfTurn() {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
         }
 }

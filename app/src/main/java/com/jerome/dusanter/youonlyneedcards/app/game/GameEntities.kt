@@ -8,3 +8,8 @@ data class GameUiModel(
     val namePartTurn: String,
     val stackTurn: String
 )
+
+data class DialogRaiseUiModel(
+    val bigBlind: Int,
+    val stackPlayer: Int
+)

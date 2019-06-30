@@ -33,7 +33,7 @@ class PlayerProfileView @JvmOverloads constructor(
             PlayerProfileUiModel(
                 statePlayer = "Playing",
                 name = "",
-                stateBlind = "",
+                stateBlind = "Nothing",
                 stack = "",
                 actionPlayer = "Nothing"
             )
@@ -63,7 +63,7 @@ class PlayerProfileView @JvmOverloads constructor(
     fun updateProfilePlayer(uiModel: PlayerProfileUiModel) {
         textViewName.text = uiModel.name
         textViewStack.text = uiModel.stack
-        textViewStatePlayer.text = uiModel.statePlayer
+        textViewStatePlayer.text = uiModel.actionPlayer
         textViewStateBlind.text = uiModel.stateBlind
         changeBackgroundColor(uiModel)
     }
