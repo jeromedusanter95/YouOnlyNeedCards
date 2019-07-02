@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.activity_game.buttonLeft
 import kotlinx.android.synthetic.main.activity_game.buttonMiddle
 import kotlinx.android.synthetic.main.activity_game.buttonRight
 import kotlinx.android.synthetic.main.activity_game.buttonStartGame
+import kotlinx.android.synthetic.main.activity_game.buttonStartTurn
 import kotlinx.android.synthetic.main.activity_game.playerProfilView1
 import kotlinx.android.synthetic.main.activity_game.playerProfilView2
 import kotlinx.android.synthetic.main.activity_game.playerProfilView3
@@ -157,8 +158,11 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
+
+    //TODO use group to handle visibility
     private fun updateTableCurrentTurn(gameUiModel: GameUiModel.ShowCurrentTurn) {
         buttonStartGame.visibility = View.GONE
+        buttonStartTurn.visibility = View.GONE
         buttonLeft.visibility = View.VISIBLE
         buttonMiddle.visibility = View.VISIBLE
         buttonRight.visibility = View.VISIBLE
@@ -174,7 +178,7 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun updateTableEndTurn(gameUiModel: GameUiModel.ShowEndTurn) {
-        buttonStartGame.visibility = View.VISIBLE
+        buttonStartTurn.visibility = View.VISIBLE
         buttonLeft.visibility = View.GONE
         buttonMiddle.visibility = View.GONE
         buttonRight.visibility = View.GONE
@@ -251,6 +255,10 @@ class GameActivity : AppCompatActivity() {
 
         buttonRight.setOnClickListener {
             viewModel.onClickButtonRight(buttonRight.text.toString())
+        }
+
+        buttonStartTurn.setOnClickListener {
+            viewModel.onStartTurn()
         }
     }
 

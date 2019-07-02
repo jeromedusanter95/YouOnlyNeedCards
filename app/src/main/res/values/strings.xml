@@ -26,4 +26,5 @@
     <string name="poker_activity_stack_raise">%1$d jetons</string>
     <string name="poker_activity_all_in">All-in</string>
     <string name="poker_activity_who_won_the_turn">Qui a gagné le tour ?</string>
+    <string name="poker_activity_start_turn">Commencer un nouveau tour</string>
 </resources>

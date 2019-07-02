@@ -280,6 +280,11 @@ object GameRepositoryImpl {
         resetActionPlayer()
         resetStackBetPartTurn()
         resetStackBetTurn()
+        resetCurrentPlayerStatePlayer()
+    }
+
+    private fun resetCurrentPlayerStatePlayer() {
+        listPlayers[getCurrentPlayerIndex()].statePlayer = StatePlayer.Playing
     }
 
     private fun resetActionPlayerExceptFoldedAndAllIn() {

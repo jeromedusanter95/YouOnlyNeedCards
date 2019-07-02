@@ -13,6 +13,7 @@ import com.jerome.dusanter.youonlyneedcards.core.interactor.PlayInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.PlayRequest
 import com.jerome.dusanter.youonlyneedcards.core.interactor.PopulateGameWithFakeDataInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.StartGameInteractor
+import com.jerome.dusanter.youonlyneedcards.core.interactor.StartTurnInteractor
 
 class GameViewModel : ViewModel() {
 
@@ -202,6 +203,10 @@ class GameViewModel : ViewModel() {
                     stateGame.value = GameMapper().map(
                         winnerList
                     )
+                    //TODO Temporary
+                    playerList.forEach {
+                        updatePlayerById(it)
+                    }
                 }
 
             }
@@ -215,6 +220,32 @@ class GameViewModel : ViewModel() {
         object : PopulateGameWithFakeDataInteractor.Listener {
             override fun onSuccess() {
                 StartGameInteractor().execute(buildGameListener())
+            }
+        }
+
+    fun onStartTurn() {
+        StartTurnInteractor().execute(buildStartTurnListener())
+    }
+
+    private fun buildStartTurnListener(): StartTurnInteractor.Listener =
+        object : StartTurnInteractor.Listener {
+            override fun getPossibleActions(
+                actionPlayerList: List<ActionPlayer>,
+                playerList: List<Player>,
+                stackTurn: Int,
+                stateTurn: StateTurn
+            ) {
+                val currentPlayer = playerList.find { it.statePlayer == StatePlayer.CurrentTurn }
+                stateGame.value = GameMapper().map(
+                    actionPlayerList,
+                    currentPlayer!!.name,
+                    currentPlayer.stack,
+                    stateTurn.name,
+                    stackTurn
+                )
+                playerList.forEach {
+                    updatePlayerById(it)
+                }
             }
         }
 }
