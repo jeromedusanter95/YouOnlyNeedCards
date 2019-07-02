@@ -125,7 +125,10 @@ class GameActivity : AppCompatActivity() {
             this,
             Observer { gameUiModel ->
                 if (gameUiModel != null) {
-                    updateTable(gameUiModel)
+                    when (gameUiModel) {
+                        is GameUiModel.ShowEndTurn -> updateTableEndTurn(gameUiModel)
+                        is GameUiModel.ShowCurrentTurn -> updateTableCurrentTurn(gameUiModel)
+                    }
                 }
             }
         )
@@ -154,19 +157,31 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateTable(gameUiModel: GameUiModel) {
+    private fun updateTableCurrentTurn(gameUiModel: GameUiModel.ShowCurrentTurn) {
         buttonStartGame.visibility = View.GONE
         buttonLeft.visibility = View.VISIBLE
         buttonMiddle.visibility = View.VISIBLE
         buttonRight.visibility = View.VISIBLE
         textViewPartTurnName.visibility = View.VISIBLE
         textViewTurnStack.visibility = View.VISIBLE
+        textViewCurrentPlayerInformations.visibility = View.VISIBLE
         buttonLeft.text = gameUiModel.actionPlayerList[0].name
         buttonMiddle.text = gameUiModel.actionPlayerList[1].name
         buttonRight.text = gameUiModel.actionPlayerList[2].name
         textViewCurrentPlayerInformations.text = gameUiModel.informationsCurrentPlayer
         textViewPartTurnName.text = gameUiModel.namePartTurn
         textViewTurnStack.text = gameUiModel.stackTurn
+    }
+
+    private fun updateTableEndTurn(gameUiModel: GameUiModel.ShowEndTurn) {
+        buttonStartGame.visibility = View.VISIBLE
+        buttonLeft.visibility = View.GONE
+        buttonMiddle.visibility = View.GONE
+        buttonRight.visibility = View.GONE
+        textViewPartTurnName.visibility = View.GONE
+        textViewTurnStack.visibility = View.GONE
+        textViewCurrentPlayerInformations.visibility = View.GONE
+        DialogEndTurn.newInstance(gameUiModel).show(fragmentManager, "DialogEndTurn")
     }
 
     private fun setupListeners() {
@@ -240,6 +255,6 @@ class GameActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        //Do nothing
+        viewModel.populateGameWithFakeDatas()
     }
 }

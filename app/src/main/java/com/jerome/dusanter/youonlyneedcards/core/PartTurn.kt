@@ -10,10 +10,10 @@ class PartTurn {
     fun start() {
         GameRepositoryImpl.resetStatePlayerExceptFoldedAndAllIn()
         GameRepositoryImpl.resetStackBetPartTurn()
-        if (stateTurn == StateTurn.PreFlop) {
+        if (currentStateTurn == StateTurn.PreFlop) {
             GameRepositoryImpl.moveToFirstPlayerAfterBigBlind()
         } else {
-            GameRepositoryImpl.moveToFirstPlayerAvailable()
+            GameRepositoryImpl.moveToFirstPlayerAvailableFromSmallBlind()
         }
         listener.getPossibleActions(GameRepositoryImpl.getPossibleActions())
     }

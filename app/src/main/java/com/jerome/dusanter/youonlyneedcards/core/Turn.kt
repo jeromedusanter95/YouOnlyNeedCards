@@ -14,8 +14,8 @@ class Turn(private val listener: GameListener) {
         startPartTurn(StateTurn.PreFlop)
     }
 
-    private fun startPartTurn(stateTurn: StateTurn) {
-        currentPartTurn = PartTurn(stateTurn, listener)
+    private fun startPartTurn(currentStateTurn: StateTurn) {
+        currentPartTurn = PartTurn(currentStateTurn, listener)
         currentPartTurn.start()
     }
 

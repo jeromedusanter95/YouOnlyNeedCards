@@ -15,7 +15,7 @@ class StartGameInteractor {
         listener.getPossibleActions(
             GameRepositoryImpl.getPossibleActions(),
             GameRepositoryImpl.listPlayers,
-            GameRepositoryImpl.stackTurn
+            GameRepositoryImpl.currentStackTurn
         )
     }
 

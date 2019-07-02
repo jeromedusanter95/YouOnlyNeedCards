@@ -9,8 +9,9 @@ data class Player(
     var statePlayer: StatePlayer = StatePlayer.Playing,
     var stateBlind: StateBlind = StateBlind.Nothing,
     var actionPlayer: ActionPlayer = ActionPlayer.Nothing
-
 )
+
+data class Winner(val name: String, val stackWon: Int)
 
 data class Settings(
     val stack: Int,

@@ -13,9 +13,9 @@ object GameRepositoryImpl {
     var listPlayers: MutableCircularList<Player> = MutableCircularList(mutableListOf())
     lateinit var settings: Settings
     lateinit var currentPlayer: Player
-    var stackTurn = 0
-    var maxRaisePartTurn = 0
-    var stateTurn = StateTurn.PreFlop
+    var currentStackTurn = 0
+    private var currentMaxRaisePartTurn = 0
+    var currentStateTurn = StateTurn.PreFlop
 
     fun addPlayer(idPlayer: String, name: String): Player {
         val player = Player(
@@ -55,18 +55,18 @@ object GameRepositoryImpl {
     private fun initializeStateBlindTwoPlayers() {
         val previousDealerIndex = getDealerIndex()
         listPlayers[previousDealerIndex].stateBlind = StateBlind.BigBlind
-        val currentDealerIndex = getIndexNextPlayerNotEliminated(previousDealerIndex + 1)
+        val currentDealerIndex = getIndexNextPlayerNotEliminatedOrFolded(previousDealerIndex + 1)
         listPlayers[currentDealerIndex].stateBlind = StateBlind.Dealer
     }
 
     private fun initializeStateBlindThreePlayersOrMore() {
         val previousDealerIndex = getDealerIndex()
         listPlayers[previousDealerIndex].stateBlind = StateBlind.Nothing
-        val currentDealerIndex = getIndexNextPlayerNotEliminated(previousDealerIndex + 1)
+        val currentDealerIndex = getIndexNextPlayerNotEliminatedOrFolded(previousDealerIndex + 1)
         listPlayers[currentDealerIndex].stateBlind = StateBlind.Dealer
-        val currentSmallBlindIndex = getIndexNextPlayerNotEliminated(currentDealerIndex + 1)
+        val currentSmallBlindIndex = getIndexNextPlayerNotEliminatedOrFolded(currentDealerIndex + 1)
         listPlayers[currentSmallBlindIndex].stateBlind = StateBlind.SmallBlind
-        val currentBigBlindIndex = getIndexNextPlayerNotEliminated(currentSmallBlindIndex + 1)
+        val currentBigBlindIndex = getIndexNextPlayerNotEliminatedOrFolded(currentSmallBlindIndex + 1)
         listPlayers[currentBigBlindIndex].stateBlind = StateBlind.BigBlind
     }
 
@@ -79,9 +79,11 @@ object GameRepositoryImpl {
         }
     }
 
-    private fun getIndexNextPlayerNotEliminated(startIndex: Int): Int {
+    private fun getIndexNextPlayerNotEliminatedOrFolded(startIndex: Int): Int {
         for (i in 0..listPlayers.size) {
-            if (listPlayers[startIndex + i].statePlayer != StatePlayer.Eliminate) {
+            if (listPlayers[startIndex + i].statePlayer != StatePlayer.Eliminate
+                && listPlayers[startIndex + i].actionPlayer != ActionPlayer.Fold
+            ) {
                 return startIndex + i
             }
         }
@@ -121,44 +123,51 @@ object GameRepositoryImpl {
         listPlayers[index].stack -= stack
         listPlayers[index].stackBetTurn += stack
         listPlayers[index].stackBetPartTurn += stack
-        stackTurn += stack
-        if (maxRaisePartTurn < stack) {
-            maxRaisePartTurn = stack
-        }
+        currentStackTurn += stack
+        setCurrentMaxRaisePartTurn()
+    }
+
+    private fun setCurrentMaxRaisePartTurn() {
+        currentMaxRaisePartTurn = listPlayers.maxBy {
+            it.stackBetPartTurn
+        }?.stackBetPartTurn!!
     }
 
     fun initializeCurrentPlayerAfterBigBlind() {
         val bigBlindIndex = getBigBlindIndex()
-        currentPlayer = listPlayers[getIndexNextPlayerNotEliminated(bigBlindIndex + 1)]
+        currentPlayer = listPlayers[getIndexNextPlayerNotEliminatedOrFolded(bigBlindIndex + 1)]
         currentPlayer.statePlayer = StatePlayer.CurrentTurn
     }
 
     fun check() {
-        currentPlayer = currentPlayer.copy(actionPlayer = ActionPlayer.Check)
-        updatePlayer(currentPlayer)
+        val currentPlayerIndex = getCurrentPlayerIndex()
+        listPlayers[currentPlayerIndex].actionPlayer = ActionPlayer.Check
     }
 
     fun call() {
-        currentPlayer = currentPlayer.copy(actionPlayer = ActionPlayer.Call)
-        withDrawMoneyToPlayer(getCurrentPlayerIndex(), maxRaisePartTurn)
-        updatePlayer(currentPlayer)
+        val currentPlayerIndex = getCurrentPlayerIndex()
+        withDrawMoneyToPlayer(
+            currentPlayerIndex,
+            currentMaxRaisePartTurn - currentPlayer.stackBetPartTurn
+        )
+        listPlayers[currentPlayerIndex].actionPlayer = ActionPlayer.Call
     }
 
     fun raise(stackRaised: Int) {
-        currentPlayer = currentPlayer.copy(actionPlayer = ActionPlayer.Raise)
-        withDrawMoneyToPlayer(getCurrentPlayerIndex(), stackRaised)
-        updatePlayer(currentPlayer)
+        val currentPlayerIndex = getCurrentPlayerIndex()
+        withDrawMoneyToPlayer(currentPlayerIndex, stackRaised)
+        listPlayers[currentPlayerIndex].actionPlayer = ActionPlayer.Raise
     }
 
     fun fold() {
-        currentPlayer = currentPlayer.copy(actionPlayer = ActionPlayer.Fold)
-        updatePlayer(currentPlayer)
+        val currentPlayerIndex = getCurrentPlayerIndex()
+        listPlayers[currentPlayerIndex].actionPlayer = ActionPlayer.Fold
     }
 
     fun allin() {
-        currentPlayer = currentPlayer.copy(actionPlayer = ActionPlayer.AllIn)
-        withDrawMoneyToPlayer(getCurrentPlayerIndex(), currentPlayer.stack)
-        updatePlayer(currentPlayer)
+        val currentPlayerIndex = getCurrentPlayerIndex()
+        withDrawMoneyToPlayer(currentPlayerIndex, currentPlayer.stack)
+        listPlayers[currentPlayerIndex].actionPlayer = ActionPlayer.AllIn
     }
 
     private fun getCurrentPlayerIndex(): Int {
@@ -168,12 +177,21 @@ object GameRepositoryImpl {
     fun getPossibleActions(): List<ActionPlayer> {
         val list = mutableListOf<ActionPlayer>()
         when {
-            maxRaisePartTurn == 0 -> {
+            currentMaxRaisePartTurn == settings.smallBlind * 2
+                && currentPlayer.stackBetPartTurn == currentMaxRaisePartTurn
+                && currentStateTurn == StateTurn.PreFlop
+                && !didAllPlayersPlayed()
+            -> {
                 list.add(ActionPlayer.Check)
                 list.add(ActionPlayer.Raise)
                 list.add(ActionPlayer.Fold)
             }
-            maxRaisePartTurn >= currentPlayer.stackBetPartTurn + currentPlayer.stack -> {
+            currentMaxRaisePartTurn == 0 -> {
+                list.add(ActionPlayer.Check)
+                list.add(ActionPlayer.Raise)
+                list.add(ActionPlayer.Fold)
+            }
+            currentMaxRaisePartTurn >= currentPlayer.stackBetPartTurn + currentPlayer.stack -> {
                 list.add(ActionPlayer.AllIn)
                 list.add(ActionPlayer.Fold)
             }
@@ -188,39 +206,83 @@ object GameRepositoryImpl {
 
     fun moveToNextPlayerAvailable() {
         val previousCurrentPlayerIndex = getCurrentPlayerIndex()
-        listPlayers[getIndexNextPlayerNotEliminated(previousCurrentPlayerIndex)].statePlayer = StatePlayer.Playing
-        listPlayers[getIndexNextPlayerNotEliminated(previousCurrentPlayerIndex + 1)].statePlayer = StatePlayer.CurrentTurn
+        listPlayers[previousCurrentPlayerIndex].statePlayer = StatePlayer.Playing
+        listPlayers[getIndexNextPlayerNotEliminatedOrFolded(previousCurrentPlayerIndex + 1)].statePlayer =
+            StatePlayer.CurrentTurn
+        currentPlayer = listPlayers[getIndexNextPlayerNotEliminatedOrFolded(
+            previousCurrentPlayerIndex + 1
+        )]
     }
+
+    fun moveToFirstPlayerAvailableFromSmallBlind() {
+        val previousCurrentPlayerIndex = getCurrentPlayerIndex()
+        listPlayers[previousCurrentPlayerIndex].statePlayer = StatePlayer.Playing
+        val newCurrentPlayerIndex = getIndexNextPlayerNotEliminatedOrFolded(getSmallBlindIndex())
+        listPlayers[newCurrentPlayerIndex].statePlayer = StatePlayer.CurrentTurn
+        currentPlayer = listPlayers[newCurrentPlayerIndex]
+    }
+
 
     fun isPartTurnOver(): Boolean {
-        return false
+        return (didAllPlayersCheck() || didAllPlayersPaidMaxRaiseValue()) && didAllPlayersPlayed()
     }
 
-    fun moveToFirstPlayerAfterBigBlind() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    private fun didAllPlayersPlayed(): Boolean {
+        return listPlayers.filter {
+            it.statePlayer != StatePlayer.Eliminate && it.actionPlayer != ActionPlayer.Fold
+        }
+            .find { it.actionPlayer == ActionPlayer.Nothing } == null
     }
 
-    fun moveToFirstPlayerAvailable() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    private fun didAllPlayersCheck(): Boolean {
+        return listPlayers.filter {
+            it.statePlayer != StatePlayer.Eliminate && it.actionPlayer != ActionPlayer.Fold
+        }
+            .find { it.actionPlayer != ActionPlayer.Check } == null
     }
 
-    fun createAllPots() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    fun distributeStackToWinners() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    fun getNextPartTurn(): StateTurn {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    private fun didAllPlayersPaidMaxRaiseValue(): Boolean {
+        return listPlayers.filter {
+            it.statePlayer != StatePlayer.Eliminate && it.actionPlayer != ActionPlayer.Fold
+        }
+            .find { it.stackBetPartTurn != currentMaxRaisePartTurn } == null
     }
 
     fun isTurnOver(): Boolean {
-        return false
+        return (currentStateTurn == StateTurn.River && isPartTurnOver()) || isThereOnlyOnePlayerLeftInPartTurn()
     }
 
-    fun resetActionPlayerExceptFoldedAndAllIn() {
+    private fun isThereOnlyOnePlayerLeftInPartTurn(): Boolean {
+        return listPlayers.filter { it.statePlayer != StatePlayer.Eliminate && it.actionPlayer != ActionPlayer.Fold }.size == 1
+    }
+
+    fun endPartTurn() {
+        currentMaxRaisePartTurn = 0
+        setCurrentStateTurn()
+        resetActionPlayerExceptFoldedAndAllIn()
+        resetStackBetPartTurn()
+    }
+
+    private fun setCurrentStateTurn() {
+        currentStateTurn = when (currentStateTurn) {
+            StateTurn.PreFlop -> StateTurn.Flop
+            StateTurn.Flop -> StateTurn.Turn
+            StateTurn.Turn -> StateTurn.River
+            else -> StateTurn.PreFlop
+        }
+    }
+
+    fun endTurn() {
+        //TODO répartir les gains
+        currentMaxRaisePartTurn = 0
+        currentStateTurn = StateTurn.PreFlop
+        currentStackTurn = 0
+        resetActionPlayer()
+        resetStackBetPartTurn()
+        resetStackBetTurn()
+    }
+
+    private fun resetActionPlayerExceptFoldedAndAllIn() {
         listPlayers.forEach {
             if (it.statePlayer != StatePlayer.Eliminate
                 && it.actionPlayer != ActionPlayer.Fold
@@ -231,60 +293,27 @@ object GameRepositoryImpl {
         }
     }
 
-    fun resetStackBetTurn() {
-        listPlayers.forEach { it.stackBetTurn = 0 }
+    private fun resetActionPlayer() {
+        listPlayers.forEach {
+            if (it.statePlayer != StatePlayer.Eliminate) {
+                it.actionPlayer = ActionPlayer.Nothing
+            }
+        }
     }
 
-    fun resetStackBetPartTurn() {
+    private fun resetStackBetPartTurn() {
         listPlayers.forEach { it.stackBetPartTurn = 0 }
     }
 
-    fun distributeMoneyToWinners() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    fun shouldIncreaseBlinds(): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    fun increaseBlinds() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    fun startTimerIncreaseBlinds() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    private fun resetStackBetTurn() {
+        listPlayers.forEach { it.stackBetTurn = 0 }
     }
 
     fun isIncreaseBlindsEnabled(): Boolean {
         return settings.isIncreaseBlindsEnabled
     }
 
-    fun isMoneyBetEnabled(): Boolean {
-        return settings.isMoneyBetEnabled
-    }
-
-    fun isGameOver(): Boolean {
+    fun startTimerIncreaseBlinds() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    fun save() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    fun recave() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    /** PRIVATE METHODS **/
-
-    private fun updatePlayer(player: Player) {
-        listPlayers.replace(player) { it.id == player.id }
-    }
-
-    //TODO verify if it's working
-    private fun <T> List<T>.replace(newValue: T, block: (T) -> Boolean): List<T> {
-        return map {
-            if (block(it)) newValue else it
-        }
     }
 }

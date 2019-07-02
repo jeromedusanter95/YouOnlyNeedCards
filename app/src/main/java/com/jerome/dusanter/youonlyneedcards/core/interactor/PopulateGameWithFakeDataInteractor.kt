@@ -2,12 +2,15 @@ package com.jerome.dusanter.youonlyneedcards.core.interactor
 
 import com.jerome.dusanter.youonlyneedcards.core.Player
 import com.jerome.dusanter.youonlyneedcards.core.Settings
+import com.jerome.dusanter.youonlyneedcards.core.StateTurn
 import com.jerome.dusanter.youonlyneedcards.data.GameRepositoryImpl
 import com.jerome.dusanter.youonlyneedcards.utils.MutableCircularList
 
 class PopulateGameWithFakeDataInteractor {
 
     fun execute(listener: Listener) {
+        GameRepositoryImpl.currentStackTurn = 0
+        GameRepositoryImpl.currentStateTurn = StateTurn.PreFlop
         val list = mutableListOf<Player>()
         list.add(Player("1", "Hugues", 2000))
         list.add(Player("2", "Jérôme", 2000))
