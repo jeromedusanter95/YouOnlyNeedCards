@@ -1,9 +1,10 @@
 package com.jerome.dusanter.youonlyneedcards.app.game
 
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
-import com.jerome.dusanter.youonlyneedcards.core.Winner
+import com.jerome.dusanter.youonlyneedcards.core.Pot
 
 sealed class GameUiModel {
+
     data class ShowCurrentTurn(
         val actionPlayerList: List<ActionPlayer>,
         val informationsCurrentPlayer: String,
@@ -12,7 +13,7 @@ sealed class GameUiModel {
     ) : GameUiModel()
 
     data class ShowEndTurn(
-        val winnerList: List<Winner>
+        val potList: List<Pot>
     ) : GameUiModel()
 }
 

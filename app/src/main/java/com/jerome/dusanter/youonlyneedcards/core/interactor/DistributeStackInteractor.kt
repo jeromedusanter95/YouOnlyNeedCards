@@ -1,3 +1,3 @@
 package com.jerome.dusanter.youonlyneedcards.core.interactor
 
-class ChooseWinnerInteractor
+class DistributeStackInteractor

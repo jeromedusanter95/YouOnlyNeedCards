@@ -2,7 +2,7 @@ package com.jerome.dusanter.youonlyneedcards.app.game
 
 import com.jerome.dusanter.youonlyneedcards.app.settings.SettingsConstants
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
-import com.jerome.dusanter.youonlyneedcards.core.Winner
+import com.jerome.dusanter.youonlyneedcards.core.Pot
 
 class GameMapper {
     fun map(
@@ -25,7 +25,7 @@ class GameMapper {
         return DialogRaiseUiModel(bigBlind = bigBlind, stackPlayer = stackPlayer)
     }
 
-    fun map(winnerList: List<Winner>): GameUiModel.ShowEndTurn {
-        return GameUiModel.ShowEndTurn(winnerList)
+    fun map(potList: List<Pot>): GameUiModel.ShowEndTurn {
+        return GameUiModel.ShowEndTurn(potList)
     }
 }

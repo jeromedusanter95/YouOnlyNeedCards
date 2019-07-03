@@ -1,11 +1,6 @@
 package com.jerome.dusanter.youonlyneedcards.data
 
-import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
-import com.jerome.dusanter.youonlyneedcards.core.Player
-import com.jerome.dusanter.youonlyneedcards.core.Settings
-import com.jerome.dusanter.youonlyneedcards.core.StateBlind
-import com.jerome.dusanter.youonlyneedcards.core.StatePlayer
-import com.jerome.dusanter.youonlyneedcards.core.StateTurn
+import com.jerome.dusanter.youonlyneedcards.core.*
 import com.jerome.dusanter.youonlyneedcards.utils.MutableCircularList
 
 object GameRepositoryImpl {
@@ -178,9 +173,9 @@ object GameRepositoryImpl {
         val list = mutableListOf<ActionPlayer>()
         when {
             currentMaxRaisePartTurn == settings.smallBlind * 2
-                && currentPlayer.stackBetPartTurn == currentMaxRaisePartTurn
-                && currentStateTurn == StateTurn.PreFlop
-                && !didAllPlayersPlayed()
+                    && currentPlayer.stackBetPartTurn == currentMaxRaisePartTurn
+                    && currentStateTurn == StateTurn.PreFlop
+                    && !didAllPlayersPlayed()
             -> {
                 list.add(ActionPlayer.Check)
                 list.add(ActionPlayer.Raise)
@@ -273,7 +268,6 @@ object GameRepositoryImpl {
     }
 
     fun endTurn() {
-        //TODO répartir les gains
         currentMaxRaisePartTurn = 0
         currentStateTurn = StateTurn.PreFlop
         currentStackTurn = 0
@@ -316,6 +310,33 @@ object GameRepositoryImpl {
 
     fun isIncreaseBlindsEnabled(): Boolean {
         return settings.isIncreaseBlindsEnabled
+    }
+
+    fun createAllPot(): MutableList<Pot> {
+        val potList = mutableListOf<Pot>()
+        var potentialWinners =
+            listPlayers.filter { it.statePlayer != StatePlayer.Eliminate && it.actionPlayer != ActionPlayer.Fold }
+        while (!isAllPotCreated(potentialWinners)) {
+            potentialWinners = potentialWinners.filter { it.stackBetTurn != 0 }.toMutableList()
+            val minStackBetTurn = potentialWinners.minBy {
+                it.stackBetTurn
+            }?.stackBetTurn
+            var stackPot = 0
+            potentialWinners.forEach {
+                it.stackBetTurn -= minStackBetTurn!!
+                stackPot += minStackBetTurn
+            }
+            potList.add(Pot(potentialWinners, stackPot))
+        }
+        return potList
+    }
+
+    private fun isAllPotCreated(potentialWinners: List<Player>): Boolean {
+        return potentialWinners.filter { it.stackBetTurn != 0 }.size <= 1
+    }
+
+    fun distributePotsToWinners() {
+
     }
 
     fun startTimerIncreaseBlinds() {

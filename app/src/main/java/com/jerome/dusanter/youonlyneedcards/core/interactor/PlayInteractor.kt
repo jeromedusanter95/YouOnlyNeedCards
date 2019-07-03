@@ -2,8 +2,8 @@ package com.jerome.dusanter.youonlyneedcards.core.interactor
 
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.Player
+import com.jerome.dusanter.youonlyneedcards.core.Pot
 import com.jerome.dusanter.youonlyneedcards.core.StateTurn
-import com.jerome.dusanter.youonlyneedcards.core.Winner
 import com.jerome.dusanter.youonlyneedcards.data.GameRepositoryImpl
 
 class PlayInteractor {
@@ -28,13 +28,15 @@ class PlayInteractor {
         }
         when {
             GameRepositoryImpl.isTurnOver() -> {
+                val potList = GameRepositoryImpl.createAllPot()
                 GameRepositoryImpl.endTurn()
                 listener.getGameInformations(
                     GameRepositoryImpl.getPossibleActions(),
                     GameRepositoryImpl.listPlayers,
                     GameRepositoryImpl.currentStackTurn,
                     GameRepositoryImpl.currentStateTurn,
-                    true
+                    true,
+                    potList
                 )
             }
             GameRepositoryImpl.isPartTurnOver() -> {
@@ -66,7 +68,7 @@ class PlayInteractor {
             stackTurn: Int,
             stateTurn: StateTurn,
             isEndTurn: Boolean = false,
-            winnerList: List<Winner> = listOf()
+            potList: List<Pot> = listOf()
         )
     }
 }

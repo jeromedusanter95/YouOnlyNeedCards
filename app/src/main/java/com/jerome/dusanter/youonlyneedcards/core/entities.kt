@@ -1,5 +1,7 @@
 package com.jerome.dusanter.youonlyneedcards.core
 
+import java.io.Serializable
+
 data class Player(
     val id: String,
     var name: String,
@@ -9,9 +11,11 @@ data class Player(
     var statePlayer: StatePlayer = StatePlayer.Playing,
     var stateBlind: StateBlind = StateBlind.Nothing,
     var actionPlayer: ActionPlayer = ActionPlayer.Nothing
-)
+) : Serializable
 
 data class Winner(val name: String, val stackWon: Int)
+
+data class Pot(val potentialWinners: List<Player>, val stack: Int) : Serializable
 
 data class Settings(
     val stack: Int,

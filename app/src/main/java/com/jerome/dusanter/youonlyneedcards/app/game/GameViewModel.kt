@@ -2,18 +2,8 @@ package com.jerome.dusanter.youonlyneedcards.app.game
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
-import com.jerome.dusanter.youonlyneedcards.core.Player
-import com.jerome.dusanter.youonlyneedcards.core.StatePlayer
-import com.jerome.dusanter.youonlyneedcards.core.StateTurn
-import com.jerome.dusanter.youonlyneedcards.core.Winner
-import com.jerome.dusanter.youonlyneedcards.core.interactor.AddPlayerInteractor
-import com.jerome.dusanter.youonlyneedcards.core.interactor.GetParametersToRaiseInteractor
-import com.jerome.dusanter.youonlyneedcards.core.interactor.PlayInteractor
-import com.jerome.dusanter.youonlyneedcards.core.interactor.PlayRequest
-import com.jerome.dusanter.youonlyneedcards.core.interactor.PopulateGameWithFakeDataInteractor
-import com.jerome.dusanter.youonlyneedcards.core.interactor.StartGameInteractor
-import com.jerome.dusanter.youonlyneedcards.core.interactor.StartTurnInteractor
+import com.jerome.dusanter.youonlyneedcards.core.*
+import com.jerome.dusanter.youonlyneedcards.core.interactor.*
 
 class GameViewModel : ViewModel() {
 
@@ -185,7 +175,7 @@ class GameViewModel : ViewModel() {
                 stackTurn: Int,
                 stateTurn: StateTurn,
                 isEndTurn: Boolean,
-                winnerList: List<Winner>
+                potList: List<Pot>
             ) {
                 if (!isEndTurn) {
                     val currentPlayer = playerList.find { it.statePlayer == StatePlayer.CurrentTurn }
@@ -201,14 +191,9 @@ class GameViewModel : ViewModel() {
                     }
                 } else {
                     stateGame.value = GameMapper().map(
-                        winnerList
+                        potList
                     )
-                    //TODO Temporary
-                    playerList.forEach {
-                        updatePlayerById(it)
-                    }
                 }
-
             }
         }
 
