@@ -11,8 +11,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
+import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.core.Winner
-import kotlinx.android.synthetic.main.dialog_choose_winners.*
+import kotlinx.android.synthetic.main.dialog_choose_winners.imageButtonCheck
+import kotlinx.android.synthetic.main.dialog_choose_winners.recyclerView
+import kotlinx.android.synthetic.main.dialog_choose_winners.textViewError
+import kotlinx.android.synthetic.main.dialog_choose_winners.textViewResult
 import java.io.Serializable
 
 
@@ -24,7 +28,7 @@ class ChooseWinnersDialog : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(
-        com.jerome.dusanter.youonlyneedcards.R.layout.dialog_choose_winners,
+        R.layout.dialog_choose_winners,
         container,
         false
     )
@@ -37,15 +41,21 @@ class ChooseWinnersDialog : DialogFragment() {
         setupRecycler(view.context)
         setupListeners()
         textViewResult.text = getString(
-            com.jerome.dusanter.youonlyneedcards.R.string.poker_activity_win_the_pot,
+            R.string.poker_activity_choose_winners_current_pot_stack,
             potList[0].stack
         )
+        dialog.setCanceledOnTouchOutside(false)
     }
 
     private fun setupListeners() {
         imageButtonCheck.setOnClickListener {
-            (activity as GameActivity).onDistributeStack(ChooseWinnersMapper().map(potList[0]))
-            dismiss()
+            val winnerList = ChooseWinnersMapper().map(potList[0])
+            if (winnerList.isNotEmpty()) {
+                (activity as GameActivity).onDistributeStack(ChooseWinnersMapper().map(potList[0]))
+                dismiss()
+            } else {
+                textViewError.visibility = View.VISIBLE
+            }
         }
     }
 
@@ -54,6 +64,7 @@ class ChooseWinnersDialog : DialogFragment() {
         dialog.window?.setLayout(WRAP_CONTENT, WRAP_CONTENT)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
+
 
     private fun setupRecycler(context: Context) {
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)

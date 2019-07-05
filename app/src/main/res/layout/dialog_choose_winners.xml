@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/poker_activity_who_won_the_turn"
+        android:text="@string/poker_activity_choose_winners_title"
         app:layout_constraintBottom_toTopOf="@id/recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,11 +39,26 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/sizing_2"
         android:gravity="center"
-        android:text="@string/poker_activity_win_the_pot"
-        app:layout_constraintBottom_toTopOf="@id/imageButtonCheck"
+        android:text="@string/poker_activity_choose_winners_current_pot_stack"
+        app:layout_constraintBottom_toTopOf="@id/textViewError"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/recyclerView"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewError"
+        style="@style/AppTheme.Text.GameActivity.Error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/sizing_2"
+        android:gravity="center"
+        android:text="@string/poker_activity_choose_winners_error"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@id/imageButtonCheck"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewResult"
         />
 
     <android.support.v7.widget.AppCompatImageButton
@@ -58,7 +73,7 @@
         android:src="@drawable/ic_check_white_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewResult"
+        app:layout_constraintTop_toBottomOf="@id/textViewError"
         />
 
 </android.support.constraint.ConstraintLayout>

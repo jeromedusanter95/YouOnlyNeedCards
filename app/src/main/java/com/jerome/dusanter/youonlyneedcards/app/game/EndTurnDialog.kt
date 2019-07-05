@@ -12,7 +12,8 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import com.jerome.dusanter.youonlyneedcards.R
-import kotlinx.android.synthetic.main.dialog_end_turn.*
+import kotlinx.android.synthetic.main.dialog_end_turn.imageButtonCheck
+import kotlinx.android.synthetic.main.dialog_end_turn.recyclerView
 import java.io.Serializable
 
 
@@ -46,6 +47,9 @@ class EndTurnDialog : DialogFragment() {
     }
 
     private fun setupListeners() {
+        imageButtonCheck.setOnClickListener {
+            dismiss()
+        }
     }
 
     override fun onStart() {

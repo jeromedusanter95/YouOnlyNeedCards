@@ -54,4 +54,10 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="AppTheme.Text.GameActivity.Error">
+        <item name="android:textSize">@dimen/text_size_1</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/error</item>
+    </style>
+
 </resources>

@@ -8,7 +8,22 @@ import android.view.View
 import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.Winner
-import kotlinx.android.synthetic.main.activity_game.*
+import kotlinx.android.synthetic.main.activity_game.buttonLeft
+import kotlinx.android.synthetic.main.activity_game.buttonMiddle
+import kotlinx.android.synthetic.main.activity_game.buttonRight
+import kotlinx.android.synthetic.main.activity_game.buttonStartGame
+import kotlinx.android.synthetic.main.activity_game.buttonStartTurn
+import kotlinx.android.synthetic.main.activity_game.playerProfilView1
+import kotlinx.android.synthetic.main.activity_game.playerProfilView2
+import kotlinx.android.synthetic.main.activity_game.playerProfilView3
+import kotlinx.android.synthetic.main.activity_game.playerProfilView4
+import kotlinx.android.synthetic.main.activity_game.playerProfilView5
+import kotlinx.android.synthetic.main.activity_game.playerProfilView6
+import kotlinx.android.synthetic.main.activity_game.playerProfilView7
+import kotlinx.android.synthetic.main.activity_game.playerProfilView8
+import kotlinx.android.synthetic.main.activity_game.textViewCurrentPlayerInformations
+import kotlinx.android.synthetic.main.activity_game.textViewPartTurnName
+import kotlinx.android.synthetic.main.activity_game.textViewTurnStack
 
 class GameActivity : AppCompatActivity() {
 
@@ -183,7 +198,7 @@ class GameActivity : AppCompatActivity() {
         textViewPartTurnName.visibility = View.GONE
         textViewTurnStack.visibility = View.GONE
         textViewCurrentPlayerInformations.visibility = View.GONE
-        if (gameUiModel.potList.size > 1) {
+        if (gameUiModel.potList[0].potentialWinnerList.size > 1) {
             ChooseWinnersDialog.newInstance(gameUiModel).show(fragmentManager, "ChooseWinnersDialog")
         } else {
             viewModel.onDistributeStack(GameMapper().map(gameUiModel.potList[0]))
