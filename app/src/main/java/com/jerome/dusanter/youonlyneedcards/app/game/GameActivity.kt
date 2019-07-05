@@ -7,22 +7,8 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
-import kotlinx.android.synthetic.main.activity_game.buttonLeft
-import kotlinx.android.synthetic.main.activity_game.buttonMiddle
-import kotlinx.android.synthetic.main.activity_game.buttonRight
-import kotlinx.android.synthetic.main.activity_game.buttonStartGame
-import kotlinx.android.synthetic.main.activity_game.buttonStartTurn
-import kotlinx.android.synthetic.main.activity_game.playerProfilView1
-import kotlinx.android.synthetic.main.activity_game.playerProfilView2
-import kotlinx.android.synthetic.main.activity_game.playerProfilView3
-import kotlinx.android.synthetic.main.activity_game.playerProfilView4
-import kotlinx.android.synthetic.main.activity_game.playerProfilView5
-import kotlinx.android.synthetic.main.activity_game.playerProfilView6
-import kotlinx.android.synthetic.main.activity_game.playerProfilView7
-import kotlinx.android.synthetic.main.activity_game.playerProfilView8
-import kotlinx.android.synthetic.main.activity_game.textViewCurrentPlayerInformations
-import kotlinx.android.synthetic.main.activity_game.textViewPartTurnName
-import kotlinx.android.synthetic.main.activity_game.textViewTurnStack
+import com.jerome.dusanter.youonlyneedcards.core.Winner
+import kotlinx.android.synthetic.main.activity_game.*
 
 class GameActivity : AppCompatActivity() {
 
@@ -127,8 +113,11 @@ class GameActivity : AppCompatActivity() {
             Observer { gameUiModel ->
                 if (gameUiModel != null) {
                     when (gameUiModel) {
-                        is GameUiModel.ShowEndTurn -> updateTableEndTurn(gameUiModel)
+                        is GameUiModel.ShowChooseWinnersDialog -> updateTableChooseWinners(
+                            gameUiModel
+                        )
                         is GameUiModel.ShowCurrentTurn -> updateTableCurrentTurn(gameUiModel)
+                        is GameUiModel.ShowEndTurn -> showDialogEndTurn(gameUiModel)
                     }
                 }
             }
@@ -144,8 +133,12 @@ class GameActivity : AppCompatActivity() {
         )
     }
 
+    private fun showDialogEndTurn(gameUiModel: GameUiModel.ShowEndTurn) {
+        EndTurnDialog.newInstance(gameUiModel).show(fragmentManager, "EndTurnDialog")
+    }
+
     private fun showDialogRaise(dialogEventUiModel: DialogRaiseUiModel) {
-        val dialog = DialogRaise
+        val dialog = RaiseDialog
             .newInstance(dialogEventUiModel)
         dialog.show(fragmentManager, "GameActivity")
     }
@@ -165,19 +158,24 @@ class GameActivity : AppCompatActivity() {
         buttonStartTurn.visibility = View.GONE
         buttonLeft.visibility = View.VISIBLE
         buttonMiddle.visibility = View.VISIBLE
-        buttonRight.visibility = View.VISIBLE
+
         textViewPartTurnName.visibility = View.VISIBLE
         textViewTurnStack.visibility = View.VISIBLE
         textViewCurrentPlayerInformations.visibility = View.VISIBLE
         buttonLeft.text = gameUiModel.actionPlayerList[0].name
         buttonMiddle.text = gameUiModel.actionPlayerList[1].name
-        buttonRight.text = gameUiModel.actionPlayerList[2].name
+        if (gameUiModel.actionPlayerList.size > 2) {
+            buttonRight.text = gameUiModel.actionPlayerList[2].name
+            buttonRight.visibility = View.VISIBLE
+        } else {
+            buttonRight.visibility = View.GONE
+        }
         textViewCurrentPlayerInformations.text = gameUiModel.informationsCurrentPlayer
         textViewPartTurnName.text = gameUiModel.namePartTurn
         textViewTurnStack.text = gameUiModel.stackTurn
     }
 
-    private fun updateTableEndTurn(gameUiModel: GameUiModel.ShowEndTurn) {
+    private fun updateTableChooseWinners(gameUiModel: GameUiModel.ShowChooseWinnersDialog) {
         buttonStartTurn.visibility = View.VISIBLE
         buttonLeft.visibility = View.GONE
         buttonMiddle.visibility = View.GONE
@@ -185,58 +183,62 @@ class GameActivity : AppCompatActivity() {
         textViewPartTurnName.visibility = View.GONE
         textViewTurnStack.visibility = View.GONE
         textViewCurrentPlayerInformations.visibility = View.GONE
-        DialogEndTurn.newInstance(gameUiModel).show(fragmentManager, "DialogEndTurn")
+        ChooseWinnersDialog.newInstance(gameUiModel).show(fragmentManager, "ChooseWinnersDialog")
+    }
+
+    fun onDistributeStack(winnerList: List<Winner>) {
+        viewModel.onDistributeStack(winnerList)
     }
 
     private fun setupListeners() {
         /*playerProfilView1.imageButtonCheck.setOnClickListener {
-            if (!playerProfilView1.getName().isBlank()) {
-                viewModel.onAddPlayer("1", playerProfilView1.getName())
+            if (!playerProfilView1.getId().isBlank()) {
+                viewModel.onAddPlayer("1", playerProfilView1.getId())
                 playerProfilView1.hideEditProfileLayoutAndShowPlayerLayout()
             }
         }
         playerProfilView2.imageButtonCheck.setOnClickListener {
-            if (!playerProfilView2.getName().isBlank()) {
-                viewModel.onAddPlayer("2", playerProfilView2.getName())
+            if (!playerProfilView2.getId().isBlank()) {
+                viewModel.onAddPlayer("2", playerProfilView2.getId())
                 playerProfilView2.hideEditProfileLayoutAndShowPlayerLayout()
             }
         }
         playerProfilView3.imageButtonCheck.setOnClickListener {
-            if (!playerProfilView3.getName().isBlank()) {
-                viewModel.onAddPlayer("3", playerProfilView3.getName())
+            if (!playerProfilView3.getId().isBlank()) {
+                viewModel.onAddPlayer("3", playerProfilView3.getId())
                 playerProfilView3.hideEditProfileLayoutAndShowPlayerLayout()
             }
         }
         playerProfilView4.imageButtonCheck.setOnClickListener {
-            if (!playerProfilView4.getName().isBlank()) {
-                viewModel.onAddPlayer("4", playerProfilView4.getName())
+            if (!playerProfilView4.getId().isBlank()) {
+                viewModel.onAddPlayer("4", playerProfilView4.getId())
                 playerProfilView4.hideEditProfileLayoutAndShowPlayerLayout()
             }
         }
         playerProfilView5.imageButtonCheck.setOnClickListener {
-            if (!playerProfilView5.getName().isBlank()) {
-                viewModel.onAddPlayer("5", playerProfilView5.getName())
+            if (!playerProfilView5.getId().isBlank()) {
+                viewModel.onAddPlayer("5", playerProfilView5.getId())
                 playerProfilView5.hideEditProfileLayoutAndShowPlayerLayout()
             }
         }
 
         playerProfilView6.imageButtonCheck.setOnClickListener {
-            if (!playerProfilView6.getName().isBlank()) {
-                viewModel.onAddPlayer("6", playerProfilView6.getName())
+            if (!playerProfilView6.getId().isBlank()) {
+                viewModel.onAddPlayer("6", playerProfilView6.getId())
                 playerProfilView6.hideEditProfileLayoutAndShowPlayerLayout()
             }
         }
 
         playerProfilView7.imageButtonCheck.setOnClickListener {
-            if (!playerProfilView7.getName().isBlank()) {
-                viewModel.onAddPlayer("7", playerProfilView7.getName())
+            if (!playerProfilView7.getId().isBlank()) {
+                viewModel.onAddPlayer("7", playerProfilView7.getId())
                 playerProfilView7.hideEditProfileLayoutAndShowPlayerLayout()
             }
         }
 
         playerProfilView8.imageButtonCheck.setOnClickListener {
-            if (!playerProfilView8.getName().isBlank()) {
-                viewModel.onAddPlayer("8", playerProfilView8.getName())
+            if (!playerProfilView8.getId().isBlank()) {
+                viewModel.onAddPlayer("8", playerProfilView8.getId())
                 playerProfilView8.hideEditProfileLayoutAndShowPlayerLayout()
             }
         }

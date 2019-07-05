@@ -273,7 +273,6 @@ object GameRepositoryImpl {
         currentStackTurn = 0
         resetActionPlayer()
         resetStackBetPartTurn()
-        resetStackBetTurn()
         resetCurrentPlayerStatePlayer()
     }
 
@@ -314,8 +313,10 @@ object GameRepositoryImpl {
 
     fun createAllPot(): MutableList<Pot> {
         val potList = mutableListOf<Pot>()
-        var potentialWinners =
-            listPlayers.filter { it.statePlayer != StatePlayer.Eliminate && it.actionPlayer != ActionPlayer.Fold }
+        var potentialWinners: MutableList<Player> = mutableListOf()
+        listPlayers.filter { it.statePlayer != StatePlayer.Eliminate && it.actionPlayer != ActionPlayer.Fold }.forEach {
+            potentialWinners.add(Player(it.id, it.name, it.stack, it.stackBetTurn))
+        }
         while (!isAllPotCreated(potentialWinners)) {
             potentialWinners = potentialWinners.filter { it.stackBetTurn != 0 }.toMutableList()
             val minStackBetTurn = potentialWinners.minBy {
@@ -328,6 +329,10 @@ object GameRepositoryImpl {
             }
             potList.add(Pot(potentialWinners, stackPot))
         }
+        val playerWHoHasToRecoverMoney = potentialWinners.find { it.stackBetTurn != 0 }
+        if (playerWHoHasToRecoverMoney != null) {
+            addStackToPlayer(getPlayerIndexById(playerWHoHasToRecoverMoney.id), playerWHoHasToRecoverMoney.stackBetTurn)
+        }
         return potList
     }
 
@@ -335,8 +340,32 @@ object GameRepositoryImpl {
         return potentialWinners.filter { it.stackBetTurn != 0 }.size <= 1
     }
 
-    fun distributePotsToWinners() {
+    fun distributePotsToWinners(winnerList: List<Winner>): MutableList<PlayerEndTurn> {
+        val playerEndTurnList = mutableListOf<PlayerEndTurn>()
+        winnerList.forEach {
+            playerEndTurnList.add(PlayerEndTurn(it.id, getPlayerNameById(it.id), it.stackWon, true))
+            addStackToPlayer(getPlayerIndexById(it.id), it.stackWon)
+        }
+        listPlayers.forEach { player ->
+            if (winnerList.find { it.id == player.id } == null) {
+                playerEndTurnList.add(PlayerEndTurn(player.id, player.name, player.stackBetTurn, false))
+            }
+        }
+        resetStackBetTurn()
+        return playerEndTurnList
+    }
 
+    private fun getPlayerNameById(id: String): String {
+        return listPlayers.find { it.id == id }!!.name
+    }
+
+    private fun getPlayerIndexById(id: String): Int {
+        val player = listPlayers.find { it.id == id }
+        return listPlayers.indexOf(player)
+    }
+
+    private fun addStackToPlayer(index: Int, stack: Int) {
+        listPlayers[index].stack += stack
     }
 
     fun startTimerIncreaseBlinds() {

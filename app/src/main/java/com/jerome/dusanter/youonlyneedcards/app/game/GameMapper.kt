@@ -2,6 +2,7 @@ package com.jerome.dusanter.youonlyneedcards.app.game
 
 import com.jerome.dusanter.youonlyneedcards.app.settings.SettingsConstants
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
+import com.jerome.dusanter.youonlyneedcards.core.PlayerEndTurn
 import com.jerome.dusanter.youonlyneedcards.core.Pot
 
 class GameMapper {
@@ -25,7 +26,25 @@ class GameMapper {
         return DialogRaiseUiModel(bigBlind = bigBlind, stackPlayer = stackPlayer)
     }
 
-    fun map(potList: List<Pot>): GameUiModel.ShowEndTurn {
-        return GameUiModel.ShowEndTurn(potList)
+    fun map(potList: List<Pot>): GameUiModel.ShowChooseWinnersDialog {
+        return GameUiModel.ShowChooseWinnersDialog(potList.map { pot ->
+            PotUiModel(pot.potentialWinners.map { player ->
+                PlayerUiModel(player.id, player.name)
+            }, pot.stack)
+        })
+    }
+
+    fun map(playerEndTurnList: List<PlayerEndTurn>): GameUiModel.ShowEndTurn {
+        return GameUiModel.ShowEndTurn(
+            playerEndTurnList.map {
+                PlayerEndTurnUiModel(
+                    if (it.isWinner) {
+                        "${it.name} a gagné ${it.stack} jetons"
+                    } else {
+                        "${it.name} a perdu ${it.stack} jetons"
+                    }
+                )
+            }
+        )
     }
 }

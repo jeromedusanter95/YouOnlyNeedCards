@@ -13,9 +13,23 @@ data class Player(
     var actionPlayer: ActionPlayer = ActionPlayer.Nothing
 ) : Serializable
 
-data class Winner(val name: String, val stackWon: Int)
 
-data class Pot(val potentialWinners: List<Player>, val stack: Int) : Serializable
+data class PlayerEndTurn(
+    val id: String,
+    val name: String,
+    val stack: Int,
+    val isWinner: Boolean
+)
+
+data class Winner(
+    val id: String,
+    val stackWon: Int
+)
+
+data class Pot(
+    val potentialWinners: List<Player>,
+    val stack: Int
+) : Serializable
 
 data class Settings(
     val stack: Int,

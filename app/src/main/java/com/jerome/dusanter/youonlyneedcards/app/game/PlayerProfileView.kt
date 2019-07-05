@@ -9,10 +9,7 @@ import com.jerome.dusanter.youonlyneedcards.R.drawable
 import com.jerome.dusanter.youonlyneedcards.R.layout
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.StatePlayer
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.textViewName
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.textViewStack
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.textViewStateBlind
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.textViewStatePlayer
+import kotlinx.android.synthetic.main.layout_profil_player_view.view.*
 
 
 class PlayerProfileView @JvmOverloads constructor(
@@ -51,7 +48,7 @@ class PlayerProfileView @JvmOverloads constructor(
         constraintLayoutShowPlayer.visibility = View.VISIBLE
     }
 
-    fun getName(): String {
+    fun getId(): String {
         return editTextAddPlayer.text.toString()
     }*/
 

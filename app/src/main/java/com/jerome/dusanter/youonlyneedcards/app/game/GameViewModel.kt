@@ -233,4 +233,18 @@ class GameViewModel : ViewModel() {
                 }
             }
         }
+
+    fun onDistributeStack(winnerList: List<Winner>) {
+        DistributeStackInteractor().execute(winnerList, buildDistributeStackListener())
+    }
+
+    private fun buildDistributeStackListener(): DistributeStackInteractor.Listener =
+        object : DistributeStackInteractor.Listener {
+            override fun onSuccess(playerEndTurnList: List<PlayerEndTurn>, playerList: List<Player>) {
+                stateGame.value = GameMapper().map(playerEndTurnList)
+                playerList.forEach {
+                    updatePlayerById(it)
+                }
+            }
+        }
 }
