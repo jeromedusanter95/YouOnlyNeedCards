@@ -98,11 +98,31 @@ object GameRepositoryImpl {
         val smallBlindIndex = getSmallBlindIndex()
         val bigBlindIndex = getBigBlindIndex()
         if (getNumberPlayersNotEliminated() == 2) {
-            withDrawMoneyToPlayer(dealerIndex, settings.smallBlind)
-            withDrawMoneyToPlayer(bigBlindIndex, settings.smallBlind * 2)
+            if (listPlayers[dealerIndex].stack < settings.smallBlind) {
+                withDrawMoneyToPlayer(dealerIndex, listPlayers[dealerIndex].stack)
+                listPlayers[dealerIndex].actionPlayer = ActionPlayer.AllIn
+            } else {
+                withDrawMoneyToPlayer(dealerIndex, settings.smallBlind)
+            }
+            if (listPlayers[bigBlindIndex].stack < settings.smallBlind * 2) {
+                withDrawMoneyToPlayer(bigBlindIndex, listPlayers[bigBlindIndex].stack)
+                listPlayers[bigBlindIndex].actionPlayer = ActionPlayer.AllIn
+            } else {
+                withDrawMoneyToPlayer(bigBlindIndex, settings.smallBlind * 2)
+            }
         } else {
-            withDrawMoneyToPlayer(smallBlindIndex, settings.smallBlind)
-            withDrawMoneyToPlayer(bigBlindIndex, settings.smallBlind * 2)
+            if (listPlayers[smallBlindIndex].stack < settings.smallBlind) {
+                withDrawMoneyToPlayer(smallBlindIndex, listPlayers[smallBlindIndex].stack)
+                listPlayers[smallBlindIndex].actionPlayer = ActionPlayer.AllIn
+            } else {
+                withDrawMoneyToPlayer(smallBlindIndex, settings.smallBlind)
+            }
+            if (listPlayers[bigBlindIndex].stack < settings.smallBlind * 2) {
+                withDrawMoneyToPlayer(bigBlindIndex, listPlayers[bigBlindIndex].stack)
+                listPlayers[bigBlindIndex].actionPlayer = ActionPlayer.AllIn
+            } else {
+                withDrawMoneyToPlayer(bigBlindIndex, settings.smallBlind * 2)
+            }
         }
     }
 
@@ -332,6 +352,9 @@ object GameRepositoryImpl {
         val playerWHoHasToRecoverMoney = potentialWinners.find { it.stackBetTurn != 0 }
         if (playerWHoHasToRecoverMoney != null) {
             addStackToPlayer(getPlayerIndexById(playerWHoHasToRecoverMoney.id), playerWHoHasToRecoverMoney.stackBetTurn)
+        }
+        if (potentialWinners.size == 1) {
+            potList.add(Pot(potentialWinners, currentStackTurn))
         }
         return potList
     }

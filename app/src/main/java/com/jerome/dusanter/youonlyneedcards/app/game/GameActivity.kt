@@ -183,7 +183,11 @@ class GameActivity : AppCompatActivity() {
         textViewPartTurnName.visibility = View.GONE
         textViewTurnStack.visibility = View.GONE
         textViewCurrentPlayerInformations.visibility = View.GONE
-        ChooseWinnersDialog.newInstance(gameUiModel).show(fragmentManager, "ChooseWinnersDialog")
+        if (gameUiModel.potList.size > 1) {
+            ChooseWinnersDialog.newInstance(gameUiModel).show(fragmentManager, "ChooseWinnersDialog")
+        } else {
+            viewModel.onDistributeStack(GameMapper().map(gameUiModel.potList[0]))
+        }
     }
 
     fun onDistributeStack(winnerList: List<Winner>) {

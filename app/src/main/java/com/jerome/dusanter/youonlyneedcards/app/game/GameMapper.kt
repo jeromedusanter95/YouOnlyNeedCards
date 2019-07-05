@@ -4,6 +4,7 @@ import com.jerome.dusanter.youonlyneedcards.app.settings.SettingsConstants
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.PlayerEndTurn
 import com.jerome.dusanter.youonlyneedcards.core.Pot
+import com.jerome.dusanter.youonlyneedcards.core.Winner
 
 class GameMapper {
     fun map(
@@ -46,5 +47,11 @@ class GameMapper {
                 )
             }
         )
+    }
+
+    fun map(potUiModel: PotUiModel): List<Winner> {
+        return potUiModel.potentialWinnerList.map {
+            Winner(it.id, potUiModel.stack)
+        }
     }
 }
