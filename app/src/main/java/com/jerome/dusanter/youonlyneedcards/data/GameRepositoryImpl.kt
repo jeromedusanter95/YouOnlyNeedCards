@@ -399,18 +399,31 @@ object GameRepositoryImpl {
     fun distributePotsToWinners(winnerList: List<Winner>): MutableList<PlayerEndTurn> {
         val playerEndTurnList = mutableListOf<PlayerEndTurn>()
         winnerList.forEach {
-            //playerEndTurnList.add(PlayerEndTurn(it.id, getPlayerNameById(it.id), it.stackWon, true))
             addStackToPlayer(getPlayerIndexById(it.id), it.stackWon)
         }
-        listPlayers.forEach { player ->
+        listPlayers.filter { it.statePlayer != StatePlayer.Eliminate }.forEach { player ->
             when {
                 winnerList.find { it.id == player.id && it.stackWon > player.stackBetTurn } != null -> {
                     val stackWon = winnerList.find { it.id == player.id && it.stackWon > player.stackBetTurn }!!.stackWon
-                    playerEndTurnList.add(PlayerEndTurn(player.id, player.name, stackWon, true))
+                    playerEndTurnList.add(
+                        PlayerEndTurn(
+                            player.id,
+                            player.name,
+                            stackWon - player.stackBetTurn,
+                            true
+                        )
+                    )
                 }
                 winnerList.find { it.id == player.id && it.stackWon < player.stackBetTurn } != null -> {
-                    val stackLost = winnerList.find { it.id == player.id && it.stackWon < player.stackBetTurn }!!.stackWon
-                    playerEndTurnList.add(PlayerEndTurn(player.id, player.name, stackLost, false))
+                    val stackWon = winnerList.find { it.id == player.id && it.stackWon < player.stackBetTurn }!!.stackWon
+                    playerEndTurnList.add(
+                        PlayerEndTurn(
+                            player.id,
+                            player.name,
+                            player.stackBetTurn - stackWon,
+                            false
+                        )
+                    )
                 }
                 else -> playerEndTurnList.add(
                     PlayerEndTurn(
@@ -422,12 +435,15 @@ object GameRepositoryImpl {
                 )
             }
         }
+        setStatePlayerEliminateForPLayerWhoLost()
         resetStackBetTurn()
         return playerEndTurnList
     }
 
-    private fun getPlayerNameById(id: String): String {
-        return listPlayers.find { it.id == id }!!.name
+    private fun setStatePlayerEliminateForPLayerWhoLost() {
+        listPlayers.filter { it.statePlayer != StatePlayer.Eliminate && it.stack == 0 }.forEach {
+            it.statePlayer = StatePlayer.Eliminate
+        }
     }
 
     private fun getPlayerIndexById(id: String): Int {
