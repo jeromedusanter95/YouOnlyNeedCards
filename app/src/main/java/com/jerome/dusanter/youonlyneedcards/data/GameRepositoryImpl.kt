@@ -399,12 +399,20 @@ object GameRepositoryImpl {
     fun distributePotsToWinners(winnerList: List<Winner>): MutableList<PlayerEndTurn> {
         val playerEndTurnList = mutableListOf<PlayerEndTurn>()
         winnerList.forEach {
-            playerEndTurnList.add(PlayerEndTurn(it.id, getPlayerNameById(it.id), it.stackWon, true))
+            //playerEndTurnList.add(PlayerEndTurn(it.id, getPlayerNameById(it.id), it.stackWon, true))
             addStackToPlayer(getPlayerIndexById(it.id), it.stackWon)
         }
         listPlayers.forEach { player ->
-            if (winnerList.find { it.id == player.id } == null) {
-                playerEndTurnList.add(
+            when {
+                winnerList.find { it.id == player.id && it.stackWon > player.stackBetTurn } != null -> {
+                    val stackWon = winnerList.find { it.id == player.id && it.stackWon > player.stackBetTurn }!!.stackWon
+                    playerEndTurnList.add(PlayerEndTurn(player.id, player.name, stackWon, true))
+                }
+                winnerList.find { it.id == player.id && it.stackWon < player.stackBetTurn } != null -> {
+                    val stackLost = winnerList.find { it.id == player.id && it.stackWon < player.stackBetTurn }!!.stackWon
+                    playerEndTurnList.add(PlayerEndTurn(player.id, player.name, stackLost, false))
+                }
+                else -> playerEndTurnList.add(
                     PlayerEndTurn(
                         player.id,
                         player.name,

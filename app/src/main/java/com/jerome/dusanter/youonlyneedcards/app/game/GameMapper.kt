@@ -39,10 +39,10 @@ class GameMapper {
         return GameUiModel.ShowEndTurn(
             playerEndTurnList.map {
                 PlayerEndTurnUiModel(
-                    if (it.isWinner) {
-                        "${it.name} a gagné ${it.stack} jetons"
-                    } else {
-                        "${it.name} a perdu ${it.stack} jetons"
+                    when {
+                        it.isWinner -> "${it.name} a gagné ${it.stack} jetons"
+                        it.stack > 0 -> "${it.name} a perdu ${it.stack} jetons"
+                        else -> "${it.name} n'a rien perdu"
                     }
                 )
             }
