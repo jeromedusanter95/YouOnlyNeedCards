@@ -12,7 +12,12 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.SeekBar
 import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.utils.SeekBarChangeListener
-import kotlinx.android.synthetic.main.layout_dialog_raise.*
+import kotlinx.android.synthetic.main.layout_dialog_raise.buttonAllin
+import kotlinx.android.synthetic.main.layout_dialog_raise.buttonMinRaise
+import kotlinx.android.synthetic.main.layout_dialog_raise.imageButtonCheck
+import kotlinx.android.synthetic.main.layout_dialog_raise.imageButtonClose
+import kotlinx.android.synthetic.main.layout_dialog_raise.seekBarRaise
+import kotlinx.android.synthetic.main.layout_dialog_raise.textViewMoneyToRaise
 
 class RaiseDialog : DialogFragment() {
 
@@ -69,7 +74,7 @@ class RaiseDialog : DialogFragment() {
     }
 
     private fun setTextViewMoneyToRaise(stack: Int) {
-        textViewMoneyToRaise.text = getString(R.string.poker_activity_stack_raise, stack)
+        textViewMoneyToRaise.text = getString(R.string.poker_activity_number_chips, stack)
     }
 
     override fun onStart() {

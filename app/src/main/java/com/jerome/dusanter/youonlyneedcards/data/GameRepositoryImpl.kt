@@ -1,6 +1,14 @@
 package com.jerome.dusanter.youonlyneedcards.data
 
-import com.jerome.dusanter.youonlyneedcards.core.*
+import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
+import com.jerome.dusanter.youonlyneedcards.core.Player
+import com.jerome.dusanter.youonlyneedcards.core.PlayerEndTurn
+import com.jerome.dusanter.youonlyneedcards.core.Pot
+import com.jerome.dusanter.youonlyneedcards.core.Settings
+import com.jerome.dusanter.youonlyneedcards.core.StateBlind
+import com.jerome.dusanter.youonlyneedcards.core.StatePlayer
+import com.jerome.dusanter.youonlyneedcards.core.StateTurn
+import com.jerome.dusanter.youonlyneedcards.core.Winner
 import com.jerome.dusanter.youonlyneedcards.utils.MutableCircularList
 
 object GameRepositoryImpl {
@@ -78,6 +86,18 @@ object GameRepositoryImpl {
         for (i in 0..listPlayers.size) {
             if (listPlayers[startIndex + i].statePlayer != StatePlayer.Eliminate
                 && listPlayers[startIndex + i].actionPlayer != ActionPlayer.Fold
+            ) {
+                return startIndex + i
+            }
+        }
+        return startIndex
+    }
+
+    private fun getIndexNextPlayerNotEliminatedOrFoldedOrAllin(startIndex: Int): Int {
+        for (i in 0..listPlayers.size) {
+            if (listPlayers[startIndex + i].statePlayer != StatePlayer.Eliminate
+                && listPlayers[startIndex + i].actionPlayer != ActionPlayer.Fold
+                && listPlayers[startIndex + i].actionPlayer != ActionPlayer.AllIn
             ) {
                 return startIndex + i
             }
@@ -193,9 +213,9 @@ object GameRepositoryImpl {
         val list = mutableListOf<ActionPlayer>()
         when {
             currentMaxRaisePartTurn == settings.smallBlind * 2
-                    && currentPlayer.stackBetPartTurn == currentMaxRaisePartTurn
-                    && currentStateTurn == StateTurn.PreFlop
-                    && !didAllPlayersPlayed()
+                && currentPlayer.stackBetPartTurn == currentMaxRaisePartTurn
+                && currentStateTurn == StateTurn.PreFlop
+                && !didAllPlayersPlayed()
             -> {
                 list.add(ActionPlayer.Check)
                 list.add(ActionPlayer.Raise)
@@ -222,9 +242,9 @@ object GameRepositoryImpl {
     fun moveToNextPlayerAvailable() {
         val previousCurrentPlayerIndex = getCurrentPlayerIndex()
         listPlayers[previousCurrentPlayerIndex].statePlayer = StatePlayer.Playing
-        listPlayers[getIndexNextPlayerNotEliminatedOrFolded(previousCurrentPlayerIndex + 1)].statePlayer =
+        listPlayers[getIndexNextPlayerNotEliminatedOrFoldedOrAllin(previousCurrentPlayerIndex + 1)].statePlayer =
             StatePlayer.CurrentTurn
-        currentPlayer = listPlayers[getIndexNextPlayerNotEliminatedOrFolded(
+        currentPlayer = listPlayers[getIndexNextPlayerNotEliminatedOrFoldedOrAllin(
             previousCurrentPlayerIndex + 1
         )]
     }
@@ -232,33 +252,42 @@ object GameRepositoryImpl {
     fun moveToFirstPlayerAvailableFromSmallBlind() {
         val previousCurrentPlayerIndex = getCurrentPlayerIndex()
         listPlayers[previousCurrentPlayerIndex].statePlayer = StatePlayer.Playing
-        val newCurrentPlayerIndex = getIndexNextPlayerNotEliminatedOrFolded(getSmallBlindIndex())
+        val newCurrentPlayerIndex = getIndexNextPlayerNotEliminatedOrFoldedOrAllin(
+            getSmallBlindIndex()
+        )
         listPlayers[newCurrentPlayerIndex].statePlayer = StatePlayer.CurrentTurn
         currentPlayer = listPlayers[newCurrentPlayerIndex]
     }
 
 
     fun isPartTurnOver(): Boolean {
-        return (didAllPlayersCheck() || didAllPlayersPaidMaxRaiseValue()) && didAllPlayersPlayed()
+        return (didAllPlayersCheck() || didAllPlayersPaidMaxRaiseValue() || didAllPlayersAllin()) && didAllPlayersPlayed()
+    }
+
+    private fun didAllPlayersAllin(): Boolean {
+        return listPlayers.filter {
+            it.statePlayer != StatePlayer.Eliminate && it.actionPlayer != ActionPlayer.Fold
+        }
+            .find { it.actionPlayer != ActionPlayer.AllIn } == null
     }
 
     private fun didAllPlayersPlayed(): Boolean {
         return listPlayers.filter {
-            it.statePlayer != StatePlayer.Eliminate && it.actionPlayer != ActionPlayer.Fold
+            it.statePlayer != StatePlayer.Eliminate && it.actionPlayer != ActionPlayer.Fold && it.actionPlayer != ActionPlayer.AllIn
         }
             .find { it.actionPlayer == ActionPlayer.Nothing } == null
     }
 
     private fun didAllPlayersCheck(): Boolean {
         return listPlayers.filter {
-            it.statePlayer != StatePlayer.Eliminate && it.actionPlayer != ActionPlayer.Fold
+            it.statePlayer != StatePlayer.Eliminate && it.actionPlayer != ActionPlayer.Fold && it.actionPlayer != ActionPlayer.AllIn
         }
             .find { it.actionPlayer != ActionPlayer.Check } == null
     }
 
     private fun didAllPlayersPaidMaxRaiseValue(): Boolean {
         return listPlayers.filter {
-            it.statePlayer != StatePlayer.Eliminate && it.actionPlayer != ActionPlayer.Fold
+            it.statePlayer != StatePlayer.Eliminate && it.actionPlayer != ActionPlayer.Fold && it.actionPlayer != ActionPlayer.AllIn
         }
             .find { it.stackBetPartTurn != currentMaxRaisePartTurn } == null
     }
@@ -334,9 +363,10 @@ object GameRepositoryImpl {
     fun createAllPot(): MutableList<Pot> {
         val potList = mutableListOf<Pot>()
         var potentialWinners: MutableList<Player> = mutableListOf()
-        listPlayers.filter { it.statePlayer != StatePlayer.Eliminate && it.actionPlayer != ActionPlayer.Fold }.forEach {
-            potentialWinners.add(Player(it.id, it.name, it.stack, it.stackBetTurn))
-        }
+        listPlayers.filter { it.statePlayer != StatePlayer.Eliminate && it.actionPlayer != ActionPlayer.Fold }
+            .forEach {
+                potentialWinners.add(Player(it.id, it.name, it.stack, it.stackBetTurn))
+            }
         while (!isAllPotCreated(potentialWinners)) {
             potentialWinners = potentialWinners.filter { it.stackBetTurn != 0 }.toMutableList()
             val minStackBetTurn = potentialWinners.minBy {
@@ -351,7 +381,10 @@ object GameRepositoryImpl {
         }
         val playerWHoHasToRecoverMoney = potentialWinners.find { it.stackBetTurn != 0 }
         if (playerWHoHasToRecoverMoney != null) {
-            addStackToPlayer(getPlayerIndexById(playerWHoHasToRecoverMoney.id), playerWHoHasToRecoverMoney.stackBetTurn)
+            addStackToPlayer(
+                getPlayerIndexById(playerWHoHasToRecoverMoney.id),
+                playerWHoHasToRecoverMoney.stackBetTurn
+            )
         }
         if (potentialWinners.size == 1) {
             potList.add(Pot(potentialWinners, currentStackTurn))
@@ -371,7 +404,14 @@ object GameRepositoryImpl {
         }
         listPlayers.forEach { player ->
             if (winnerList.find { it.id == player.id } == null) {
-                playerEndTurnList.add(PlayerEndTurn(player.id, player.name, player.stackBetTurn, false))
+                playerEndTurnList.add(
+                    PlayerEndTurn(
+                        player.id,
+                        player.name,
+                        player.stackBetTurn,
+                        false
+                    )
+                )
             }
         }
         resetStackBetTurn()

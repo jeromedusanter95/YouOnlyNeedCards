@@ -5,7 +5,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.item_recycler_view_dialog_choose_winners.view.*
+import com.jerome.dusanter.youonlyneedcards.R
+import kotlinx.android.synthetic.main.item_recycler_view_dialog_choose_winners.view.checkbox
+import kotlinx.android.synthetic.main.item_recycler_view_dialog_choose_winners.view.textViewName
+import kotlinx.android.synthetic.main.item_recycler_view_dialog_choose_winners.view.textViewStack
 
 class ChooseWinnersAdapter(
     private val pot: PotUiModel,
@@ -15,7 +18,7 @@ class ChooseWinnersAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChooseWinnersViewHolder {
         return ChooseWinnersViewHolder(
             LayoutInflater.from(context).inflate(
-                com.jerome.dusanter.youonlyneedcards.R.layout.item_recycler_view_dialog_choose_winners,
+                R.layout.item_recycler_view_dialog_choose_winners,
                 parent,
                 false
             )
@@ -52,9 +55,15 @@ class ChooseWinnersViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     fun bind(player: PlayerUiModel, stackEachPlayer: Int) {
         itemView.textViewName.text = player.name
         if (player.isWinner) {
-            itemView.textViewStack.text = "$stackEachPlayer jetons"
+            itemView.textViewStack.text = itemView.context.getString(
+                R.string.poker_activity_number_chips,
+                stackEachPlayer
+            )
         } else {
-            itemView.textViewStack.text = "0 jetons"
+            itemView.textViewStack.text = itemView.context.getString(
+                R.string.poker_activity_number_chips,
+                0
+            )
         }
         itemView.checkbox.isChecked = player.isWinner
     }
