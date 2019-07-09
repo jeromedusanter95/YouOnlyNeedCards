@@ -6,16 +6,15 @@ import com.jerome.dusanter.youonlyneedcards.data.GameRepositoryImpl
 
 class StartGameInteractor {
     fun execute(listener: Listener) {
-        if (GameRepositoryImpl.isIncreaseBlindsEnabled()) {
-            GameRepositoryImpl.startTimerIncreaseBlinds()
-        }
         GameRepositoryImpl.initializeListWithGoodOrder()
         GameRepositoryImpl.initializeStateBlind()
         GameRepositoryImpl.initializeCurrentPlayerAfterBigBlind()
         listener.getPossibleActions(
             GameRepositoryImpl.getPossibleActions(),
             GameRepositoryImpl.listPlayers,
-            GameRepositoryImpl.currentStackTurn
+            GameRepositoryImpl.currentStackTurn,
+            GameRepositoryImpl.isIncreaseBlindsEnabled(),
+            GameRepositoryImpl.settings.frequencyIncreasingBlind
         )
     }
 
@@ -23,7 +22,9 @@ class StartGameInteractor {
         fun getPossibleActions(
             actionPlayerList: List<ActionPlayer>,
             playerList: List<Player>,
-            stackTurn: Int
+            stackTurn: Int,
+            resetTimer: Boolean,
+            durationBeforeIncreasingBlind: Long
         )
     }
 }

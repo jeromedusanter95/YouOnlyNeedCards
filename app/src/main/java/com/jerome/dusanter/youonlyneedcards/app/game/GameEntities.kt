@@ -7,7 +7,9 @@ sealed class GameUiModel {
         val actionPlayerList: List<ActionPlayer>,
         val informationsCurrentPlayer: String,
         val namePartTurn: String,
-        val stackTurn: String
+        val stackTurn: String,
+        val resetTimer: Boolean,
+        val durationBeforeIncreasingBlind: Long
     ) : GameUiModel()
 
     data class ShowChooseWinnersDialog(
@@ -16,6 +18,10 @@ sealed class GameUiModel {
 
     data class ShowEndTurn(
         val playerEndTurnList: List<PlayerEndTurnUiModel>
+    ) : GameUiModel()
+
+    data class ShowEndGame(
+        val playerEndGameList: List<PlayerEndGameUiModel>
     ) : GameUiModel()
 }
 
@@ -38,4 +44,10 @@ data class PotUiModel(
 
 data class PlayerEndTurnUiModel(
     val description: String
+)
+
+data class PlayerEndGameUiModel(
+    val description: String,
+    val money: String,
+    val ranking: String
 )

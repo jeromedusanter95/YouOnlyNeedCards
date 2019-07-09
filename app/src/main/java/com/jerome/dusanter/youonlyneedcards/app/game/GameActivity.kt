@@ -2,28 +2,16 @@ package com.jerome.dusanter.youonlyneedcards.app.game
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import com.jerome.dusanter.youonlyneedcards.R
+import com.jerome.dusanter.youonlyneedcards.app.welcome.WelcomeActivity
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.Winner
-import kotlinx.android.synthetic.main.activity_game.buttonLeft
-import kotlinx.android.synthetic.main.activity_game.buttonMiddle
-import kotlinx.android.synthetic.main.activity_game.buttonRight
-import kotlinx.android.synthetic.main.activity_game.buttonStartGame
-import kotlinx.android.synthetic.main.activity_game.buttonStartTurn
-import kotlinx.android.synthetic.main.activity_game.playerProfilView1
-import kotlinx.android.synthetic.main.activity_game.playerProfilView2
-import kotlinx.android.synthetic.main.activity_game.playerProfilView3
-import kotlinx.android.synthetic.main.activity_game.playerProfilView4
-import kotlinx.android.synthetic.main.activity_game.playerProfilView5
-import kotlinx.android.synthetic.main.activity_game.playerProfilView6
-import kotlinx.android.synthetic.main.activity_game.playerProfilView7
-import kotlinx.android.synthetic.main.activity_game.playerProfilView8
-import kotlinx.android.synthetic.main.activity_game.textViewCurrentPlayerInformations
-import kotlinx.android.synthetic.main.activity_game.textViewPartTurnName
-import kotlinx.android.synthetic.main.activity_game.textViewTurnStack
+import kotlinx.android.synthetic.main.activity_game.*
+
 
 class GameActivity : AppCompatActivity() {
 
@@ -31,7 +19,7 @@ class GameActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_game)
+        setContentView(com.jerome.dusanter.youonlyneedcards.R.layout.activity_game)
         viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
         setupListeners()
         setupLiveDatas()
@@ -133,6 +121,7 @@ class GameActivity : AppCompatActivity() {
                         )
                         is GameUiModel.ShowCurrentTurn -> updateTableCurrentTurn(gameUiModel)
                         is GameUiModel.ShowEndTurn -> showDialogEndTurn(gameUiModel)
+                        is GameUiModel.ShowEndGame -> showDialogEndGame(gameUiModel)
                     }
                 }
             }
@@ -148,17 +137,19 @@ class GameActivity : AppCompatActivity() {
         )
     }
 
+    private fun showDialogEndGame(gameUiModel: GameUiModel.ShowEndGame) {
+        EndGameDialog.newInstance(gameUiModel).show(supportFragmentManager, "EndGameDialog")
+    }
+
     private fun showDialogEndTurn(gameUiModel: GameUiModel.ShowEndTurn) {
-        EndTurnDialog.newInstance(gameUiModel).show(fragmentManager, "EndTurnDialog")
+        EndTurnDialog.newInstance(gameUiModel).show(supportFragmentManager, "EndTurnDialog")
     }
 
     private fun showDialogRaise(dialogEventUiModel: DialogRaiseUiModel) {
-        val dialog = RaiseDialog
-            .newInstance(dialogEventUiModel)
-        dialog.show(fragmentManager, "GameActivity")
+        RaiseDialog.newInstance(dialogEventUiModel).show(supportFragmentManager, "GameActivity")
     }
 
-    fun onRaise(isAllin: Boolean, stackRaised: Int) {
+    fun onDismissRaiseDialog(isAllin: Boolean, stackRaised: Int) {
         if (isAllin) {
             viewModel.play(ActionPlayer.AllIn.name, stackRaised)
         } else {
@@ -171,9 +162,9 @@ class GameActivity : AppCompatActivity() {
     private fun updateTableCurrentTurn(gameUiModel: GameUiModel.ShowCurrentTurn) {
         buttonStartGame.visibility = View.GONE
         buttonStartTurn.visibility = View.GONE
+        buttonEndGame.visibility = View.GONE
         buttonLeft.visibility = View.VISIBLE
         buttonMiddle.visibility = View.VISIBLE
-
         textViewPartTurnName.visibility = View.VISIBLE
         textViewTurnStack.visibility = View.VISIBLE
         textViewCurrentPlayerInformations.visibility = View.VISIBLE
@@ -188,10 +179,34 @@ class GameActivity : AppCompatActivity() {
         textViewCurrentPlayerInformations.text = gameUiModel.informationsCurrentPlayer
         textViewPartTurnName.text = gameUiModel.namePartTurn
         textViewTurnStack.text = gameUiModel.stackTurn
+        if (gameUiModel.resetTimer) {
+            startTimer(gameUiModel.durationBeforeIncreasingBlind)
+        }
+    }
+
+    private fun startTimer(durationInMillis: Long) {
+        object : CountDownTimer(durationInMillis, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                val second = millisUntilFinished / 1000 % 60
+                val minute = millisUntilFinished / (1000 * 60) % 60
+                val hour = millisUntilFinished / (1000 * 60 * 60) % 24
+                textViewTimerIncreaseBlinds.text = String.format(
+                    "%02d:%02d:%02d",
+                    hour,
+                    minute,
+                    second
+                )
+            }
+
+            override fun onFinish() {
+                viewModel.increaseBlinds()
+            }
+        }.start()
     }
 
     private fun updateTableChooseWinners(gameUiModel: GameUiModel.ShowChooseWinnersDialog) {
         buttonStartTurn.visibility = View.VISIBLE
+        buttonEndGame.visibility = View.VISIBLE
         buttonLeft.visibility = View.GONE
         buttonMiddle.visibility = View.GONE
         buttonRight.visibility = View.GONE
@@ -199,14 +214,19 @@ class GameActivity : AppCompatActivity() {
         textViewTurnStack.visibility = View.GONE
         textViewCurrentPlayerInformations.visibility = View.GONE
         if (gameUiModel.potList[0].potentialWinnerList.size > 1) {
-            ChooseWinnersDialog.newInstance(gameUiModel).show(fragmentManager, "ChooseWinnersDialog")
+            ChooseWinnersDialog.newInstance(gameUiModel)
+                .show(supportFragmentManager, "ChooseWinnersDialog")
         } else {
             viewModel.onDistributeStack(GameMapper().map(gameUiModel.potList[0]))
         }
     }
 
-    fun onDistributeStack(winnerList: List<Winner>) {
+    fun onDismissChooseWinnersDialog(winnerList: List<Winner>) {
         viewModel.onDistributeStack(winnerList)
+    }
+
+    fun onDismissEndTurnDialog() {
+        viewModel.onCheckIfGameOver(this)
     }
 
     private fun setupListeners() {
@@ -281,9 +301,19 @@ class GameActivity : AppCompatActivity() {
         buttonStartTurn.setOnClickListener {
             viewModel.onStartTurn()
         }
+
+        buttonEndGame.setOnClickListener {
+            viewModel.onEndGame(this)
+        }
     }
 
     override fun onBackPressed() {
         viewModel.populateGameWithFakeDatas()
+    }
+
+    fun onDismissEndGameDialog() {
+        val intent = Intent(this, WelcomeActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
     }
 }

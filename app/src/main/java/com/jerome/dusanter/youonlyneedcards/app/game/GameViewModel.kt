@@ -2,6 +2,7 @@ package com.jerome.dusanter.youonlyneedcards.app.game
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.content.Context
 import com.jerome.dusanter.youonlyneedcards.core.*
 import com.jerome.dusanter.youonlyneedcards.core.interactor.*
 
@@ -114,7 +115,9 @@ class GameViewModel : ViewModel() {
             override fun getPossibleActions(
                 actionPlayerList: List<ActionPlayer>,
                 playerList: List<Player>,
-                stackTurn: Int
+                stackTurn: Int,
+                resetTimer: Boolean,
+                durationBeforeIncreaseBlinds: Long
             ) {
                 val currentPlayer = playerList.find { it.statePlayer == StatePlayer.CurrentTurn }
                 stateGame.value = GameMapper().map(
@@ -122,7 +125,9 @@ class GameViewModel : ViewModel() {
                     namePartTurn = StateTurn.PreFlop.name,
                     stackTurn = stackTurn,
                     nameCurrentPlayer = currentPlayer!!.name,
-                    stackCurrentPlayer = currentPlayer.stack
+                    stackCurrentPlayer = currentPlayer.stack,
+                    resetTimer = resetTimer,
+                    durationBeforeIncreasingBlinds = durationBeforeIncreaseBlinds
                 )
                 updatePlayerOrHidePlayer(playerList)
             }
@@ -218,7 +223,9 @@ class GameViewModel : ViewModel() {
                 actionPlayerList: List<ActionPlayer>,
                 playerList: List<Player>,
                 stackTurn: Int,
-                stateTurn: StateTurn
+                stateTurn: StateTurn,
+                resetTimer: Boolean,
+                durationBeforeIncreasingBlinds: Long
             ) {
                 val currentPlayer = playerList.find { it.statePlayer == StatePlayer.CurrentTurn }
                 stateGame.value = GameMapper().map(
@@ -226,7 +233,9 @@ class GameViewModel : ViewModel() {
                     currentPlayer!!.name,
                     currentPlayer.stack,
                     stateTurn.name,
-                    stackTurn
+                    stackTurn,
+                    resetTimer,
+                    durationBeforeIncreasingBlinds
                 )
                 playerList.forEach {
                     updatePlayerById(it)
@@ -240,11 +249,57 @@ class GameViewModel : ViewModel() {
 
     private fun buildDistributeStackListener(): DistributeStackInteractor.Listener =
         object : DistributeStackInteractor.Listener {
-            override fun onSuccess(playerEndTurnList: List<PlayerEndTurn>, playerList: List<Player>) {
+            override fun onSuccess(
+                playerEndTurnList: List<PlayerEndTurn>,
+                playerList: List<Player>
+            ) {
                 stateGame.value = GameMapper().map(playerEndTurnList)
                 playerList.forEach {
                     updatePlayerById(it)
                 }
             }
         }
+
+    fun onCheckIfGameOver(context: Context) {
+        CheckIfGameOverInteractor().execute(buildCheckIfGameOverListener(context))
+    }
+
+    private fun buildCheckIfGameOverListener(context: Context): CheckIfGameOverInteractor.Listener =
+        object : CheckIfGameOverInteractor.Listener {
+            override fun onSuccess(
+                isGameOver: Boolean,
+                playerEndGameList: List<PlayerEndGame>?,
+                settings: Settings
+            ) {
+                if (isGameOver) {
+                    stateGame.value = GameMapper().map(
+                        playerEndGameList = playerEndGameList!!.toMutableList(),
+                        settings = settings,
+                        context = context
+                    )
+                }
+            }
+        }
+
+    fun onEndGame(context: Context) {
+        EndGameInteractor().execute(buildEndGameInteractor(context))
+    }
+
+    private fun buildEndGameInteractor(context: Context): EndGameInteractor.Listener =
+        object : EndGameInteractor.Listener {
+            override fun onEndGame(
+                playerEndGameList: List<PlayerEndGame>?,
+                settings: Settings
+            ) {
+                stateGame.value = GameMapper().map(
+                    playerEndGameList = playerEndGameList!!.toMutableList(),
+                    context = context,
+                    settings = settings
+                )
+            }
+        }
+
+    fun increaseBlinds() {
+        IncreaseBlindsInteractor().execute()
+    }
 }

@@ -21,6 +21,13 @@ data class PlayerEndTurn(
     val isWinner: Boolean
 )
 
+data class PlayerEndGame(
+    val id: String,
+    val name: String,
+    val stack: Int,
+    val isWinner: Boolean
+)
+
 data class Winner(
     val id: String,
     val stackWon: Int
@@ -35,9 +42,10 @@ data class Settings(
     val stack: Int,
     val isMoneyBetEnabled: Boolean,
     val money: Int,
-    val smallBlind: Int,
+    var smallBlind: Int,
     val isIncreaseBlindsEnabled: Boolean,
-    val frequencyIncreasingBlind: Int
+    val frequencyIncreasingBlind: Long,
+    val ratioStackMoney: Int = stack / money
 )
 
 enum class StateBlind {

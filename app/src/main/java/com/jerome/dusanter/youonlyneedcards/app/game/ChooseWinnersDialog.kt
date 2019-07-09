@@ -1,10 +1,10 @@
 package com.jerome.dusanter.youonlyneedcards.app.game
 
-import android.app.DialogFragment
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.support.v4.app.DialogFragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -13,10 +13,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.core.Winner
-import kotlinx.android.synthetic.main.dialog_choose_winners.imageButton
-import kotlinx.android.synthetic.main.dialog_choose_winners.recyclerView
-import kotlinx.android.synthetic.main.dialog_choose_winners.textViewError
-import kotlinx.android.synthetic.main.dialog_choose_winners.textViewResult
+import kotlinx.android.synthetic.main.dialog_choose_winners.*
 import java.io.Serializable
 
 
@@ -40,7 +37,7 @@ class ChooseWinnersDialog : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        potList = arguments[EXTRA_POT_LIST] as MutableList<PotUiModel>
+        potList = arguments?.get(EXTRA_POT_LIST) as MutableList<PotUiModel>
         currentPot = potList[0]
         currentContext = view.context
         setupRecycler(currentContext)
@@ -99,7 +96,7 @@ class ChooseWinnersDialog : DialogFragment() {
             winnerList.addAll(ChooseWinnersMapper().map(currentPot))
             if (winnerList.isNotEmpty()) {
                 if (isImageButtonCheck) {
-                    (activity as GameActivity).onDistributeStack(
+                    (activity as GameActivity).onDismissChooseWinnersDialog(
                         winnerList
                     )
                     dismiss()

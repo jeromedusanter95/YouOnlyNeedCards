@@ -16,14 +16,14 @@ import kotlinx.android.synthetic.main.dialog_end_turn.*
 import java.io.Serializable
 
 
-class EndTurnDialog : DialogFragment() {
+class EndGameDialog : DialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(
-        R.layout.dialog_end_turn,
+        R.layout.dialog_end_game,
         container,
         false
     )
@@ -32,23 +32,24 @@ class EndTurnDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecycler(
             view.context,
-            arguments?.get(EXTRA_PLAYER_END_TURN_LIST) as MutableList<PlayerEndTurnUiModel>
+            arguments?.get(EXTRA_PLAYER_END_GAME_LIST) as MutableList<PlayerEndGameUiModel>
         )
         setupListeners()
+        dialog.setCanceledOnTouchOutside(false)
     }
 
     private fun setupRecycler(
         context: Context,
-        playerEndTurnUiModelList: List<PlayerEndTurnUiModel>
+        playerEndGameUiModelList: List<PlayerEndGameUiModel>
     ) {
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
-        recyclerView.adapter = EndTurnAdapter(context, playerEndTurnUiModelList)
+        recyclerView.adapter = EndGameAdapter(context, playerEndGameUiModelList)
     }
 
     private fun setupListeners() {
         imageButtonCheck.setOnClickListener {
             dismiss()
-            (activity as GameActivity).onDismissEndTurnDialog()
+            (activity as GameActivity).onDismissEndGameDialog()
         }
     }
 
@@ -62,15 +63,15 @@ class EndTurnDialog : DialogFragment() {
     }
 
     companion object {
-        private const val EXTRA_PLAYER_END_TURN_LIST = "EXTRA_PLAYER_END_TURN_LIST"
+        private const val EXTRA_PLAYER_END_GAME_LIST = "EXTRA_PLAYER_END_GAME_LIST"
 
-        fun newInstance(uiModel: GameUiModel.ShowEndTurn): EndTurnDialog {
+        fun newInstance(uiModel: GameUiModel.ShowEndGame): EndGameDialog {
             val args = Bundle()
             args.putSerializable(
-                EXTRA_PLAYER_END_TURN_LIST,
-                uiModel.playerEndTurnList as Serializable
+                EXTRA_PLAYER_END_GAME_LIST,
+                uiModel.playerEndGameList as Serializable
             )
-            val dialog = EndTurnDialog()
+            val dialog = EndGameDialog()
             dialog.arguments = args
             return dialog
         }

@@ -1,10 +1,9 @@
 package com.jerome.dusanter.youonlyneedcards.app.game
 
+import android.content.Context
+import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.app.settings.SettingsConstants
-import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
-import com.jerome.dusanter.youonlyneedcards.core.PlayerEndTurn
-import com.jerome.dusanter.youonlyneedcards.core.Pot
-import com.jerome.dusanter.youonlyneedcards.core.Winner
+import com.jerome.dusanter.youonlyneedcards.core.*
 
 class GameMapper {
     fun map(
@@ -12,16 +11,19 @@ class GameMapper {
         nameCurrentPlayer: String,
         stackCurrentPlayer: Int,
         namePartTurn: String,
-        stackTurn: Int
+        stackTurn: Int,
+        resetTimer: Boolean = false,
+        durationBeforeIncreasingBlinds: Long = 0
     ): GameUiModel.ShowCurrentTurn {
         return GameUiModel.ShowCurrentTurn(
             actionPlayerList = actionPlayerList,
             informationsCurrentPlayer = "$nameCurrentPlayer $stackCurrentPlayer",
             namePartTurn = namePartTurn,
-            stackTurn = "$stackTurn ${SettingsConstants.CHIPS}"
+            stackTurn = "$stackTurn ${SettingsConstants.CHIPS}",
+            resetTimer = resetTimer,
+            durationBeforeIncreasingBlind = durationBeforeIncreasingBlinds
         )
     }
-
 
     fun map(bigBlind: Int, stackPlayer: Int): DialogRaiseUiModel {
         return DialogRaiseUiModel(bigBlind = bigBlind, stackPlayer = stackPlayer)
@@ -52,6 +54,62 @@ class GameMapper {
     fun map(potUiModel: PotUiModel): List<Winner> {
         return potUiModel.potentialWinnerList.map {
             Winner(it.id, potUiModel.stack)
+        }
+    }
+
+    fun map(
+        context: Context,
+        playerEndGameList: MutableList<PlayerEndGame>,
+        settings: Settings
+    ): GameUiModel.ShowEndGame {
+
+        playerEndGameList.sortWith(Comparator { player1, player2 ->
+            player1.stack.compareTo(player2.stack)
+        })
+
+        playerEndGameList.reverse()
+
+        return GameUiModel.ShowEndGame(
+            playerEndGameList.map {
+                PlayerEndGameUiModel(
+                    context.getString(
+                        R.string.poker_activity_end_game_description,
+                        it.name,
+                        it.stack
+                    ),
+                    if (settings.isMoneyBetEnabled && it.isWinner) {
+                        context.getString(
+                            R.string.poker_activity_end_game_description_winner,
+                            getAmountMoneyWonOrLost(it.stack, settings.stack, settings.ratioStackMoney)
+                        )
+                    } else {
+                        context.getString(
+                            R.string.poker_activity_end_game_description_loser,
+                            getAmountMoneyWonOrLost(it.stack, settings.stack, settings.ratioStackMoney)
+                        )
+                    },
+                    context.getString(
+                        R.string.poker_activity_end_game_ranking,
+                        getRankingByIndex(playerEndGameList.indexOf(it))
+                    )
+                )
+            }
+        )
+    }
+
+    private fun getAmountMoneyWonOrLost(currentStack: Int, initialStack: Int, ratioStackMoney: Int): Int {
+        return if ((currentStack - initialStack) / ratioStackMoney > 0) {
+            (currentStack - initialStack) / ratioStackMoney
+        } else {
+            (currentStack - initialStack) / ratioStackMoney * (-1)
+        }
+    }
+
+    private fun getRankingByIndex(index: Int): String {
+        return if (index == 0) {
+            "1er"
+        } else {
+            "${index + 1}ème"
         }
     }
 }

@@ -1,14 +1,6 @@
 package com.jerome.dusanter.youonlyneedcards.data
 
-import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
-import com.jerome.dusanter.youonlyneedcards.core.Player
-import com.jerome.dusanter.youonlyneedcards.core.PlayerEndTurn
-import com.jerome.dusanter.youonlyneedcards.core.Pot
-import com.jerome.dusanter.youonlyneedcards.core.Settings
-import com.jerome.dusanter.youonlyneedcards.core.StateBlind
-import com.jerome.dusanter.youonlyneedcards.core.StatePlayer
-import com.jerome.dusanter.youonlyneedcards.core.StateTurn
-import com.jerome.dusanter.youonlyneedcards.core.Winner
+import com.jerome.dusanter.youonlyneedcards.core.*
 import com.jerome.dusanter.youonlyneedcards.utils.MutableCircularList
 
 object GameRepositoryImpl {
@@ -19,6 +11,8 @@ object GameRepositoryImpl {
     var currentStackTurn = 0
     private var currentMaxRaisePartTurn = 0
     var currentStateTurn = StateTurn.PreFlop
+    var shouldIncreaseBlindNextTurn = false
+    var shouldStartTimer = false
 
     fun addPlayer(idPlayer: String, name: String): Player {
         val player = Player(
@@ -213,9 +207,9 @@ object GameRepositoryImpl {
         val list = mutableListOf<ActionPlayer>()
         when {
             currentMaxRaisePartTurn == settings.smallBlind * 2
-                && currentPlayer.stackBetPartTurn == currentMaxRaisePartTurn
-                && currentStateTurn == StateTurn.PreFlop
-                && !didAllPlayersPlayed()
+                    && currentPlayer.stackBetPartTurn == currentMaxRaisePartTurn
+                    && currentStateTurn == StateTurn.PreFlop
+                    && !didAllPlayersPlayed()
             -> {
                 list.add(ActionPlayer.Check)
                 list.add(ActionPlayer.Raise)
@@ -404,7 +398,8 @@ object GameRepositoryImpl {
         listPlayers.filter { it.statePlayer != StatePlayer.Eliminate }.forEach { player ->
             when {
                 winnerList.find { it.id == player.id && it.stackWon > player.stackBetTurn } != null -> {
-                    val stackWon = winnerList.find { it.id == player.id && it.stackWon > player.stackBetTurn }!!.stackWon
+                    val stackWon =
+                        winnerList.find { it.id == player.id && it.stackWon > player.stackBetTurn }!!.stackWon
                     playerEndTurnList.add(
                         PlayerEndTurn(
                             player.id,
@@ -415,7 +410,8 @@ object GameRepositoryImpl {
                     )
                 }
                 winnerList.find { it.id == player.id && it.stackWon < player.stackBetTurn } != null -> {
-                    val stackWon = winnerList.find { it.id == player.id && it.stackWon < player.stackBetTurn }!!.stackWon
+                    val stackWon =
+                        winnerList.find { it.id == player.id && it.stackWon < player.stackBetTurn }!!.stackWon
                     playerEndTurnList.add(
                         PlayerEndTurn(
                             player.id,
@@ -455,7 +451,24 @@ object GameRepositoryImpl {
         listPlayers[index].stack += stack
     }
 
-    fun startTimerIncreaseBlinds() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    fun isGameOver(): Boolean {
+        return listPlayers.filter { it.statePlayer != StatePlayer.Eliminate }.size < 2
     }
+
+    fun getListPlayerEndGame(): MutableList<PlayerEndGame> {
+        return listPlayers.map {
+            if (it.stack > settings.stack) {
+                PlayerEndGame(it.id, it.name, it.stack, true)
+            } else {
+                PlayerEndGame(it.id, it.name, it.stack, false)
+            }
+        }.toMutableList()
+    }
+
+    fun increaseBlinds() {
+        settings.smallBlind *= 2
+        shouldIncreaseBlindNextTurn = false
+        shouldStartTimer = true
+    }
+
 }

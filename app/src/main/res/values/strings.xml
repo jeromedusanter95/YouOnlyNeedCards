@@ -31,4 +31,10 @@
     <string name="poker_activity_all_in">All-in</string>
     <string name="poker_activity_start_turn">Commencer un nouveau tour</string>
     <string name="poker_activity_end_turn_title">Bilan du tour</string>
+    <string name="poker_activity_end_game_title">Fin de la partie</string>
+    <string name="poker_activity_end_game_description">%1$s finit avec %2$d jetons</string>
+    <string name="poker_activity_end_game_description_winner">Il gagne donc %1$d euros</string>
+    <string name="poker_activity_end_game_description_loser">Il perd donc %1$d euros</string>
+    <string name="poker_activity_end_game_ranking">Il finit %1$s de la partie</string>
+    <string name="poker_activity_end_game">Finir la partie</string>
 </resources>

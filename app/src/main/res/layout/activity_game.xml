@@ -20,6 +20,18 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewTimerIncreaseBlinds"
+        style="@style/AppTheme.Text.GameActivity.Informations"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/sizing_2"
+        android:layout_marginEnd="@dimen/sizing_2"
+        android:layout_marginRight="@dimen/sizing_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
     <android.support.constraint.Guideline
         android:id="@+id/guideline0.02"
         android:layout_width="wrap_content"
@@ -240,7 +252,25 @@
         android:text="@string/poker_activity_start_turn"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/buttonEndGame"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewSeparator"
+        />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/buttonEndGame"
+        style="@style/AppTheme.Button.GameActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/sizing_2"
+        android:layout_marginRight="@dimen/sizing_2"
+        android:text="@string/poker_activity_end_game"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/buttonStartTurn"
         app:layout_constraintTop_toBottomOf="@id/viewSeparator"
         />
 

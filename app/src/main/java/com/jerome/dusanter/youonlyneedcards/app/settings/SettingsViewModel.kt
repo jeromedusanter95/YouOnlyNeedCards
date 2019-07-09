@@ -50,7 +50,7 @@ class SettingsViewModel : ViewModel() {
     }
 
     fun onSeekBarFrequencyIncreasedBlindUpdated(progress: Int) {
-        settings = settings.copy(frequencyIncreasingBlind = progress)
+        settings = settings.copy(frequencyIncreasingBlind = progress.toLong())
         state.value = mapper.map(settings)
     }
 

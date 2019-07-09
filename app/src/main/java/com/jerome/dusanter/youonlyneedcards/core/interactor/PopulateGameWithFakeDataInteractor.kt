@@ -21,11 +21,11 @@ class PopulateGameWithFakeDataInteractor {
         GameRepositoryImpl.listPlayers = MutableCircularList(list)
         GameRepositoryImpl.settings = Settings(
             2000,
-            false,
-            0,
+            true,
+            10,
             20,
-            false,
-            0
+            true,
+            30000
         )
         listener.onSuccess()
     }
