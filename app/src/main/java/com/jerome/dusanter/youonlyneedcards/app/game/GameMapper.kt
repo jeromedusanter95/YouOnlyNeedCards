@@ -69,11 +69,43 @@ class GameMapper {
         settings: Settings
     ): GameUiModel.ShowEndGame {
 
-        playerEndGameList.sortWith(Comparator { player1, player2 ->
-            player1.stack.compareTo(player2.stack)
+        val listStack = mutableListOf<Int>()
+        playerEndGameList.forEach {
+            if (!listStack.contains(it.stack)) {
+                listStack.add(it.stack)
+            }
+        }
+        listStack.sortWith(Comparator { int1, int2 ->
+            int2.compareTo(int1)
         })
 
-        playerEndGameList.reverse()
+        var numberPlayerAlreadyRanked = 0
+
+        listStack.forEach { stack ->
+            val playerListForThisStack = playerEndGameList.filter {
+                it.stack == stack
+            }
+            if (playerListForThisStack.size > 1) {
+                playerListForThisStack.forEach {
+                    it.ranking = getRankingByIndex(
+                        numberPlayerAlreadyRanked,
+                        true
+                    )
+                }
+                numberPlayerAlreadyRanked += playerListForThisStack.size
+            } else {
+                playerListForThisStack[0].ranking = getRankingByIndex(
+                    listStack.indexOf(stack),
+                    false
+                )
+                numberPlayerAlreadyRanked++
+            }
+        }
+
+        playerEndGameList.sortWith(Comparator { player1, player2 ->
+            player2.stack.compareTo(player1.stack)
+        })
+
 
         return GameUiModel.ShowEndGame(
             playerEndGameList.map {
@@ -86,24 +118,36 @@ class GameMapper {
                     if (settings.isMoneyBetEnabled && it.isWinner) {
                         context.getString(
                             R.string.poker_activity_end_game_description_winner,
-                            getAmountMoneyWonOrLost(it.stack, settings.stack, settings.ratioStackMoney)
+                            getAmountMoneyWonOrLost(
+                                it.stack,
+                                settings.stack,
+                                settings.ratioStackMoney
+                            )
                         )
                     } else {
                         context.getString(
                             R.string.poker_activity_end_game_description_loser,
-                            getAmountMoneyWonOrLost(it.stack, settings.stack, settings.ratioStackMoney)
+                            getAmountMoneyWonOrLost(
+                                it.stack,
+                                settings.stack,
+                                settings.ratioStackMoney
+                            )
                         )
                     },
                     context.getString(
                         R.string.poker_activity_end_game_ranking,
-                        getRankingByIndex(playerEndGameList.indexOf(it))
+                        it.ranking
                     )
                 )
             }
         )
     }
 
-    private fun getAmountMoneyWonOrLost(currentStack: Int, initialStack: Int, ratioStackMoney: Int): Int {
+    private fun getAmountMoneyWonOrLost(
+        currentStack: Int,
+        initialStack: Int,
+        ratioStackMoney: Int
+    ): Int {
         return if ((currentStack - initialStack) / ratioStackMoney > 0) {
             (currentStack - initialStack) / ratioStackMoney
         } else {
@@ -111,11 +155,15 @@ class GameMapper {
         }
     }
 
-    private fun getRankingByIndex(index: Int): String {
-        return if (index == 0) {
+    private fun getRankingByIndex(index: Int, isExAquo: Boolean): String {
+        var ranking: String = if (index == 0) {
             "1er"
         } else {
             "${index + 1}ème"
         }
+        if (isExAquo) {
+            ranking += " ex aquo"
+        }
+        return ranking
     }
 }

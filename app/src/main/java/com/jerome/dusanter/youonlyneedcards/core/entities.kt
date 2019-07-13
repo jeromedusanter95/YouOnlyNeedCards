@@ -25,7 +25,8 @@ data class PlayerEndGame(
     val id: String,
     val name: String,
     val stack: Int,
-    val isWinner: Boolean
+    val isWinner: Boolean,
+    var ranking: String = ""
 )
 
 data class Winner(
