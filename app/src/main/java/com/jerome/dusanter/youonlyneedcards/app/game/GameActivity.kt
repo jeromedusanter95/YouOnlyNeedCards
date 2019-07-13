@@ -12,25 +12,7 @@ import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.app.welcome.WelcomeActivity
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.Winner
-import kotlinx.android.synthetic.main.activity_game.buttonEndGame
-import kotlinx.android.synthetic.main.activity_game.buttonLeft
-import kotlinx.android.synthetic.main.activity_game.buttonMiddle
-import kotlinx.android.synthetic.main.activity_game.buttonRight
-import kotlinx.android.synthetic.main.activity_game.buttonSaveGame
-import kotlinx.android.synthetic.main.activity_game.buttonStartGame
-import kotlinx.android.synthetic.main.activity_game.buttonStartTurn
-import kotlinx.android.synthetic.main.activity_game.playerProfilView1
-import kotlinx.android.synthetic.main.activity_game.playerProfilView2
-import kotlinx.android.synthetic.main.activity_game.playerProfilView3
-import kotlinx.android.synthetic.main.activity_game.playerProfilView4
-import kotlinx.android.synthetic.main.activity_game.playerProfilView5
-import kotlinx.android.synthetic.main.activity_game.playerProfilView6
-import kotlinx.android.synthetic.main.activity_game.playerProfilView7
-import kotlinx.android.synthetic.main.activity_game.playerProfilView8
-import kotlinx.android.synthetic.main.activity_game.textViewCurrentPlayerInformations
-import kotlinx.android.synthetic.main.activity_game.textViewPartTurnName
-import kotlinx.android.synthetic.main.activity_game.textViewTimerIncreaseBlinds
-import kotlinx.android.synthetic.main.activity_game.textViewTurnStack
+import kotlinx.android.synthetic.main.activity_game.*
 
 
 class GameActivity : AppCompatActivity() {
@@ -39,7 +21,7 @@ class GameActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.jerome.dusanter.youonlyneedcards.R.layout.activity_game)
+        setContentView(R.layout.activity_game)
         viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
         setupListeners()
         setupLiveDatas()
@@ -337,7 +319,7 @@ class GameActivity : AppCompatActivity() {
         }
 
         buttonSaveGame.setOnClickListener {
-            viewModel.saveGame()
+            viewModel.saveGame(this)
         }
     }
 

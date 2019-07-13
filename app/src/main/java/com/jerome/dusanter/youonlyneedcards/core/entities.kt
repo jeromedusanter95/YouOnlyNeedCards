@@ -1,5 +1,6 @@
 package com.jerome.dusanter.youonlyneedcards.core
 
+import com.jerome.dusanter.youonlyneedcards.utils.MutableCircularList
 import java.io.Serializable
 
 data class Player(
@@ -77,3 +78,8 @@ enum class StateTurn {
     Turn,
     River
 }
+
+data class Game(
+    var listPlayers: MutableCircularList<Player>,
+    var settings: Settings
+)

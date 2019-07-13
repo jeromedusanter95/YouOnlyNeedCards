@@ -4,6 +4,7 @@
     <!-- WELCOME ACTIVITY -->
     <string name="main_activity_new_game">Nouvelle partie</string>
     <string name="main_activity_old_game">Reprendre la partie</string>
+    <string name="main_activity_error_retrieving_old_game">Aucune sauvegarde trouvée</string>
 
     <!--SETTINGS GAME ACTIVITY-->
     <string name="settings_game_activity_title">Paramètres de la partie</string>
@@ -22,9 +23,9 @@
     <string name="poker_activity_check">Check</string>
     <string name="poker_activity_raise">Relancer</string>
     <string name="poker_activity_fold">Se coucher</string>
-    <string name="poker_activity_how_many_raise">Relancer de : </string>
+    <string name="poker_activity_how_many_raise">Relancer de :</string>
     <string name="poker_activity_number_chips">%1$d jetons</string>
-    <string name="poker_activity_choose_winners_title">Qui a la meilleure main parmi : </string>
+    <string name="poker_activity_choose_winners_title">Qui a la meilleure main parmi :</string>
     <string name="poker_activity_choose_winners_current_pot_stack">pot de %1$d jetons</string>
     <string name="poker_activity_choose_winners_error">Vous devez au moins choisir un joueur !</string>
     <string name="poker_activity_text_simulation">%1$s remporte %2$d jetons\n</string>
