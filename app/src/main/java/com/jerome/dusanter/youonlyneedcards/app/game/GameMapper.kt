@@ -3,7 +3,12 @@ package com.jerome.dusanter.youonlyneedcards.app.game
 import android.content.Context
 import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.app.settings.SettingsConstants
-import com.jerome.dusanter.youonlyneedcards.core.*
+import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
+import com.jerome.dusanter.youonlyneedcards.core.PlayerEndGame
+import com.jerome.dusanter.youonlyneedcards.core.PlayerEndTurn
+import com.jerome.dusanter.youonlyneedcards.core.Pot
+import com.jerome.dusanter.youonlyneedcards.core.Settings
+import com.jerome.dusanter.youonlyneedcards.core.Winner
 
 class GameMapper {
     fun map(
@@ -57,6 +62,7 @@ class GameMapper {
         }
     }
 
+    //TODO Inject context into constructor
     fun map(
         context: Context,
         playerEndGameList: MutableList<PlayerEndGame>,
