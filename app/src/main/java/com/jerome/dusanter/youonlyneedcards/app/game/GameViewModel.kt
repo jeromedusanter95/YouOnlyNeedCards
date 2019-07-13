@@ -3,8 +3,26 @@ package com.jerome.dusanter.youonlyneedcards.app.game
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.content.Context
-import com.jerome.dusanter.youonlyneedcards.core.*
-import com.jerome.dusanter.youonlyneedcards.core.interactor.*
+import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
+import com.jerome.dusanter.youonlyneedcards.core.Player
+import com.jerome.dusanter.youonlyneedcards.core.PlayerEndGame
+import com.jerome.dusanter.youonlyneedcards.core.PlayerEndTurn
+import com.jerome.dusanter.youonlyneedcards.core.Pot
+import com.jerome.dusanter.youonlyneedcards.core.Settings
+import com.jerome.dusanter.youonlyneedcards.core.StatePlayer
+import com.jerome.dusanter.youonlyneedcards.core.StateTurn
+import com.jerome.dusanter.youonlyneedcards.core.Winner
+import com.jerome.dusanter.youonlyneedcards.core.interactor.AddPlayerInteractor
+import com.jerome.dusanter.youonlyneedcards.core.interactor.CheckIfGameOverInteractor
+import com.jerome.dusanter.youonlyneedcards.core.interactor.DistributeStackInteractor
+import com.jerome.dusanter.youonlyneedcards.core.interactor.EndGameInteractor
+import com.jerome.dusanter.youonlyneedcards.core.interactor.GetParametersToRaiseInteractor
+import com.jerome.dusanter.youonlyneedcards.core.interactor.IncreaseBlindsInteractor
+import com.jerome.dusanter.youonlyneedcards.core.interactor.PlayInteractor
+import com.jerome.dusanter.youonlyneedcards.core.interactor.PlayRequest
+import com.jerome.dusanter.youonlyneedcards.core.interactor.SaveGameInInteractor
+import com.jerome.dusanter.youonlyneedcards.core.interactor.StartGameInteractor
+import com.jerome.dusanter.youonlyneedcards.core.interactor.StartTurnInteractor
 
 class GameViewModel : ViewModel() {
 
@@ -117,7 +135,7 @@ class GameViewModel : ViewModel() {
                 playerList: List<Player>,
                 stackTurn: Int,
                 resetTimer: Boolean,
-                durationBeforeIncreaseBlinds: Long
+                durationBeforeIncreasingBlind: Long
             ) {
                 val currentPlayer = playerList.find { it.statePlayer == StatePlayer.CurrentTurn }
                 stateGame.value = GameMapper().map(
@@ -127,7 +145,7 @@ class GameViewModel : ViewModel() {
                     nameCurrentPlayer = currentPlayer!!.name,
                     stackCurrentPlayer = currentPlayer.stack,
                     resetTimer = resetTimer,
-                    durationBeforeIncreasingBlinds = durationBeforeIncreaseBlinds
+                    durationBeforeIncreasingBlinds = durationBeforeIncreasingBlind
                 )
                 updatePlayerOrHidePlayer(playerList)
             }
@@ -199,17 +217,6 @@ class GameViewModel : ViewModel() {
                         potList
                     )
                 }
-            }
-        }
-
-    fun populateGameWithFakeDatas() {
-        PopulateGameWithFakeDataInteractor().execute(buildPopulateGameWithFakeDataInteractor())
-    }
-
-    private fun buildPopulateGameWithFakeDataInteractor(): PopulateGameWithFakeDataInteractor.Listener =
-        object : PopulateGameWithFakeDataInteractor.Listener {
-            override fun onSuccess() {
-                StartGameInteractor().execute(buildGameListener())
             }
         }
 
@@ -304,11 +311,11 @@ class GameViewModel : ViewModel() {
     }
 
     fun saveGame(context: Context) {
-        SaveGameInSharedPreferencesInteractor().execute(buildSaveGameListener(), context)
+        SaveGameInInteractor().execute(buildSaveGameListener(), context)
     }
 
-    private fun buildSaveGameListener(): SaveGameInSharedPreferencesInteractor.Listener =
-        object : SaveGameInSharedPreferencesInteractor.Listener {
+    private fun buildSaveGameListener(): SaveGameInInteractor.Listener =
+        object : SaveGameInInteractor.Listener {
             override fun onSuccess() {
                 stateGame.value = GameUiModel.ShowSaveGame
             }

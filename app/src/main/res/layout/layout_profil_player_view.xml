@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     >
 
-    <!--<android.support.constraint.ConstraintLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayoutAddPlayer"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -80,7 +80,7 @@
             app:layout_constraintTop_toBottomOf="@id/editTextAddPlayer"
             />
 
-    </android.support.constraint.ConstraintLayout>-->
+    </android.support.constraint.ConstraintLayout>
 
     <!--TODO don't forget to put this layout visibility = GONE-->
     <android.support.constraint.ConstraintLayout

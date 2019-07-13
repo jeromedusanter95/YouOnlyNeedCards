@@ -12,7 +12,26 @@ import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.app.welcome.WelcomeActivity
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.Winner
-import kotlinx.android.synthetic.main.activity_game.*
+import kotlinx.android.synthetic.main.activity_game.buttonEndGame
+import kotlinx.android.synthetic.main.activity_game.buttonLeft
+import kotlinx.android.synthetic.main.activity_game.buttonMiddle
+import kotlinx.android.synthetic.main.activity_game.buttonRight
+import kotlinx.android.synthetic.main.activity_game.buttonSaveGame
+import kotlinx.android.synthetic.main.activity_game.buttonStartGame
+import kotlinx.android.synthetic.main.activity_game.buttonStartTurn
+import kotlinx.android.synthetic.main.activity_game.playerProfilView1
+import kotlinx.android.synthetic.main.activity_game.playerProfilView2
+import kotlinx.android.synthetic.main.activity_game.playerProfilView3
+import kotlinx.android.synthetic.main.activity_game.playerProfilView4
+import kotlinx.android.synthetic.main.activity_game.playerProfilView5
+import kotlinx.android.synthetic.main.activity_game.playerProfilView6
+import kotlinx.android.synthetic.main.activity_game.playerProfilView7
+import kotlinx.android.synthetic.main.activity_game.playerProfilView8
+import kotlinx.android.synthetic.main.activity_game.textViewCurrentPlayerInformations
+import kotlinx.android.synthetic.main.activity_game.textViewPartTurnName
+import kotlinx.android.synthetic.main.activity_game.textViewTimerIncreaseBlinds
+import kotlinx.android.synthetic.main.activity_game.textViewTurnStack
+import kotlinx.android.synthetic.main.layout_profil_player_view.view.imageButtonCheck
 
 
 class GameActivity : AppCompatActivity() {
@@ -25,11 +44,9 @@ class GameActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
         setupListeners()
         setupLiveDatas()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        viewModel.populateGameWithFakeDatas()
+        if (intent.getBooleanExtra("fromWelcome", false)) {
+            viewModel.onStartGame()
+        }
     }
 
     private fun setupLiveDatas() {
@@ -37,6 +54,7 @@ class GameActivity : AppCompatActivity() {
             this,
             Observer { uiModel ->
                 if (uiModel != null) {
+                    playerProfilView1.hideEditProfileLayoutAndShowPlayerLayout()
                     playerProfilView1.updateProfilePlayer(uiModel)
                 } else {
                     playerProfilView1.visibility = View.GONE
@@ -107,6 +125,7 @@ class GameActivity : AppCompatActivity() {
             this,
             Observer { uiModel ->
                 if (uiModel != null) {
+                    playerProfilView8.hideEditProfileLayoutAndShowPlayerLayout()
                     playerProfilView8.updateProfilePlayer(uiModel)
                 } else {
                     playerProfilView8.visibility = View.GONE
@@ -242,61 +261,53 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun setupListeners() {
-        /*playerProfilView1.imageButtonCheck.setOnClickListener {
-            if (!playerProfilView1.getId().isBlank()) {
-                viewModel.onAddPlayer("1", playerProfilView1.getId())
-                playerProfilView1.hideEditProfileLayoutAndShowPlayerLayout()
+        playerProfilView1.imageButtonCheck.setOnClickListener {
+            if (!playerProfilView1.getName().isBlank()) {
+                viewModel.onAddPlayer("1", playerProfilView1.getName())
             }
         }
         playerProfilView2.imageButtonCheck.setOnClickListener {
-            if (!playerProfilView2.getId().isBlank()) {
-                viewModel.onAddPlayer("2", playerProfilView2.getId())
-                playerProfilView2.hideEditProfileLayoutAndShowPlayerLayout()
+            if (!playerProfilView2.getName().isBlank()) {
+                viewModel.onAddPlayer("2", playerProfilView2.getName())
             }
         }
         playerProfilView3.imageButtonCheck.setOnClickListener {
-            if (!playerProfilView3.getId().isBlank()) {
-                viewModel.onAddPlayer("3", playerProfilView3.getId())
-                playerProfilView3.hideEditProfileLayoutAndShowPlayerLayout()
+            if (!playerProfilView3.getName().isBlank()) {
+                viewModel.onAddPlayer("3", playerProfilView3.getName())
             }
         }
         playerProfilView4.imageButtonCheck.setOnClickListener {
-            if (!playerProfilView4.getId().isBlank()) {
-                viewModel.onAddPlayer("4", playerProfilView4.getId())
-                playerProfilView4.hideEditProfileLayoutAndShowPlayerLayout()
+            if (!playerProfilView4.getName().isBlank()) {
+                viewModel.onAddPlayer("4", playerProfilView4.getName())
             }
         }
         playerProfilView5.imageButtonCheck.setOnClickListener {
-            if (!playerProfilView5.getId().isBlank()) {
-                viewModel.onAddPlayer("5", playerProfilView5.getId())
-                playerProfilView5.hideEditProfileLayoutAndShowPlayerLayout()
+            if (!playerProfilView5.getName().isBlank()) {
+                viewModel.onAddPlayer("5", playerProfilView5.getName())
             }
         }
 
         playerProfilView6.imageButtonCheck.setOnClickListener {
-            if (!playerProfilView6.getId().isBlank()) {
-                viewModel.onAddPlayer("6", playerProfilView6.getId())
-                playerProfilView6.hideEditProfileLayoutAndShowPlayerLayout()
+            if (!playerProfilView6.getName().isBlank()) {
+                viewModel.onAddPlayer("6", playerProfilView6.getName())
             }
         }
 
         playerProfilView7.imageButtonCheck.setOnClickListener {
-            if (!playerProfilView7.getId().isBlank()) {
-                viewModel.onAddPlayer("7", playerProfilView7.getId())
-                playerProfilView7.hideEditProfileLayoutAndShowPlayerLayout()
+            if (!playerProfilView7.getName().isBlank()) {
+                viewModel.onAddPlayer("7", playerProfilView7.getName())
             }
         }
 
         playerProfilView8.imageButtonCheck.setOnClickListener {
-            if (!playerProfilView8.getId().isBlank()) {
-                viewModel.onAddPlayer("8", playerProfilView8.getId())
-                playerProfilView8.hideEditProfileLayoutAndShowPlayerLayout()
+            if (!playerProfilView8.getName().isBlank()) {
+                viewModel.onAddPlayer("8", playerProfilView8.getName())
             }
         }
 
         buttonStartGame.setOnClickListener {
             viewModel.onStartGame()
-        }*/
+        }
 
         buttonLeft.setOnClickListener {
             viewModel.onClickButtonLeft(buttonLeft.text.toString())
@@ -324,7 +335,7 @@ class GameActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        viewModel.populateGameWithFakeDatas()
+        // do nothing
     }
 
     fun onDismissEndGameDialog() {

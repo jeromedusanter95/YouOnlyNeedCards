@@ -6,9 +6,10 @@ import com.jerome.dusanter.youonlyneedcards.core.Game
 import com.jerome.dusanter.youonlyneedcards.core.StateTurn
 import com.jerome.dusanter.youonlyneedcards.data.GameRepositoryImpl
 import com.jerome.dusanter.youonlyneedcards.data.SharedPreferencesManager
+import com.jerome.dusanter.youonlyneedcards.utils.MutableCircularList
 
 
-class RetrieveGameFromSharedPreferencesInteractor {
+class RetrieveGameInteractor {
 
     fun execute(listener: Listener, context: Context) {
         val gameString = SharedPreferencesManager.retrieveGame(context)
@@ -24,7 +25,7 @@ class RetrieveGameFromSharedPreferencesInteractor {
         val game = Gson().fromJson(json, Game::class.java)
         GameRepositoryImpl.currentStackTurn = 0
         GameRepositoryImpl.currentStateTurn = StateTurn.PreFlop
-        GameRepositoryImpl.listPlayers = game.listPlayers
+        GameRepositoryImpl.listPlayers = MutableCircularList(game.listPlayers)
         GameRepositoryImpl.settings = game.settings
     }
 

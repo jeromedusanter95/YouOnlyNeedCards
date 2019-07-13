@@ -17,15 +17,14 @@ class SettingsViewModel : ViewModel() {
         stack = 0,
         isMoneyBetEnabled = false,
         isIncreaseBlindsEnabled = false,
-        money = 0,
+        money = 1,
         smallBlind = 0,
         frequencyIncreasingBlind = 0
     )
 
     fun onStartGame(context: Context) {
         //TODO Inject later
-        val interactor = SaveSettingsInteractor()
-        interactor.execute(settings, buildSaveSettingsListener(context))
+        SaveSettingsInteractor().execute(settings, buildSaveSettingsListener(context))
     }
 
     private fun buildSaveSettingsListener(context: Context): SaveSettingsInteractor.Listener =
