@@ -3,8 +3,27 @@ package com.jerome.dusanter.youonlyneedcards.app.game
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.content.Context
-import com.jerome.dusanter.youonlyneedcards.core.*
-import com.jerome.dusanter.youonlyneedcards.core.interactor.*
+import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
+import com.jerome.dusanter.youonlyneedcards.core.Player
+import com.jerome.dusanter.youonlyneedcards.core.PlayerEndGame
+import com.jerome.dusanter.youonlyneedcards.core.PlayerEndTurn
+import com.jerome.dusanter.youonlyneedcards.core.Pot
+import com.jerome.dusanter.youonlyneedcards.core.Settings
+import com.jerome.dusanter.youonlyneedcards.core.StatePlayer
+import com.jerome.dusanter.youonlyneedcards.core.StateTurn
+import com.jerome.dusanter.youonlyneedcards.core.Winner
+import com.jerome.dusanter.youonlyneedcards.core.interactor.AddPlayerInteractor
+import com.jerome.dusanter.youonlyneedcards.core.interactor.CheckIfGameOverInteractor
+import com.jerome.dusanter.youonlyneedcards.core.interactor.DistributeStackInteractor
+import com.jerome.dusanter.youonlyneedcards.core.interactor.EndGameInteractor
+import com.jerome.dusanter.youonlyneedcards.core.interactor.GetParametersToRaiseInteractor
+import com.jerome.dusanter.youonlyneedcards.core.interactor.IncreaseBlindsInteractor
+import com.jerome.dusanter.youonlyneedcards.core.interactor.PlayInteractor
+import com.jerome.dusanter.youonlyneedcards.core.interactor.PlayRequest
+import com.jerome.dusanter.youonlyneedcards.core.interactor.PopulateGameWithFakeDataInteractor
+import com.jerome.dusanter.youonlyneedcards.core.interactor.SaveGameInSharedPreferencesInteractor
+import com.jerome.dusanter.youonlyneedcards.core.interactor.StartGameInteractor
+import com.jerome.dusanter.youonlyneedcards.core.interactor.StartTurnInteractor
 
 class GameViewModel : ViewModel() {
 
@@ -302,4 +321,15 @@ class GameViewModel : ViewModel() {
     fun increaseBlinds() {
         IncreaseBlindsInteractor().execute()
     }
+
+    fun saveGame() {
+        SaveGameInSharedPreferencesInteractor().execute(buildSaveGameListener())
+    }
+
+    private fun buildSaveGameListener(): SaveGameInSharedPreferencesInteractor.Listener =
+        object : SaveGameInSharedPreferencesInteractor.Listener {
+            override fun onSuccess() {
+                stateGame.value = GameUiModel.ShowSaveGame
+            }
+        }
 }

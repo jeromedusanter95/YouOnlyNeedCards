@@ -7,10 +7,30 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.widget.Toast
+import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.app.welcome.WelcomeActivity
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.Winner
-import kotlinx.android.synthetic.main.activity_game.*
+import kotlinx.android.synthetic.main.activity_game.buttonEndGame
+import kotlinx.android.synthetic.main.activity_game.buttonLeft
+import kotlinx.android.synthetic.main.activity_game.buttonMiddle
+import kotlinx.android.synthetic.main.activity_game.buttonRight
+import kotlinx.android.synthetic.main.activity_game.buttonSaveGame
+import kotlinx.android.synthetic.main.activity_game.buttonStartGame
+import kotlinx.android.synthetic.main.activity_game.buttonStartTurn
+import kotlinx.android.synthetic.main.activity_game.playerProfilView1
+import kotlinx.android.synthetic.main.activity_game.playerProfilView2
+import kotlinx.android.synthetic.main.activity_game.playerProfilView3
+import kotlinx.android.synthetic.main.activity_game.playerProfilView4
+import kotlinx.android.synthetic.main.activity_game.playerProfilView5
+import kotlinx.android.synthetic.main.activity_game.playerProfilView6
+import kotlinx.android.synthetic.main.activity_game.playerProfilView7
+import kotlinx.android.synthetic.main.activity_game.playerProfilView8
+import kotlinx.android.synthetic.main.activity_game.textViewCurrentPlayerInformations
+import kotlinx.android.synthetic.main.activity_game.textViewPartTurnName
+import kotlinx.android.synthetic.main.activity_game.textViewTimerIncreaseBlinds
+import kotlinx.android.synthetic.main.activity_game.textViewTurnStack
 
 
 class GameActivity : AppCompatActivity() {
@@ -122,6 +142,14 @@ class GameActivity : AppCompatActivity() {
                         is GameUiModel.ShowCurrentTurn -> updateTableCurrentTurn(gameUiModel)
                         is GameUiModel.ShowEndTurn -> showDialogEndTurn(gameUiModel)
                         is GameUiModel.ShowEndGame -> showDialogEndGame(gameUiModel)
+                        is GameUiModel.ShowSaveGame -> {
+                            Toast.makeText(
+                                this,
+                                getString(R.string.poker_activity_save_game_message),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            goBackToWelcomeActivity()
+                        }
                     }
                 }
             }
@@ -163,6 +191,7 @@ class GameActivity : AppCompatActivity() {
         buttonStartGame.visibility = View.GONE
         buttonStartTurn.visibility = View.GONE
         buttonEndGame.visibility = View.GONE
+        buttonSaveGame.visibility = View.GONE
         buttonLeft.visibility = View.VISIBLE
         buttonMiddle.visibility = View.VISIBLE
         textViewPartTurnName.visibility = View.VISIBLE
@@ -206,6 +235,7 @@ class GameActivity : AppCompatActivity() {
 
     private fun updateTableChooseWinners(gameUiModel: GameUiModel.ShowChooseWinnersDialog) {
         buttonStartTurn.visibility = View.VISIBLE
+        buttonSaveGame.visibility = View.VISIBLE
         buttonEndGame.visibility = View.VISIBLE
         buttonLeft.visibility = View.GONE
         buttonMiddle.visibility = View.GONE
@@ -305,6 +335,10 @@ class GameActivity : AppCompatActivity() {
         buttonEndGame.setOnClickListener {
             viewModel.onEndGame(this)
         }
+
+        buttonSaveGame.setOnClickListener {
+            viewModel.saveGame()
+        }
     }
 
     override fun onBackPressed() {
@@ -312,6 +346,10 @@ class GameActivity : AppCompatActivity() {
     }
 
     fun onDismissEndGameDialog() {
+        goBackToWelcomeActivity()
+    }
+
+    private fun goBackToWelcomeActivity() {
         val intent = Intent(this, WelcomeActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)

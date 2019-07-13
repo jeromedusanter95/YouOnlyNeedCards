@@ -23,6 +23,8 @@ sealed class GameUiModel {
     data class ShowEndGame(
         val playerEndGameList: List<PlayerEndGameUiModel>
     ) : GameUiModel()
+
+    object ShowSaveGame : GameUiModel()
 }
 
 data class DialogRaiseUiModel(
