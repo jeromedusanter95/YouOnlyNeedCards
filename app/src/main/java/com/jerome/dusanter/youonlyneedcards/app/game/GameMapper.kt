@@ -124,7 +124,7 @@ class GameMapper {
                                 settings.ratioStackMoney
                             )
                         )
-                    } else {
+                    } else if (settings.isMoneyBetEnabled) {
                         context.getString(
                             R.string.poker_activity_end_game_description_loser,
                             getAmountMoneyWonOrLost(
@@ -133,6 +133,8 @@ class GameMapper {
                                 settings.ratioStackMoney
                             )
                         )
+                    } else {
+                        context.getString(R.string.poker_activity_end_game_description_no_money_bet)
                     },
                     context.getString(
                         R.string.poker_activity_end_game_ranking,
