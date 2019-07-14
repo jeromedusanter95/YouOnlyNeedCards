@@ -41,7 +41,11 @@ class PlayInteractor {
             }
             GameRepositoryImpl.isPartTurnOver() -> {
                 GameRepositoryImpl.endPartTurn()
-                GameRepositoryImpl.moveToFirstPlayerAvailableFromSmallBlind()
+                if (GameRepositoryImpl.getNumberPlayersNotEliminated() == 2) {
+                    GameRepositoryImpl.moveToBigBlindWhenRemainingOnlyTwoPlayers()
+                } else {
+                    GameRepositoryImpl.moveToFirstPlayerAvailableFromSmallBlind()
+                }
                 listener.getGameInformations(
                     GameRepositoryImpl.getPossibleActions(),
                     GameRepositoryImpl.listPlayers,

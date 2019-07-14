@@ -1,7 +1,6 @@
 package com.jerome.dusanter.youonlyneedcards.utils
 
 // TODO LIST
-// 1. Changer la sauvegarde : Enlever le bouton et sauvegarder à chaque partie
 // 2. Tester le mode 2 joueurs
 // 3. Checker que les settings sont valides avant de commencer la partie
 // 4. Recave

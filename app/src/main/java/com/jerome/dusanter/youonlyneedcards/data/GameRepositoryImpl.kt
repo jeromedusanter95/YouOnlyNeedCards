@@ -55,7 +55,7 @@ object GameRepositoryImpl {
         withDrawBlindsToPlayer()
     }
 
-    private fun getNumberPlayersNotEliminated(): Int {
+    fun getNumberPlayersNotEliminated(): Int {
         return listPlayers.filter { it.statePlayer != StatePlayer.Eliminate }.size
     }
 
@@ -261,6 +261,14 @@ object GameRepositoryImpl {
         )
         listPlayers[newCurrentPlayerIndex].statePlayer = StatePlayer.CurrentTurn
         currentPlayer = listPlayers[newCurrentPlayerIndex]
+    }
+
+
+    fun moveToBigBlindWhenRemainingOnlyTwoPlayers() {
+        val previousCurrentPlayerIndex = getCurrentPlayerIndex()
+        listPlayers[previousCurrentPlayerIndex].statePlayer = StatePlayer.Playing
+        listPlayers[getBigBlindIndex()].statePlayer = StatePlayer.CurrentTurn
+        currentPlayer = listPlayers[getBigBlindIndex()]
     }
 
 
