@@ -21,15 +21,27 @@
         />
 
     <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewTimerIncreaseBlindsTitle"
+        style="@style/AppTheme.Text.GameActivity.Informations"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/sizing_2"
+        android:layout_marginRight="@dimen/sizing_2"
+        android:text="@string/poker_activity_timer_increase_blinds_title"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/textViewTimerIncreaseBlinds"
         style="@style/AppTheme.Text.GameActivity.Informations"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/sizing_2"
         android:layout_marginEnd="@dimen/sizing_2"
         android:layout_marginRight="@dimen/sizing_2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewTimerIncreaseBlindsTitle"
         />
 
     <android.support.constraint.Guideline

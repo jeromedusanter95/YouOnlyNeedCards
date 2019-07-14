@@ -19,7 +19,8 @@ class SettingsViewModel : ViewModel() {
         isIncreaseBlindsEnabled = false,
         money = 1,
         smallBlind = 0,
-        frequencyIncreasingBlind = 0
+        frequencyIncreasingBlind = 0,
+        ratioStackMoney = 1
     )
 
     fun onStartGame(context: Context) {
@@ -49,7 +50,8 @@ class SettingsViewModel : ViewModel() {
     }
 
     fun onSeekBarFrequencyIncreasedBlindUpdated(progress: Int) {
-        settings = settings.copy(frequencyIncreasingBlind = progress.toLong())
+        val milis = progress * 60 * 1000
+        settings = settings.copy(frequencyIncreasingBlind = milis.toLong())
         state.value = mapper.map(settings)
     }
 

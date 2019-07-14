@@ -36,8 +36,10 @@
     <string name="poker_activity_end_game_description">%1$s finit avec %2$d jetons</string>
     <string name="poker_activity_end_game_description_winner">Il gagne donc %1$d euros</string>
     <string name="poker_activity_end_game_description_loser">Il perd donc %1$d euros</string>
+    <string name="poker_activity_end_game_description_no_money_bet">Il n\'y avait pas d\'argent en jeu</string>
     <string name="poker_activity_end_game_ranking">Il finit %1$s de la partie</string>
     <string name="poker_activity_end_game">Finir la partie</string>
     <string name="poker_activity_save_game">Sauvegarder</string>
     <string name="poker_activity_save_game_message">Partie sauvegardée !</string>
+    <string name="poker_activity_timer_increase_blinds_title">Blinds augmentent dans</string>
 </resources>

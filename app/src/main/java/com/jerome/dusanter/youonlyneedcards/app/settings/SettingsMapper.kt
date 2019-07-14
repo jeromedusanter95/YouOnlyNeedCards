@@ -15,7 +15,7 @@ class SettingsMapper {
                 + "/"
                 + settings.smallBlind * 2
                 + SettingsConstants.CHIPS,
-            frequencyIncreasingBlind = settings.frequencyIncreasingBlind.toString()
+            frequencyIncreasingBlind = (settings.frequencyIncreasingBlind / 60000).toString()
                 + SettingsConstants.MIN,
             money = settings.money.toString() + SettingsConstants.EURO,
             increaseBlindsAnswer = if (settings.isIncreaseBlindsEnabled) {

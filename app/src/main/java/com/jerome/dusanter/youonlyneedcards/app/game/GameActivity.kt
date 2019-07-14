@@ -30,6 +30,7 @@ import kotlinx.android.synthetic.main.activity_game.playerProfilView8
 import kotlinx.android.synthetic.main.activity_game.textViewCurrentPlayerInformations
 import kotlinx.android.synthetic.main.activity_game.textViewPartTurnName
 import kotlinx.android.synthetic.main.activity_game.textViewTimerIncreaseBlinds
+import kotlinx.android.synthetic.main.activity_game.textViewTimerIncreaseBlindsTitle
 import kotlinx.android.synthetic.main.activity_game.textViewTurnStack
 import kotlinx.android.synthetic.main.layout_profil_player_view.view.imageButtonCheck
 
@@ -211,6 +212,7 @@ class GameActivity : AppCompatActivity() {
         textViewTurnStack.text = gameUiModel.stackTurn
         if (gameUiModel.resetTimer) {
             startTimer(gameUiModel.durationBeforeIncreasingBlind)
+            textViewTimerIncreaseBlindsTitle.visibility = View.VISIBLE
         }
     }
 
