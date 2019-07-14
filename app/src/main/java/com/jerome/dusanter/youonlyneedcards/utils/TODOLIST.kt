@@ -1,7 +1,6 @@
 package com.jerome.dusanter.youonlyneedcards.utils
 
 // TODO LIST
-// 3. Checker qu'on ait au moins 2 joueurs avant de commencer la partie
 // 3. Changer l'ordre en mettant en affichant d'abord la dialog puis les boutons
 // 3. Mettre la dialogRaise dans le GameUiModel
 // 4. Recave

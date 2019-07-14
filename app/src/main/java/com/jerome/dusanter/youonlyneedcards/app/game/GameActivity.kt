@@ -244,6 +244,12 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun updateTableChooseWinners(gameUiModel: GameUiModel.ShowChooseWinnersDialog) {
+        if (gameUiModel.potList[0].potentialWinnerList.size > 1) {
+            ChooseWinnersDialog.newInstance(gameUiModel)
+                .show(supportFragmentManager, "ChooseWinnersDialog")
+        } else {
+            viewModel.onDistributeStack(GameMapper().map(gameUiModel.potList[0]))
+        }
         buttonStartTurn.visibility = View.VISIBLE
         buttonEndGame.visibility = View.VISIBLE
         buttonLeft.visibility = View.GONE
@@ -252,12 +258,6 @@ class GameActivity : AppCompatActivity() {
         textViewPartTurnName.visibility = View.GONE
         textViewTurnStack.visibility = View.GONE
         textViewCurrentPlayerInformations.visibility = View.GONE
-        if (gameUiModel.potList[0].potentialWinnerList.size > 1) {
-            ChooseWinnersDialog.newInstance(gameUiModel)
-                .show(supportFragmentManager, "ChooseWinnersDialog")
-        } else {
-            viewModel.onDistributeStack(GameMapper().map(gameUiModel.potList[0]))
-        }
     }
 
     fun onDismissChooseWinnersDialog(winnerList: List<Winner>) {
