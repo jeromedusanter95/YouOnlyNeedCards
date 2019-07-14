@@ -12,12 +12,12 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.SeekBar
 import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.utils.SeekBarChangeListener
-import kotlinx.android.synthetic.main.layout_dialog_raise.buttonAllin
-import kotlinx.android.synthetic.main.layout_dialog_raise.buttonMinRaise
-import kotlinx.android.synthetic.main.layout_dialog_raise.imageButtonCheck
-import kotlinx.android.synthetic.main.layout_dialog_raise.imageButtonClose
-import kotlinx.android.synthetic.main.layout_dialog_raise.seekBarRaise
-import kotlinx.android.synthetic.main.layout_dialog_raise.textViewMoneyToRaise
+import kotlinx.android.synthetic.main.dialog_raise.buttonAllin
+import kotlinx.android.synthetic.main.dialog_raise.buttonMinRaise
+import kotlinx.android.synthetic.main.dialog_raise.imageButtonCheck
+import kotlinx.android.synthetic.main.dialog_raise.imageButtonClose
+import kotlinx.android.synthetic.main.dialog_raise.seekBarRaise
+import kotlinx.android.synthetic.main.dialog_raise.textViewMoneyToRaise
 
 class RaiseDialog : DialogFragment() {
 
@@ -25,7 +25,7 @@ class RaiseDialog : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.layout_dialog_raise, container, false)
+    ): View? = inflater.inflate(R.layout.dialog_raise, container, false)
 
     var stackRaised = 0
     var isAllIn = false

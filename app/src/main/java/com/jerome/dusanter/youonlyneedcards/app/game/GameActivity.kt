@@ -327,8 +327,13 @@ class GameActivity : AppCompatActivity() {
         }
 
         buttonEndGame.setOnClickListener {
-            viewModel.onEndGame(this)
+            ConfirmationEndGameDialog.newInstance()
+                .show(supportFragmentManager, "ConfirmationEndGameDialog")
         }
+    }
+
+    fun onClickOnCheckInConfirmationEndGameDialog() {
+        viewModel.onEndGame(this)
     }
 
     override fun onBackPressed() {

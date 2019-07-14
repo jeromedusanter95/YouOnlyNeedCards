@@ -9,27 +9,33 @@
     >
 
     <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/textViewTitle"
+        android:id="@+id/textViewMessage"
         style="@style/AppTheme.Text.GameActivity.Informations"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/poker_activity_end_turn_title"
-        app:layout_constraintBottom_toTopOf="@id/recyclerView"
+        android:text="@string/poker_actiivty_confirmation_end_game_dialog_message"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="0dp"
+    <android.support.v7.widget.AppCompatImageButton
+        android:id="@+id/imageButtonClose"
+        style="@style/AppTheme.Button.GameActivity"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/sizing_1"
-        app:layout_constraintBottom_toTopOf="@id/imageButtonCheck"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/sizing_3"
+        android:paddingTop="@dimen/sizing_1"
+        android:paddingBottom="@dimen/sizing_1"
+        android:background="@drawable/background_button_transparent"
+        android:src="@drawable/ic_close_white_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/imageButtonCheck"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewTitle"
+        app:layout_constraintTop_toBottomOf="@id/textViewMessage"
         />
 
     <android.support.v7.widget.AppCompatImageButton
@@ -44,7 +50,8 @@
         android:src="@drawable/ic_check_white_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recyclerView"
+        app:layout_constraintStart_toEndOf="@id/imageButtonClose"
+        app:layout_constraintTop_toBottomOf="@id/textViewMessage"
         />
 
 </android.support.constraint.ConstraintLayout>
