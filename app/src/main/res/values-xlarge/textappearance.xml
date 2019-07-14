@@ -14,6 +14,11 @@
         <item name="android:textSize">@dimen/text_size_5</item>
     </style>
 
+    <style name="AppTheme.Text.SettingsActivity.Error">
+        <item name="android:textSize">@dimen/text_size_5</item>
+        <item name="android:textColor">@color/error</item>
+    </style>
+
     <style name="AppTheme.Text.SettingsActivity.Button">
         <item name="android:textSize">@dimen/text_size_5</item>
     </style>

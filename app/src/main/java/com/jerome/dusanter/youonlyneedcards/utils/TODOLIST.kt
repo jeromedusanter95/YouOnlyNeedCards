@@ -1,8 +1,9 @@
 package com.jerome.dusanter.youonlyneedcards.utils
 
 // TODO LIST
-// 2. Tester le mode 2 joueurs
 // 3. Checker que les settings sont valides avant de commencer la partie
+// 3. Checker qu'on ait au moins 2 joueurs avant de commencer la partie
+// 3. Changer l'ordre en mettant en affichant d'abord la dialog puis les boutons
 // 4. Recave
 // 5. Ajout de joueur pendant la partie
 // 6. Adapter l'UI sur un portable

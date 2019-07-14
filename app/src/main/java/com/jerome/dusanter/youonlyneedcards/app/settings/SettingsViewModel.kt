@@ -17,15 +17,24 @@ class SettingsViewModel : ViewModel() {
         stack = 0,
         isMoneyBetEnabled = false,
         isIncreaseBlindsEnabled = false,
-        money = 1,
+        money = 0,
         smallBlind = 0,
         frequencyIncreasingBlind = 0,
-        ratioStackMoney = 1
+        ratioStackMoney = 0
     )
 
     fun onStartGame(context: Context) {
-        //TODO Inject later
-        SaveSettingsInteractor().execute(settings, buildSaveSettingsListener(context))
+        //TODO Inject later interactor & context
+        if (settings.smallBlind == 0
+            || settings.stack == 0
+            || (settings.isMoneyBetEnabled && settings.money == 0)
+            || (settings.isIncreaseBlindsEnabled && settings.frequencyIncreasingBlind.toInt() == 0)
+        ) {
+            state.value = SettingsMapper().mapToUiModelError(settings)
+        } else {
+            SaveSettingsInteractor().execute(settings, buildSaveSettingsListener(context))
+        }
+
     }
 
     private fun buildSaveSettingsListener(context: Context): SaveSettingsInteractor.Listener =
@@ -36,37 +45,37 @@ class SettingsViewModel : ViewModel() {
         }
 
     fun start() {
-        state.value = mapper.map(settings)
+        state.value = mapper.mapToUiModelSuccess(settings)
     }
 
     fun onSeekBarBlindUpdated(progress: Int) {
         settings = settings.copy(smallBlind = progress)
-        state.value = mapper.map(settings)
+        state.value = mapper.mapToUiModelSuccess(settings)
     }
 
     fun onSeekBarStackUpdated(progress: Int) {
         settings = settings.copy(stack = progress)
-        state.value = mapper.map(settings)
+        state.value = mapper.mapToUiModelSuccess(settings)
     }
 
     fun onSeekBarFrequencyIncreasedBlindUpdated(progress: Int) {
         val milis = progress * 60 * 1000
         settings = settings.copy(frequencyIncreasingBlind = milis.toLong())
-        state.value = mapper.map(settings)
+        state.value = mapper.mapToUiModelSuccess(settings)
     }
 
     fun onSeekBarMoneyUpdated(progress: Int) {
         settings = settings.copy(money = progress)
-        state.value = mapper.map(settings)
+        state.value = mapper.mapToUiModelSuccess(settings)
     }
 
     fun onSwitchMoneyToggled(checked: Boolean) {
         settings = settings.copy(isMoneyBetEnabled = checked)
-        state.value = mapper.map(settings)
+        state.value = mapper.mapToUiModelSuccess(settings)
     }
 
     fun onSwitchIncreaseBlindsToggled(checked: Boolean) {
         settings = settings.copy(isIncreaseBlindsEnabled = checked)
-        state.value = mapper.map(settings)
+        state.value = mapper.mapToUiModelSuccess(settings)
     }
 }

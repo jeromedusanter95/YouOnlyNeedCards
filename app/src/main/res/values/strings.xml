@@ -15,6 +15,10 @@
     <string name="settings_game_activity_blind_increase">Blinds augmentent au cours de la partie ? :</string>
     <string name="settings_game_activity_blind_increase_frequency">Fréquence de l\'augmentation des blinds :</string>
     <string name="settings_game_activity_start_game">Commencer</string>
+    <string name="settings_game_activity_blind_error">Les blinds ne peuvent pas être nulles</string>
+    <string name="settings_game_activity_stack_error">Le nombre de jetons ne peut pas être nul</string>
+    <string name="settings_game_activity_frequency_error">Le fréquence de temps ne peut pas être nulle</string>
+    <string name="settings_game_activity_money_error">La somme misée ne peut pas être nulle</string>
 
     <!--POKER ACTIVITY-->
     <string name="poker_activity_add_player">Ajoutez un joueur</string>

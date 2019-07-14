@@ -10,7 +10,25 @@ import android.view.View
 import android.widget.SeekBar
 import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.utils.SeekBarChangeListener
-import kotlinx.android.synthetic.main.activity_settings.*
+import kotlinx.android.synthetic.main.activity_settings.buttonStartGame
+import kotlinx.android.synthetic.main.activity_settings.groupIncreasedBlinds
+import kotlinx.android.synthetic.main.activity_settings.groupMoney
+import kotlinx.android.synthetic.main.activity_settings.seekBarBlind
+import kotlinx.android.synthetic.main.activity_settings.seekBarChips
+import kotlinx.android.synthetic.main.activity_settings.seekBarFrequencyIncreaseBlind
+import kotlinx.android.synthetic.main.activity_settings.seekBarMoney
+import kotlinx.android.synthetic.main.activity_settings.switchIncreaseBlinds
+import kotlinx.android.synthetic.main.activity_settings.switchMoney
+import kotlinx.android.synthetic.main.activity_settings.textViewBlindAmount
+import kotlinx.android.synthetic.main.activity_settings.textViewChipsAmount
+import kotlinx.android.synthetic.main.activity_settings.textViewErrorBlinds
+import kotlinx.android.synthetic.main.activity_settings.textViewErrorFrequency
+import kotlinx.android.synthetic.main.activity_settings.textViewErrorMoney
+import kotlinx.android.synthetic.main.activity_settings.textViewErrorStack
+import kotlinx.android.synthetic.main.activity_settings.textViewIncreaseBlindAnswer
+import kotlinx.android.synthetic.main.activity_settings.textViewIncreaseBlindFrequencyAmount
+import kotlinx.android.synthetic.main.activity_settings.textViewMoneyAmount
+import kotlinx.android.synthetic.main.activity_settings.textViewMoneyAnswer
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -69,8 +87,11 @@ class SettingsActivity : AppCompatActivity() {
     private fun setupLiveData() {
         viewModel.state.observe(
             this,
-            Observer { state ->
-                updateView(state)
+            Observer { settingsUiModel ->
+                when (settingsUiModel) {
+                    is SettingsUiModel.Success -> updateView(settingsUiModel)
+                    is SettingsUiModel.Error -> showError(settingsUiModel)
+                }
             })
     }
 
@@ -93,24 +114,61 @@ class SettingsActivity : AppCompatActivity() {
         )
     }
 
-    private fun updateView(uiModel: SettingsUiModel?) {
+    private fun updateView(uiModel: SettingsUiModel.Success?) {
         if (uiModel != null) {
             textViewBlindAmount.text = uiModel.smallBlind
+            if (!uiModel.showErrorBlinds
+                && textViewErrorBlinds.visibility == View.VISIBLE
+            ) {
+                textViewErrorBlinds.visibility = View.GONE
+            }
             textViewChipsAmount.text = uiModel.stack
+            if (!uiModel.showErrorStack
+                && textViewErrorStack.visibility == View.VISIBLE
+            ) {
+                textViewErrorStack.visibility = View.GONE
+            }
             textViewMoneyAnswer.text = uiModel.moneyBetAnswer
             textViewIncreaseBlindAnswer.text = uiModel.increaseBlindsAnswer
             if (uiModel.isMoneyBetEnabled) {
                 textViewMoneyAmount.text = uiModel.money
+                if (!uiModel.showErrorMoney
+                    && textViewErrorMoney.visibility == View.VISIBLE
+                ) {
+                    textViewErrorMoney.visibility = View.GONE
+                }
                 groupMoney.visibility = View.VISIBLE
             } else {
                 groupMoney.visibility = View.GONE
+                textViewErrorMoney.visibility = View.GONE
             }
             if (uiModel.isIncreaseBlindsEnabled) {
                 textViewIncreaseBlindFrequencyAmount.text = uiModel.frequencyIncreasingBlind
+                if (!uiModel.showErrorFrequencyIncreaseBlinds
+                    && textViewErrorFrequency.visibility == View.VISIBLE
+                ) {
+                    textViewErrorFrequency.visibility = View.GONE
+                }
                 groupIncreasedBlinds.visibility = View.VISIBLE
             } else {
                 groupIncreasedBlinds.visibility = View.GONE
+                textViewErrorFrequency.visibility = View.GONE
             }
+        }
+    }
+
+    private fun showError(settingsUiModel: SettingsUiModel.Error) {
+        if (settingsUiModel.showErrorBlinds) {
+            textViewErrorBlinds.visibility = View.VISIBLE
+        }
+        if (settingsUiModel.showErrorStack) {
+            textViewErrorStack.visibility = View.VISIBLE
+        }
+        if (settingsUiModel.showErrorFrequencyIncreaseBlinds) {
+            textViewErrorFrequency.visibility = View.VISIBLE
+        }
+        if (settingsUiModel.showErrorMoney) {
+            textViewErrorMoney.visibility = View.VISIBLE
         }
     }
 

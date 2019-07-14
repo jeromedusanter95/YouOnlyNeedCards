@@ -46,8 +46,8 @@ data class Settings(
     var smallBlind: Int,
     val isIncreaseBlindsEnabled: Boolean,
     val frequencyIncreasingBlind: Long,
-    val ratioStackMoney: Int = stack / money
-)
+    var ratioStackMoney: Int
+    )
 
 enum class StateBlind {
     Nothing,

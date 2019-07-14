@@ -90,6 +90,20 @@
         tools:text="250"
         />
 
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewErrorMoney"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/sizing_1"
+        android:layout_marginLeft="@dimen/sizing_1"
+        android:text="@string/settings_game_activity_money_error"
+        android:textAppearance="@style/AppTheme.Text.SettingsActivity.Error"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/textViewMoneyAmount"
+        app:layout_constraintStart_toEndOf="@id/textViewMoneyAmount"
+        app:layout_constraintTop_toTopOf="@id/textViewMoneyAmount"
+        />
+
     <android.support.v7.widget.AppCompatSeekBar
         android:id="@+id/seekBarMoney"
         android:layout_width="0dp"
@@ -126,6 +140,20 @@
         tools:text="5000"
         />
 
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewErrorStack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/sizing_1"
+        android:layout_marginLeft="@dimen/sizing_1"
+        android:text="@string/settings_game_activity_stack_error"
+        android:textAppearance="@style/AppTheme.Text.SettingsActivity.Error"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/textViewChipsAmount"
+        app:layout_constraintStart_toEndOf="@id/textViewChipsAmount"
+        app:layout_constraintTop_toTopOf="@id/textViewChipsAmount"
+        />
+
     <android.support.v7.widget.AppCompatSeekBar
         android:id="@+id/seekBarChips"
         android:layout_width="0dp"
@@ -159,7 +187,21 @@
         app:layout_constraintBottom_toTopOf="@id/seekBarBlind"
         app:layout_constraintStart_toEndOf="@id/textViewBlind"
         app:layout_constraintTop_toBottomOf="@id/seekBarChips"
-        tools:text="250/500"
+        tools:text="250/500 jetons"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewErrorBlinds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/sizing_1"
+        android:layout_marginLeft="@dimen/sizing_1"
+        android:text="@string/settings_game_activity_blind_error"
+        android:textAppearance="@style/AppTheme.Text.SettingsActivity.Error"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/textViewBlindAmount"
+        app:layout_constraintStart_toEndOf="@id/textViewBlindAmount"
+        app:layout_constraintTop_toTopOf="@id/textViewBlindAmount"
         />
 
     <android.support.v7.widget.AppCompatSeekBar
@@ -238,6 +280,20 @@
         app:layout_constraintStart_toEndOf="@id/textViewIncreaseBlindFrequency"
         app:layout_constraintTop_toBottomOf="@id/switchIncreaseBlinds"
         tools:text="60 min"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewErrorFrequency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/sizing_1"
+        android:layout_marginLeft="@dimen/sizing_1"
+        android:text="@string/settings_game_activity_frequency_error"
+        android:textAppearance="@style/AppTheme.Text.SettingsActivity.Error"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/textViewIncreaseBlindFrequencyAmount"
+        app:layout_constraintStart_toEndOf="@id/textViewIncreaseBlindFrequencyAmount"
+        app:layout_constraintTop_toTopOf="@id/textViewIncreaseBlindFrequencyAmount"
         />
 
     <android.support.v7.widget.AppCompatSeekBar
