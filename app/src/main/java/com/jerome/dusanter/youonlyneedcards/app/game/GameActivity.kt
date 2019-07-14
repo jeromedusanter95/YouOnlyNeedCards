@@ -336,6 +336,7 @@ class GameActivity : AppCompatActivity() {
     }
 
     fun onDismissEndGameDialog() {
+        viewModel.deleteGame(this)
         goBackToWelcomeActivity()
     }
 

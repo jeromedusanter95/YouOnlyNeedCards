@@ -14,17 +14,10 @@ class WelcomeViewModel : ViewModel() {
     val state = MutableLiveData<WelcomeUiModel>()
 
     fun onNewGame(context: Context) {
-        DeleteGameInteractor().execute(buildDeleteGameListener(context), context)
+        DeleteGameInteractor().execute(context)
+        val i = Intent(context, SettingsActivity::class.java)
+        context.startActivity(i)
     }
-
-    private fun buildDeleteGameListener(context: Context): DeleteGameInteractor.Listener =
-        object : DeleteGameInteractor.Listener {
-            override fun onSuccess() {
-                val i = Intent(context, SettingsActivity::class.java)
-                context.startActivity(i)
-            }
-        }
-
 
     fun onOldGame(context: Context) {
         RetrieveGameInteractor().execute(buildRetrieveGameListener(context), context)

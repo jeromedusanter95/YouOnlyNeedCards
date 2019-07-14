@@ -5,12 +5,7 @@ import com.jerome.dusanter.youonlyneedcards.data.SharedPreferencesManager
 
 class DeleteGameInteractor {
 
-    fun execute(listener: Listener, context: Context) {
+    fun execute(context: Context) {
         SharedPreferencesManager.deleteGame(context)
-        listener.onSuccess()
-    }
-
-    interface Listener {
-        fun onSuccess()
     }
 }

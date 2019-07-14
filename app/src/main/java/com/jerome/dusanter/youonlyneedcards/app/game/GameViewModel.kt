@@ -14,6 +14,7 @@ import com.jerome.dusanter.youonlyneedcards.core.StateTurn
 import com.jerome.dusanter.youonlyneedcards.core.Winner
 import com.jerome.dusanter.youonlyneedcards.core.interactor.AddPlayerInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.CheckIfGameOverInteractor
+import com.jerome.dusanter.youonlyneedcards.core.interactor.DeleteGameInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.DistributeStackInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.EndGameInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.GetParametersToRaiseInteractor
@@ -311,5 +312,9 @@ class GameViewModel : ViewModel() {
 
     fun saveGame(context: Context, timeRemainingBeforeIncreaseBlind: Long) {
         SaveGameInInteractor().execute(context, timeRemainingBeforeIncreaseBlind)
+    }
+
+    fun deleteGame(context: Context) {
+        DeleteGameInteractor().execute(context)
     }
 }
