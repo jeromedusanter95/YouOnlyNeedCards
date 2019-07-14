@@ -130,7 +130,11 @@ class GameViewModel : ViewModel() {
 
     private fun buildGameListener(): StartGameInteractor.Listener =
         object : StartGameInteractor.Listener {
-            override fun getPossibleActions(
+            override fun onError() {
+                stateGame.value = GameUiModel.ShowErrorNotEnoughtPlayer
+            }
+
+            override fun onSuccess(
                 actionPlayerList: List<ActionPlayer>,
                 playerList: List<Player>,
                 stackTurn: Int,

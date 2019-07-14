@@ -46,4 +46,5 @@
     <string name="poker_activity_save_game">Sauvegarder</string>
     <string name="poker_activity_save_game_message">Partie sauvegardée !</string>
     <string name="poker_activity_timer_increase_blinds_title">Blinds augmentent dans</string>
+    <string name="poker_actiivty_not_enought_player_error">Vous devez au moins être 2 joueurs pour jouer</string>
 </resources>

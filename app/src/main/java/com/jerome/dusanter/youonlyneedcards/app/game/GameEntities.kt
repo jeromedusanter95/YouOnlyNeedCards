@@ -25,6 +25,8 @@ sealed class GameUiModel {
     ) : GameUiModel()
 
     object ShowSaveGame : GameUiModel()
+
+    object ShowErrorNotEnoughtPlayer : GameUiModel()
 }
 
 data class DialogRaiseUiModel(

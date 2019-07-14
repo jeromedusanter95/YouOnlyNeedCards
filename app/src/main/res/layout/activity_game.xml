@@ -365,4 +365,17 @@
         app:layout_constraintTop_toBottomOf="@id/viewSeparator"
         />
 
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewErrorNotEnoughtPlayer"
+        style="@style/AppTheme.Text.GameActivity.Error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/poker_actiivty_not_enought_player_error"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewSeparator"
+        />
+
 </android.support.constraint.ConstraintLayout>

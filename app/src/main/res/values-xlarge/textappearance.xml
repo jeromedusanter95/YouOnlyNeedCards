@@ -32,4 +32,9 @@
     <style name="AppTheme.Text.GameActivity.Informations">
         <item name="android:textSize">@dimen/text_size_5</item>
     </style>
+
+    <style name="AppTheme.Text.GameActivity.Error">
+        <item name="android:textSize">@dimen/text_size_5</item>
+        <item name="android:textColor">@color/error</item>
+    </style>
 </resources>

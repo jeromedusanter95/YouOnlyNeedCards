@@ -27,6 +27,7 @@ import kotlinx.android.synthetic.main.activity_game.playerProfilView6
 import kotlinx.android.synthetic.main.activity_game.playerProfilView7
 import kotlinx.android.synthetic.main.activity_game.playerProfilView8
 import kotlinx.android.synthetic.main.activity_game.textViewCurrentPlayerInformations
+import kotlinx.android.synthetic.main.activity_game.textViewErrorNotEnoughtPlayer
 import kotlinx.android.synthetic.main.activity_game.textViewPartTurnName
 import kotlinx.android.synthetic.main.activity_game.textViewTimerIncreaseBlinds
 import kotlinx.android.synthetic.main.activity_game.textViewTimerIncreaseBlindsTitle
@@ -152,6 +153,7 @@ class GameActivity : AppCompatActivity() {
                             ).show()
                             goBackToWelcomeActivity()
                         }
+                        is GameUiModel.ShowErrorNotEnoughtPlayer -> showErrotNotEnoughtPlayer()
                     }
                 }
             }
@@ -165,6 +167,10 @@ class GameActivity : AppCompatActivity() {
                 }
             }
         )
+    }
+
+    private fun showErrotNotEnoughtPlayer() {
+        textViewErrorNotEnoughtPlayer.visibility = View.VISIBLE
     }
 
     private fun showDialogEndGame(gameUiModel: GameUiModel.ShowEndGame) {
@@ -210,7 +216,7 @@ class GameActivity : AppCompatActivity() {
         textViewCurrentPlayerInformations.text = gameUiModel.informationsCurrentPlayer
         textViewPartTurnName.text = gameUiModel.namePartTurn
         textViewTurnStack.text = gameUiModel.stackTurn
-        if (gameUiModel.resetTimer ) {
+        if (gameUiModel.resetTimer) {
             startTimer(gameUiModel.durationBeforeIncreasingBlind)
             textViewTimerIncreaseBlindsTitle.visibility = View.VISIBLE
         }
@@ -308,6 +314,7 @@ class GameActivity : AppCompatActivity() {
         }
 
         buttonStartGame.setOnClickListener {
+            textViewErrorNotEnoughtPlayer.visibility = View.GONE
             viewModel.onStartGame()
         }
 

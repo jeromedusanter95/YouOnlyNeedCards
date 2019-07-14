@@ -6,26 +6,32 @@ import com.jerome.dusanter.youonlyneedcards.data.GameRepositoryImpl
 
 class StartGameInteractor {
     fun execute(listener: Listener) {
-        GameRepositoryImpl.initializeListWithGoodOrder()
-        GameRepositoryImpl.initializeStateBlind()
-        GameRepositoryImpl.initializeCurrentPlayerAfterBigBlind()
-        listener.getPossibleActions(
-            GameRepositoryImpl.getPossibleActions(),
-            GameRepositoryImpl.listPlayers,
-            GameRepositoryImpl.currentStackTurn,
-            GameRepositoryImpl.isIncreaseBlindsEnabled(),
-            GameRepositoryImpl.settings.frequencyIncreasingBlind
-        )
+        if (GameRepositoryImpl.listPlayers.size > 1) {
+            GameRepositoryImpl.initializeListWithGoodOrder()
+            GameRepositoryImpl.initializeStateBlind()
+            GameRepositoryImpl.initializeCurrentPlayerAfterBigBlind()
+            listener.onSuccess(
+                GameRepositoryImpl.getPossibleActions(),
+                GameRepositoryImpl.listPlayers,
+                GameRepositoryImpl.currentStackTurn,
+                GameRepositoryImpl.isIncreaseBlindsEnabled(),
+                GameRepositoryImpl.settings.frequencyIncreasingBlind
+            )
+        } else {
+            listener.onError()
+        }
     }
 
     interface Listener {
-        fun getPossibleActions(
+        fun onSuccess(
             actionPlayerList: List<ActionPlayer>,
             playerList: List<Player>,
             stackTurn: Int,
             resetTimer: Boolean,
             durationBeforeIncreasingBlind: Long
         )
+
+        fun onError()
     }
 }
 
