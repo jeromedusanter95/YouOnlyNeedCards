@@ -16,7 +16,6 @@ import kotlinx.android.synthetic.main.activity_game.buttonEndGame
 import kotlinx.android.synthetic.main.activity_game.buttonLeft
 import kotlinx.android.synthetic.main.activity_game.buttonMiddle
 import kotlinx.android.synthetic.main.activity_game.buttonRight
-import kotlinx.android.synthetic.main.activity_game.buttonSaveGame
 import kotlinx.android.synthetic.main.activity_game.buttonStartGame
 import kotlinx.android.synthetic.main.activity_game.buttonStartTurn
 import kotlinx.android.synthetic.main.activity_game.playerProfilView1
@@ -38,6 +37,7 @@ import kotlinx.android.synthetic.main.layout_profil_player_view.view.imageButton
 class GameActivity : AppCompatActivity() {
 
     private lateinit var viewModel: GameViewModel
+    private var timeRemainingBeforeIncreaseBlinds = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +46,7 @@ class GameActivity : AppCompatActivity() {
         setupListeners()
         setupLiveDatas()
         if (intent.getBooleanExtra("fromWelcome", false)) {
-            viewModel.onStartGame()
+            viewModel.onStartTurn()
         }
     }
 
@@ -173,6 +173,7 @@ class GameActivity : AppCompatActivity() {
 
     private fun showDialogEndTurn(gameUiModel: GameUiModel.ShowEndTurn) {
         EndTurnDialog.newInstance(gameUiModel).show(supportFragmentManager, "EndTurnDialog")
+        viewModel.saveGame(this, timeRemainingBeforeIncreaseBlinds.toLong())
     }
 
     private fun showDialogRaise(dialogEventUiModel: DialogRaiseUiModel) {
@@ -193,7 +194,6 @@ class GameActivity : AppCompatActivity() {
         buttonStartGame.visibility = View.GONE
         buttonStartTurn.visibility = View.GONE
         buttonEndGame.visibility = View.GONE
-        buttonSaveGame.visibility = View.GONE
         buttonLeft.visibility = View.VISIBLE
         buttonMiddle.visibility = View.VISIBLE
         textViewPartTurnName.visibility = View.VISIBLE
@@ -210,7 +210,7 @@ class GameActivity : AppCompatActivity() {
         textViewCurrentPlayerInformations.text = gameUiModel.informationsCurrentPlayer
         textViewPartTurnName.text = gameUiModel.namePartTurn
         textViewTurnStack.text = gameUiModel.stackTurn
-        if (gameUiModel.resetTimer) {
+        if (gameUiModel.resetTimer ) {
             startTimer(gameUiModel.durationBeforeIncreasingBlind)
             textViewTimerIncreaseBlindsTitle.visibility = View.VISIBLE
         }
@@ -219,6 +219,7 @@ class GameActivity : AppCompatActivity() {
     private fun startTimer(durationInMillis: Long) {
         object : CountDownTimer(durationInMillis, 1000) {
             override fun onTick(millisUntilFinished: Long) {
+                timeRemainingBeforeIncreaseBlinds = millisUntilFinished.toInt()
                 val second = millisUntilFinished / 1000 % 60
                 val minute = millisUntilFinished / (1000 * 60) % 60
                 val hour = millisUntilFinished / (1000 * 60 * 60) % 24
@@ -238,7 +239,6 @@ class GameActivity : AppCompatActivity() {
 
     private fun updateTableChooseWinners(gameUiModel: GameUiModel.ShowChooseWinnersDialog) {
         buttonStartTurn.visibility = View.VISIBLE
-        buttonSaveGame.visibility = View.VISIBLE
         buttonEndGame.visibility = View.VISIBLE
         buttonLeft.visibility = View.GONE
         buttonMiddle.visibility = View.GONE
@@ -329,10 +329,6 @@ class GameActivity : AppCompatActivity() {
 
         buttonEndGame.setOnClickListener {
             viewModel.onEndGame(this)
-        }
-
-        buttonSaveGame.setOnClickListener {
-            viewModel.saveGame(this)
         }
     }
 

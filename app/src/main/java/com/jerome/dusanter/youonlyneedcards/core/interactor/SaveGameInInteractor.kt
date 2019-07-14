@@ -9,23 +9,26 @@ import com.jerome.dusanter.youonlyneedcards.data.SharedPreferencesManager
 
 class SaveGameInInteractor {
 
-    fun execute(listener: Listener, context: Context) {
-        SharedPreferencesManager.saveGame(context, Gson().toJson(mapToGame()))
-        listener.onSuccess()
+    fun execute(context: Context, timeRemainingBeforeIncreaseBlinds: Long) {
+        SharedPreferencesManager.saveGame(
+            context,
+            Gson().toJson(mapToGame(timeRemainingBeforeIncreaseBlinds))
+        )
     }
 
-    private fun mapToGame(): Game {
+    private fun mapToGame(timeRemainingBeforeIncreaseBlinds: Long): Game {
         val arrayList = arrayListOf<Player>()
         GameRepositoryImpl.listPlayers.forEach {
             arrayList.add(it)
         }
         return Game(
             arrayList,
-            GameRepositoryImpl.settings
+            GameRepositoryImpl.settings,
+            if (GameRepositoryImpl.settings.isIncreaseBlindsEnabled) {
+                timeRemainingBeforeIncreaseBlinds
+            } else {
+                0
+            }
         )
-    }
-
-    interface Listener {
-        fun onSuccess()
     }
 }

@@ -27,6 +27,7 @@ class RetrieveGameInteractor {
         GameRepositoryImpl.currentStateTurn = StateTurn.PreFlop
         GameRepositoryImpl.listPlayers = MutableCircularList(game.listPlayers)
         GameRepositoryImpl.settings = game.settings
+        GameRepositoryImpl.timeRemainingBeforeIncreaseBlinds = game.timeRemainingBeforeIncreasingBlinds
     }
 
     interface Listener {

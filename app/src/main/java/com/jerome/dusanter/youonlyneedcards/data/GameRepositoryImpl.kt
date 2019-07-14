@@ -1,6 +1,15 @@
 package com.jerome.dusanter.youonlyneedcards.data
 
-import com.jerome.dusanter.youonlyneedcards.core.*
+import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
+import com.jerome.dusanter.youonlyneedcards.core.Player
+import com.jerome.dusanter.youonlyneedcards.core.PlayerEndGame
+import com.jerome.dusanter.youonlyneedcards.core.PlayerEndTurn
+import com.jerome.dusanter.youonlyneedcards.core.Pot
+import com.jerome.dusanter.youonlyneedcards.core.Settings
+import com.jerome.dusanter.youonlyneedcards.core.StateBlind
+import com.jerome.dusanter.youonlyneedcards.core.StatePlayer
+import com.jerome.dusanter.youonlyneedcards.core.StateTurn
+import com.jerome.dusanter.youonlyneedcards.core.Winner
 import com.jerome.dusanter.youonlyneedcards.utils.MutableCircularList
 
 object GameRepositoryImpl {
@@ -13,6 +22,7 @@ object GameRepositoryImpl {
     var currentStateTurn = StateTurn.PreFlop
     var shouldIncreaseBlindNextTurn = false
     var shouldStartTimer = false
+    var timeRemainingBeforeIncreaseBlinds: Long = 0
 
     fun addPlayer(idPlayer: String, name: String): Player {
         val player = Player(
@@ -207,9 +217,9 @@ object GameRepositoryImpl {
         val list = mutableListOf<ActionPlayer>()
         when {
             currentMaxRaisePartTurn == settings.smallBlind * 2
-                    && currentPlayer.stackBetPartTurn == currentMaxRaisePartTurn
-                    && currentStateTurn == StateTurn.PreFlop
-                    && !didAllPlayersPlayed()
+                && currentPlayer.stackBetPartTurn == currentMaxRaisePartTurn
+                && currentStateTurn == StateTurn.PreFlop
+                && !didAllPlayersPlayed()
             -> {
                 list.add(ActionPlayer.Check)
                 list.add(ActionPlayer.Raise)

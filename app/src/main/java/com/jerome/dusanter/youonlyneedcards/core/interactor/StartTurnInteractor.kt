@@ -17,9 +17,18 @@ class StartTurnInteractor {
             GameRepositoryImpl.listPlayers,
             GameRepositoryImpl.currentStackTurn,
             GameRepositoryImpl.currentStateTurn,
-            GameRepositoryImpl.shouldStartTimer,
-            GameRepositoryImpl.settings.frequencyIncreasingBlind
+            if (GameRepositoryImpl.timeRemainingBeforeIncreaseBlinds > 0) {
+                true
+            } else {
+                GameRepositoryImpl.shouldStartTimer
+            },
+            if (GameRepositoryImpl.timeRemainingBeforeIncreaseBlinds > 0) {
+                GameRepositoryImpl.timeRemainingBeforeIncreaseBlinds
+            } else {
+                GameRepositoryImpl.settings.frequencyIncreasingBlind
+            }
         )
+        GameRepositoryImpl.timeRemainingBeforeIncreaseBlinds = 0
         GameRepositoryImpl.shouldStartTimer = false
     }
 
@@ -30,7 +39,7 @@ class StartTurnInteractor {
             stackTurn: Int,
             stateTurn: StateTurn,
             resetTimer: Boolean,
-            durationBeforeIncreasingBlinds : Long
+            durationBeforeIncreasingBlinds: Long
         )
     }
 }

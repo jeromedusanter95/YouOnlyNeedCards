@@ -244,9 +244,7 @@ class GameViewModel : ViewModel() {
                     resetTimer,
                     durationBeforeIncreasingBlinds
                 )
-                playerList.forEach {
-                    updatePlayerById(it)
-                }
+                updatePlayerOrHidePlayer(playerList)
             }
         }
 
@@ -310,14 +308,7 @@ class GameViewModel : ViewModel() {
         IncreaseBlindsInteractor().execute()
     }
 
-    fun saveGame(context: Context) {
-        SaveGameInInteractor().execute(buildSaveGameListener(), context)
+    fun saveGame(context: Context, timeRemainingBeforeIncreaseBlind: Long) {
+        SaveGameInInteractor().execute(context, timeRemainingBeforeIncreaseBlind)
     }
-
-    private fun buildSaveGameListener(): SaveGameInInteractor.Listener =
-        object : SaveGameInInteractor.Listener {
-            override fun onSuccess() {
-                stateGame.value = GameUiModel.ShowSaveGame
-            }
-        }
 }

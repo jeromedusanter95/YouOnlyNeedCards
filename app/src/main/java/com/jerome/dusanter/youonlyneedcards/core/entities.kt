@@ -80,5 +80,6 @@ enum class StateTurn {
 
 data class Game(
     var listPlayers: ArrayList<Player>,
-    var settings: Settings
+    var settings: Settings,
+    var timeRemainingBeforeIncreasingBlinds: Long
 )
