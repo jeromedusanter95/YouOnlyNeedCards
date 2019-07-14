@@ -143,8 +143,8 @@ class GameActivity : AppCompatActivity() {
                             gameUiModel
                         )
                         is GameUiModel.ShowCurrentTurn -> updateTableCurrentTurn(gameUiModel)
-                        is GameUiModel.ShowEndTurn -> showDialogEndTurn(gameUiModel)
-                        is GameUiModel.ShowEndGame -> showDialogEndGame(gameUiModel)
+                        is GameUiModel.ShowEndTurnDialog -> showDialogEndTurn(gameUiModel)
+                        is GameUiModel.ShowEndGameDialog -> showDialogEndGame(gameUiModel)
                         is GameUiModel.ShowSaveGame -> {
                             Toast.makeText(
                                 this,
@@ -154,16 +154,8 @@ class GameActivity : AppCompatActivity() {
                             goBackToWelcomeActivity()
                         }
                         is GameUiModel.ShowErrorNotEnoughtPlayer -> showErrotNotEnoughtPlayer()
+                        is GameUiModel.ShowRaiseDialog -> showDialogRaise(gameUiModel.raiseDialogUiModel)
                     }
-                }
-            }
-        )
-
-        viewModel.stateDialogRaise.observe(
-            this,
-            Observer { dialogRaiseUiModel ->
-                if (dialogRaiseUiModel != null) {
-                    showDialogRaise(dialogRaiseUiModel)
                 }
             }
         )
@@ -173,17 +165,17 @@ class GameActivity : AppCompatActivity() {
         textViewErrorNotEnoughtPlayer.visibility = View.VISIBLE
     }
 
-    private fun showDialogEndGame(gameUiModel: GameUiModel.ShowEndGame) {
-        EndGameDialog.newInstance(gameUiModel).show(supportFragmentManager, "EndGameDialog")
+    private fun showDialogEndGame(gameDialogUiModel: GameUiModel.ShowEndGameDialog) {
+        EndGameDialog.newInstance(gameDialogUiModel).show(supportFragmentManager, "EndGameDialog")
     }
 
-    private fun showDialogEndTurn(gameUiModel: GameUiModel.ShowEndTurn) {
+    private fun showDialogEndTurn(gameUiModel: GameUiModel.ShowEndTurnDialog) {
         EndTurnDialog.newInstance(gameUiModel).show(supportFragmentManager, "EndTurnDialog")
         viewModel.saveGame(this, timeRemainingBeforeIncreaseBlinds.toLong())
     }
 
-    private fun showDialogRaise(dialogEventUiModel: DialogRaiseUiModel) {
-        RaiseDialog.newInstance(dialogEventUiModel).show(supportFragmentManager, "GameActivity")
+    private fun showDialogRaise(eventDialogUiModel: RaiseDialogUiModel) {
+        RaiseDialog.newInstance(eventDialogUiModel).show(supportFragmentManager, "GameActivity")
     }
 
     fun onDismissRaiseDialog(isAllin: Boolean, stackRaised: Int) {

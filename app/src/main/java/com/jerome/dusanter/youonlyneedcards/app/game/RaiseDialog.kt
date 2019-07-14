@@ -12,7 +12,12 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.SeekBar
 import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.utils.SeekBarChangeListener
-import kotlinx.android.synthetic.main.layout_dialog_raise.*
+import kotlinx.android.synthetic.main.layout_dialog_raise.buttonAllin
+import kotlinx.android.synthetic.main.layout_dialog_raise.buttonMinRaise
+import kotlinx.android.synthetic.main.layout_dialog_raise.imageButtonCheck
+import kotlinx.android.synthetic.main.layout_dialog_raise.imageButtonClose
+import kotlinx.android.synthetic.main.layout_dialog_raise.seekBarRaise
+import kotlinx.android.synthetic.main.layout_dialog_raise.textViewMoneyToRaise
 
 class RaiseDialog : DialogFragment() {
 
@@ -85,10 +90,10 @@ class RaiseDialog : DialogFragment() {
         private const val EXTRA_BIG_BLIND = "EXTRA_BIG_BLIND"
         private const val EXTRA_STACK_PLAYER = "EXTRA_STACK_PLAYER"
 
-        fun newInstance(dialogRaiseUiModel: DialogRaiseUiModel): RaiseDialog {
+        fun newInstance(raiseDialogUiModel: RaiseDialogUiModel): RaiseDialog {
             val args = Bundle()
-            args.putInt(EXTRA_BIG_BLIND, dialogRaiseUiModel.bigBlind)
-            args.putInt(EXTRA_STACK_PLAYER, dialogRaiseUiModel.stackPlayer)
+            args.putInt(EXTRA_BIG_BLIND, raiseDialogUiModel.bigBlind)
+            args.putInt(EXTRA_STACK_PLAYER, raiseDialogUiModel.stackPlayer)
             val dialog = RaiseDialog()
             dialog.arguments = args
             return dialog

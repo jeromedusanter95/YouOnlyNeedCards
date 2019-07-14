@@ -30,8 +30,12 @@ class GameMapper {
         )
     }
 
-    fun map(bigBlind: Int, stackPlayer: Int): DialogRaiseUiModel {
-        return DialogRaiseUiModel(bigBlind = bigBlind, stackPlayer = stackPlayer)
+    fun map(bigBlind: Int, stackPlayer: Int): GameUiModel.ShowRaiseDialog {
+        return GameUiModel.ShowRaiseDialog(
+            RaiseDialogUiModel(
+                bigBlind = bigBlind, stackPlayer = stackPlayer
+            )
+        )
     }
 
     fun map(potList: List<Pot>): GameUiModel.ShowChooseWinnersDialog {
@@ -42,8 +46,8 @@ class GameMapper {
         })
     }
 
-    fun map(playerEndTurnList: List<PlayerEndTurn>): GameUiModel.ShowEndTurn {
-        return GameUiModel.ShowEndTurn(
+    fun map(playerEndTurnList: List<PlayerEndTurn>): GameUiModel.ShowEndTurnDialog {
+        return GameUiModel.ShowEndTurnDialog(
             playerEndTurnList.map {
                 PlayerEndTurnUiModel(
                     when {
@@ -67,7 +71,7 @@ class GameMapper {
         context: Context,
         playerEndGameList: MutableList<PlayerEndGame>,
         settings: Settings
-    ): GameUiModel.ShowEndGame {
+    ): GameUiModel.ShowEndGameDialog {
 
         val listStack = mutableListOf<Int>()
         playerEndGameList.forEach {
@@ -107,7 +111,7 @@ class GameMapper {
         })
 
 
-        return GameUiModel.ShowEndGame(
+        return GameUiModel.ShowEndGameDialog(
             playerEndGameList.map {
                 PlayerEndGameUiModel(
                     context.getString(

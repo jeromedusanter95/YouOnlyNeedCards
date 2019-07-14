@@ -12,7 +12,8 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import com.jerome.dusanter.youonlyneedcards.R
-import kotlinx.android.synthetic.main.dialog_end_turn.*
+import kotlinx.android.synthetic.main.dialog_end_turn.imageButtonCheck
+import kotlinx.android.synthetic.main.dialog_end_turn.recyclerView
 import java.io.Serializable
 
 
@@ -64,7 +65,7 @@ class EndTurnDialog : DialogFragment() {
     companion object {
         private const val EXTRA_PLAYER_END_TURN_LIST = "EXTRA_PLAYER_END_TURN_LIST"
 
-        fun newInstance(uiModel: GameUiModel.ShowEndTurn): EndTurnDialog {
+        fun newInstance(uiModel: GameUiModel.ShowEndTurnDialog): EndTurnDialog {
             val args = Bundle()
             args.putSerializable(
                 EXTRA_PLAYER_END_TURN_LIST,

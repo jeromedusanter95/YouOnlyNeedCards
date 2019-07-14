@@ -16,12 +16,16 @@ sealed class GameUiModel {
         val potList: List<PotUiModel>
     ) : GameUiModel()
 
-    data class ShowEndTurn(
+    data class ShowEndTurnDialog(
         val playerEndTurnList: List<PlayerEndTurnUiModel>
     ) : GameUiModel()
 
-    data class ShowEndGame(
+    data class ShowEndGameDialog(
         val playerEndGameList: List<PlayerEndGameUiModel>
+    ) : GameUiModel()
+
+    data class ShowRaiseDialog(
+        val raiseDialogUiModel: RaiseDialogUiModel
     ) : GameUiModel()
 
     object ShowSaveGame : GameUiModel()
@@ -29,7 +33,7 @@ sealed class GameUiModel {
     object ShowErrorNotEnoughtPlayer : GameUiModel()
 }
 
-data class DialogRaiseUiModel(
+data class RaiseDialogUiModel(
     val bigBlind: Int,
     val stackPlayer: Int
 )

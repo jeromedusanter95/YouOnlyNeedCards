@@ -12,7 +12,8 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import com.jerome.dusanter.youonlyneedcards.R
-import kotlinx.android.synthetic.main.dialog_end_turn.*
+import kotlinx.android.synthetic.main.dialog_end_turn.imageButtonCheck
+import kotlinx.android.synthetic.main.dialog_end_turn.recyclerView
 import java.io.Serializable
 
 
@@ -65,7 +66,7 @@ class EndGameDialog : DialogFragment() {
     companion object {
         private const val EXTRA_PLAYER_END_GAME_LIST = "EXTRA_PLAYER_END_GAME_LIST"
 
-        fun newInstance(uiModel: GameUiModel.ShowEndGame): EndGameDialog {
+        fun newInstance(uiModel: GameUiModel.ShowEndGameDialog): EndGameDialog {
             val args = Bundle()
             args.putSerializable(
                 EXTRA_PLAYER_END_GAME_LIST,

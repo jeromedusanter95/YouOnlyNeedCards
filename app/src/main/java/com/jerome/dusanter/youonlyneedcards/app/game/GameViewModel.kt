@@ -39,9 +39,6 @@ class GameViewModel : ViewModel() {
     // Live data of Game
     val stateGame = MutableLiveData<GameUiModel>()
 
-    // Live data dialog event
-    val stateDialogRaise = MutableLiveData<DialogRaiseUiModel>()
-
     fun onAddPlayer(id: String, name: String) {
         AddPlayerInteractor().execute(id, name, buildAddPlayerListener())
     }
@@ -182,7 +179,7 @@ class GameViewModel : ViewModel() {
     private fun buildGetBigBlindInteractor(): GetParametersToRaiseInteractor.Listener =
         object : GetParametersToRaiseInteractor.Listener {
             override fun onSuccess(bigBlind: Int, stackPlayer: Int) {
-                stateDialogRaise.value = GameMapper().map(bigBlind, stackPlayer)
+                stateGame.value = GameMapper().map(bigBlind, stackPlayer)
             }
         }
 
