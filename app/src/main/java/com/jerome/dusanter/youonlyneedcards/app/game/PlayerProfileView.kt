@@ -11,10 +11,12 @@ import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.StatePlayer
 import kotlinx.android.synthetic.main.layout_profil_player_view.view.constraintLayoutAddPlayer
 import kotlinx.android.synthetic.main.layout_profil_player_view.view.constraintLayoutEditPlayer
+import kotlinx.android.synthetic.main.layout_profil_player_view.view.constraintLayoutRebuyPlayer
 import kotlinx.android.synthetic.main.layout_profil_player_view.view.constraintLayoutShowPlayer
 import kotlinx.android.synthetic.main.layout_profil_player_view.view.editTextAddPlayer
 import kotlinx.android.synthetic.main.layout_profil_player_view.view.imageButtonClose
 import kotlinx.android.synthetic.main.layout_profil_player_view.view.textViewName
+import kotlinx.android.synthetic.main.layout_profil_player_view.view.textViewPlayerNameEliminate
 import kotlinx.android.synthetic.main.layout_profil_player_view.view.textViewStack
 import kotlinx.android.synthetic.main.layout_profil_player_view.view.textViewStateBlind
 import kotlinx.android.synthetic.main.layout_profil_player_view.view.textViewStatePlayer
@@ -30,7 +32,7 @@ class PlayerProfileView @JvmOverloads constructor(
         View.inflate(context, layout.layout_profil_player_view, this)
         setupListeners()
         changeBackgroundColor(
-            PlayerProfileUiModel(
+            PlayerProfileUiModel.ShowPlayer(
                 statePlayer = "Playing",
                 name = "",
                 stateBlind = "Nothing",
@@ -49,11 +51,16 @@ class PlayerProfileView @JvmOverloads constructor(
             constraintLayoutEditPlayer.visibility = View.GONE
             constraintLayoutAddPlayer.visibility = View.VISIBLE
         }
+
+        constraintLayoutRebuyPlayer.setOnClickListener {
+
+        }
     }
 
-    fun hideEditProfileLayoutAndShowPlayerLayout() {
+    private fun showPlayerLayout() {
         constraintLayoutAddPlayer.visibility = View.GONE
         constraintLayoutEditPlayer.visibility = View.GONE
+        constraintLayoutRebuyPlayer.visibility = View.GONE
         constraintLayoutShowPlayer.visibility = View.VISIBLE
     }
 
@@ -62,16 +69,23 @@ class PlayerProfileView @JvmOverloads constructor(
     }
 
     fun updateProfilePlayer(uiModel: PlayerProfileUiModel) {
-        hideEditProfileLayoutAndShowPlayerLayout()
-        textViewName.text = uiModel.name
-        textViewStack.text = uiModel.stack
-        textViewStatePlayer.text = uiModel.actionPlayer
-        textViewStateBlind.text = uiModel.stateBlind
-        changeBackgroundColor(uiModel)
+        if (uiModel is PlayerProfileUiModel.ShowPlayer) {
+            showPlayerLayout()
+            textViewName.text = uiModel.name
+            textViewStack.text = uiModel.stack
+            textViewStatePlayer.text = uiModel.actionPlayer
+            textViewStateBlind.text = uiModel.stateBlind
+            changeBackgroundColor(uiModel)
+        } else if (uiModel is PlayerProfileUiModel.ShowRebuy) {
+            constraintLayoutRebuyPlayer.visibility = View.VISIBLE
+            constraintLayoutShowPlayer.visibility = View.GONE
+            textViewPlayerNameEliminate.text = uiModel.name
+            changeBackgroundColor(uiModel)
+        }
     }
 
     private fun changeBackgroundColor(uiModel: PlayerProfileUiModel) {
-        if (uiModel.actionPlayer == ActionPlayer.Fold.name) {
+        if (uiModel is PlayerProfileUiModel.ShowPlayer && uiModel.actionPlayer == ActionPlayer.Fold.name) {
             background = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 resources.getDrawable(
                     drawable.background_player_profile_view_fold,
@@ -82,7 +96,7 @@ class PlayerProfileView @JvmOverloads constructor(
                     drawable.background_player_profile_view_fold
                 )
             }
-        } else {
+        } else if (uiModel is PlayerProfileUiModel.ShowPlayer) {
             background = when (uiModel.statePlayer) {
                 StatePlayer.CurrentTurn.name -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     resources.getDrawable(
@@ -115,14 +129,36 @@ class PlayerProfileView @JvmOverloads constructor(
                     )
                 }
             }
+        } else {
+            background = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                resources.getDrawable(
+                    drawable.background_player_profile_view_eliminate,
+                    null
+                )
+            } else {
+                resources.getDrawable(
+                    drawable.background_player_profile_view_eliminate
+                )
+            }
         }
     }
 }
 
-data class PlayerProfileUiModel(
-    val name: String,
-    val stack: String,
-    val stateBlind: String,
-    val statePlayer: String,
-    val actionPlayer: String
-)
+sealed class PlayerProfileUiModel {
+    data class ShowPlayer(
+        val name: String,
+        val stack: String,
+        val stateBlind: String,
+        val statePlayer: String,
+        val actionPlayer: String
+    ) : PlayerProfileUiModel()
+
+    data class ShowRebuy(
+        val name: String
+    ) : PlayerProfileUiModel()
+}
+
+
+
+
+

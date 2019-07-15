@@ -489,4 +489,13 @@ object GameRepositoryImpl {
         shouldStartTimer = true
     }
 
+    fun rebuyPlayer(playerId: String): Player {
+        val playerWhoWantToRebuy = listPlayers.find { it.id == playerId }
+        if (playerWhoWantToRebuy != null && playerWhoWantToRebuy.statePlayer == StatePlayer.Eliminate) {
+            playerWhoWantToRebuy.statePlayer = StatePlayer.Playing
+            playerWhoWantToRebuy.stack = settings.stack
+        }
+        return playerWhoWantToRebuy!!
+    }
+
 }

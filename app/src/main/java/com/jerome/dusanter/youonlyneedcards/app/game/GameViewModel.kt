@@ -21,6 +21,7 @@ import com.jerome.dusanter.youonlyneedcards.core.interactor.GetParametersToRaise
 import com.jerome.dusanter.youonlyneedcards.core.interactor.IncreaseBlindsInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.PlayInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.PlayRequest
+import com.jerome.dusanter.youonlyneedcards.core.interactor.RebuyPlayerInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.SaveGameInInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.StartGameInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.StartTurnInteractor
@@ -61,6 +62,19 @@ class GameViewModel : ViewModel() {
             "6" -> statePlayerProfileView6.value = PlayerProfileMapper().map(player)
             "7" -> statePlayerProfileView7.value = PlayerProfileMapper().map(player)
             "8" -> statePlayerProfileView8.value = PlayerProfileMapper().map(player)
+        }
+    }
+
+    private fun showRebuyById(player: Player) {
+        when (player.id) {
+            "1" -> statePlayerProfileView1.value = PlayerProfileUiModel.ShowRebuy(player.name)
+            "2" -> statePlayerProfileView2.value = PlayerProfileUiModel.ShowRebuy(player.name)
+            "3" -> statePlayerProfileView3.value = PlayerProfileUiModel.ShowRebuy(player.name)
+            "4" -> statePlayerProfileView4.value = PlayerProfileUiModel.ShowRebuy(player.name)
+            "5" -> statePlayerProfileView5.value = PlayerProfileUiModel.ShowRebuy(player.name)
+            "6" -> statePlayerProfileView6.value = PlayerProfileUiModel.ShowRebuy(player.name)
+            "7" -> statePlayerProfileView7.value = PlayerProfileUiModel.ShowRebuy(player.name)
+            "8" -> statePlayerProfileView8.value = PlayerProfileUiModel.ShowRebuy(player.name)
         }
     }
 
@@ -262,10 +276,15 @@ class GameViewModel : ViewModel() {
             ) {
                 stateGame.value = GameMapper().map(playerEndTurnList)
                 playerList.forEach {
-                    updatePlayerById(it)
+                    if (it.statePlayer == StatePlayer.Eliminate) {
+                        showRebuyById(it)
+                    } else {
+                        updatePlayerById(it)
+                    }
                 }
             }
         }
+
 
     fun onCheckIfGameOver(context: Context) {
         CheckIfGameOverInteractor().execute(buildCheckIfGameOverListener(context))
@@ -317,4 +336,15 @@ class GameViewModel : ViewModel() {
     fun deleteGame(context: Context) {
         DeleteGameInteractor().execute(context)
     }
+
+    fun onRebuyPlayer(playerId: String) {
+        RebuyPlayerInteractor().execute(buildRebuyPlayerListener(), playerId)
+    }
+
+    private fun buildRebuyPlayerListener(): RebuyPlayerInteractor.Listener =
+        object : RebuyPlayerInteractor.Listener {
+            override fun onSuccess(player: Player) {
+                updatePlayerById(player)
+            }
+        }
 }

@@ -32,6 +32,7 @@ import kotlinx.android.synthetic.main.activity_game.textViewPartTurnName
 import kotlinx.android.synthetic.main.activity_game.textViewTimerIncreaseBlinds
 import kotlinx.android.synthetic.main.activity_game.textViewTimerIncreaseBlindsTitle
 import kotlinx.android.synthetic.main.activity_game.textViewTurnStack
+import kotlinx.android.synthetic.main.layout_profil_player_view.view.constraintLayoutRebuyPlayer
 import kotlinx.android.synthetic.main.layout_profil_player_view.view.imageButtonCheck
 
 
@@ -56,7 +57,6 @@ class GameActivity : AppCompatActivity() {
             this,
             Observer { uiModel ->
                 if (uiModel != null) {
-                    playerProfilView1.hideEditProfileLayoutAndShowPlayerLayout()
                     playerProfilView1.updateProfilePlayer(uiModel)
                 } else {
                     playerProfilView1.visibility = View.GONE
@@ -127,7 +127,6 @@ class GameActivity : AppCompatActivity() {
             this,
             Observer { uiModel ->
                 if (uiModel != null) {
-                    playerProfilView8.hideEditProfileLayoutAndShowPlayerLayout()
                     playerProfilView8.updateProfilePlayer(uiModel)
                 } else {
                     playerProfilView8.visibility = View.GONE
@@ -303,6 +302,38 @@ class GameActivity : AppCompatActivity() {
             if (!playerProfilView8.getName().isBlank()) {
                 viewModel.onAddPlayer("8", playerProfilView8.getName())
             }
+        }
+
+        playerProfilView1.constraintLayoutRebuyPlayer.setOnClickListener {
+            viewModel.onRebuyPlayer("1")
+        }
+
+        playerProfilView2.constraintLayoutRebuyPlayer.setOnClickListener {
+            viewModel.onRebuyPlayer("2")
+        }
+
+        playerProfilView3.constraintLayoutRebuyPlayer.setOnClickListener {
+            viewModel.onRebuyPlayer("3")
+        }
+
+        playerProfilView4.constraintLayoutRebuyPlayer.setOnClickListener {
+            viewModel.onRebuyPlayer("4")
+        }
+
+        playerProfilView5.constraintLayoutRebuyPlayer.setOnClickListener {
+            viewModel.onRebuyPlayer("5")
+        }
+
+        playerProfilView6.constraintLayoutRebuyPlayer.setOnClickListener {
+            viewModel.onRebuyPlayer("6")
+        }
+
+        playerProfilView7.constraintLayoutRebuyPlayer.setOnClickListener {
+            viewModel.onRebuyPlayer("7")
+        }
+
+        playerProfilView8.constraintLayoutRebuyPlayer.setOnClickListener {
+            viewModel.onRebuyPlayer("8")
         }
 
         buttonStartGame.setOnClickListener {
