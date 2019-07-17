@@ -7,8 +7,9 @@
     android:padding="@dimen/sizing_2"
     >
 
-    <CheckBox
+    <android.support.v7.widget.AppCompatCheckBox
         android:id="@+id/checkbox"
+        style="@style/AppTheme.CheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

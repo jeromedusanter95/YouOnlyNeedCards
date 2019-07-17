@@ -57,6 +57,12 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <!-- CheckBox -->
+
+    <style name="AppTheme.CheckBox">
+        <item name="android:buttonTint">@color/accent</item>
+    </style>
+
     <!-- ACTIVITIES -->
 
     <!-- WelcomeActivity -->
