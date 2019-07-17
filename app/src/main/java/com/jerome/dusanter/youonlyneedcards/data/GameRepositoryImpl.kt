@@ -1,6 +1,15 @@
 package com.jerome.dusanter.youonlyneedcards.data
 
-import com.jerome.dusanter.youonlyneedcards.core.*
+import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
+import com.jerome.dusanter.youonlyneedcards.core.Player
+import com.jerome.dusanter.youonlyneedcards.core.PlayerEndGame
+import com.jerome.dusanter.youonlyneedcards.core.PlayerEndTurn
+import com.jerome.dusanter.youonlyneedcards.core.Pot
+import com.jerome.dusanter.youonlyneedcards.core.Settings
+import com.jerome.dusanter.youonlyneedcards.core.StateBlind
+import com.jerome.dusanter.youonlyneedcards.core.StatePlayer
+import com.jerome.dusanter.youonlyneedcards.core.StateTurn
+import com.jerome.dusanter.youonlyneedcards.core.Winner
 import com.jerome.dusanter.youonlyneedcards.utils.MutableCircularList
 
 object GameRepositoryImpl {
@@ -208,9 +217,9 @@ object GameRepositoryImpl {
         val list = mutableListOf<ActionPlayer>()
         when {
             currentMaxRaisePartTurn == settings.smallBlind * 2
-                    && currentPlayer.stackBetPartTurn == currentMaxRaisePartTurn
-                    && currentStateTurn == StateTurn.PreFlop
-                    && !didAllPlayersPlayed()
+                && currentPlayer.stackBetPartTurn == currentMaxRaisePartTurn
+                && currentStateTurn == StateTurn.PreFlop
+                && !didAllPlayersPlayed()
             -> {
                 list.add(ActionPlayer.Check)
                 list.add(ActionPlayer.Raise)
@@ -307,8 +316,8 @@ object GameRepositoryImpl {
         val nextCurrentPlayerIndex = getCurrentPlayerIndex() + 1
         return listPlayers.filter {
             it.statePlayer != StatePlayer.Eliminate
-                    && it.actionPlayer != ActionPlayer.Fold
-                    && it.actionPlayer != ActionPlayer.AllIn
+                && it.actionPlayer != ActionPlayer.Fold
+                && it.actionPlayer != ActionPlayer.AllIn
         }.size <= 1 && currentMaxRaisePartTurn == listPlayers[getIndexNextPlayerNotEliminatedOrFoldedOrAllin(
             nextCurrentPlayerIndex
         )].stackBetPartTurn
@@ -498,6 +507,35 @@ object GameRepositoryImpl {
             playerWhoWantToRebuy.stack = settings.stack
         }
         return playerWhoWantToRebuy!!
+    }
+
+    fun resetGame() {
+        listPlayers = MutableCircularList(mutableListOf())
+        settings = Settings(
+            stack = 0,
+            isMoneyBetEnabled = false,
+            smallBlind = 0,
+            money = 0,
+            isIncreaseBlindsEnabled = false,
+            ratioStackMoney = 0,
+            frequencyIncreasingBlind = 0
+        )
+        currentPlayer = Player(
+            id = "",
+            name = "",
+            stack = settings.stack,
+            stackBetTurn = 0,
+            stackBetPartTurn = 0,
+            statePlayer = StatePlayer.Playing,
+            stateBlind = StateBlind.Nothing,
+            actionPlayer = ActionPlayer.Nothing
+        )
+        currentStackTurn = 0
+        currentMaxRaisePartTurn = 0
+        currentStateTurn = StateTurn.PreFlop
+        shouldIncreaseBlindNextTurn = false
+        shouldStartTimer = false
+        timeRemainingBeforeIncreaseBlinds = 0
     }
 
 }
