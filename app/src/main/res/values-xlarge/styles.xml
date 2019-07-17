@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme.ImageButton.PlayerProfileView">
+        <item name="android:paddingTop">@dimen/sizing_0</item>
+        <item name="android:paddingBottom">@dimen/sizing_0</item>
+        <item name="android:paddingLeft">@dimen/sizing_1</item>
+        <item name="android:paddingRight">@dimen/sizing_1</item>
+    </style>
+
+    <style name="AppTheme.EditText">
+        <item name="android:backgroundTint">@color/accent</item>
+        <item name="android:textColorHint">@color/accent</item>
+        <item name="android:textSize">@dimen/text_size_1</item>
+        <item name="android:textColor">@color/accent</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:layout_marginLeft">@dimen/sizing_1</item>
+        <item name="android:layout_marginRight">@dimen/sizing_1</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+</resources>

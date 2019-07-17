@@ -6,10 +6,26 @@
         <item name="android:fontFamily">@font/montserrat</item>
     </style>
 
+    <!-- PlayerProfileView -->
+
+    <style name="AppTheme.Text.PlayerProfileView">
+        <item name="android:textColor">@color/accent</item>
+    </style>
+
+    <style name="AppTheme.Text.PlayerProfileView.Informations">
+        <item name="android:textSize">@dimen/text_size_0</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AppTheme.Text.PlayerProfileView.EditText">
+        <item name="android:textSize">@dimen/text_size_0</item>"
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <!-- WelcomeActivity -->
 
     <style name="AppTheme.Text.WelcomeActivity">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/accent</item>
     </style>
 
     <style name="AppTheme.Text.WelcomeActivity.Button">
@@ -20,7 +36,7 @@
     <!-- SettingsActivity -->
 
     <style name="AppTheme.Text.SettingsActivity">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/accent</item>
     </style>
 
     <style name="AppTheme.Text.SettingsActivity.Title">
@@ -47,7 +63,7 @@
     <!-- GameActivity -->
 
     <style name="AppTheme.Text.GameActivity">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/accent</item>
     </style>
 
     <style name="AppTheme.Text.GameActivity.Button">

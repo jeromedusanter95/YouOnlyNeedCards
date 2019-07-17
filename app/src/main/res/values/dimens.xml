@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- increment by 8dp -->
+    <dimen name="sizing_min">2dp</dimen>
     <dimen name="sizing_0">4dp</dimen>
     <dimen name="sizing_1">8dp</dimen>
     <dimen name="sizing_2">16dp</dimen>

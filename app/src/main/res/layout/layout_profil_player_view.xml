@@ -18,10 +18,10 @@
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/textViewAddPlayer"
+            style="@style/AppTheme.Text.PlayerProfileView.Informations"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/poker_activity_add_player"
-            android:textColor="@color/accent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,13 +43,11 @@
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/editTextAddPlayer"
-            android:layout_width="wrap_content"
+            style="@style/AppTheme.EditText"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/accent"
             android:hint="@string/poker_activity_hint_add_player"
-            android:textColor="@color/accent"
-            android:textColorHint="@color/accent"
-            android:textCursorDrawable="@null"
+            android:inputType="textVisiblePassword"
             app:layout_constraintBottom_toTopOf="@id/imageButtonClose"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,21 +56,27 @@
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/imageButtonClose"
+            style="@style/AppTheme.ImageButton.PlayerProfileView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/transparent"
+            android:layout_marginBottom="@dimen/sizing_0"
             android:src="@drawable/ic_close_white_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/imageButtonCheck"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/editTextAddPlayer"
             />
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/imageButtonCheck"
+            style="@style/AppTheme.ImageButton.PlayerProfileView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/transparent"
+            android:layout_marginBottom="@dimen/sizing_0"
+            android:layout_marginEnd="@dimen/sizing_1"
+            android:layout_marginRight="@dimen/sizing_1"
             android:src="@drawable/ic_check_white_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -94,9 +98,9 @@
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/textViewName"
+            style="@style/AppTheme.Text.PlayerProfileView.Informations"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/accent"
             app:layout_constraintBottom_toTopOf="@id/textViewStack"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -105,9 +109,9 @@
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/textViewStack"
+            style="@style/AppTheme.Text.PlayerProfileView.Informations"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/accent"
             app:layout_constraintBottom_toTopOf="@id/textViewStatePlayer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -116,9 +120,9 @@
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/textViewStatePlayer"
+            style="@style/AppTheme.Text.PlayerProfileView.Informations"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/accent"
             app:layout_constraintBottom_toTopOf="@id/textViewStateBlind"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -127,9 +131,9 @@
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/textViewStateBlind"
+            style="@style/AppTheme.Text.PlayerProfileView.Informations"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/accent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -151,9 +155,9 @@
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/textViewPlayerNameEliminate"
+            style="@style/AppTheme.Text.PlayerProfileView.Informations"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/accent"
             app:layout_constraintBottom_toTopOf="@id/textViewRebuyTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -162,10 +166,10 @@
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/textViewRebuyTitle"
+            style="@style/AppTheme.Text.PlayerProfileView.Informations"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/poker_activity_rebuy_title"
-            android:textColor="@color/accent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

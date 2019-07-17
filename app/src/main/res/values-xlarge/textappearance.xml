@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- PlayerProfileView -->
+
+    <style name="AppTheme.Text.PlayerProfileView.Informations">
+        <item name="android:textSize">@dimen/text_size_1</item>
+    </style>
+
+    <style name="AppTheme.Text.PlayerProfileView.EditText">
+        <item name="android:textSize">@dimen/text_size_1</item>"
+    </style>
+
     <!-- WelcomeActivity -->
+
     <style name="AppTheme.Text.WelcomeActivity.Button">
         <item name="android:textSize">@dimen/text_size_11</item>"
     </style>
 
     <!-- SettingsActivity -->
+
     <style name="AppTheme.Text.SettingsActivity.Title">
         <item name="android:textSize">@dimen/text_size_11</item>
     </style>
