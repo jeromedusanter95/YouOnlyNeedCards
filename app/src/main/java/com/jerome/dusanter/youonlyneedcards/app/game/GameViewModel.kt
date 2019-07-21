@@ -12,12 +12,14 @@ import com.jerome.dusanter.youonlyneedcards.core.Settings
 import com.jerome.dusanter.youonlyneedcards.core.StatePlayer
 import com.jerome.dusanter.youonlyneedcards.core.StateTurn
 import com.jerome.dusanter.youonlyneedcards.core.Winner
+import com.jerome.dusanter.youonlyneedcards.core.interactor.AddOrWithdrawStackInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.AddPlayerInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.CheckIfGameOverInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.DeleteGameInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.DistributeStackInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.EndGameInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.GetParametersToRaiseInteractor
+import com.jerome.dusanter.youonlyneedcards.core.interactor.GetPlayerListAndInitialStackInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.IncreaseBlindsInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.PlayInteractor
 import com.jerome.dusanter.youonlyneedcards.core.interactor.PlayRequest
@@ -345,6 +347,33 @@ class GameViewModel : ViewModel() {
         object : RebuyPlayerInteractor.Listener {
             override fun onSuccess(player: Player) {
                 updatePlayerById(player)
+            }
+        }
+
+    fun onCustomStack() {
+        GetPlayerListAndInitialStackInteractor().execute(buildGetPlayerListAndInitialStackInteractor())
+    }
+
+    private fun buildGetPlayerListAndInitialStackInteractor(): GetPlayerListAndInitialStackInteractor.Listener =
+        object : GetPlayerListAndInitialStackInteractor.Listener {
+            override fun onSuccess(playerList: List<Player>) {
+                stateGame.value = GameMapper().mapToShowCustomStackDialog(playerList)
+            }
+        }
+
+    fun onAddOrWithdrawStack(playerList: List<PlayerCustomStackUiModel>) {
+        AddOrWithdrawStackInteractor().execute(
+            buildAddOrWithdrawListener(),
+            GameMapper().mapToCustomStack(playerList)
+        )
+    }
+
+    private fun buildAddOrWithdrawListener(): AddOrWithdrawStackInteractor.Listener =
+        object : AddOrWithdrawStackInteractor.Listener {
+            override fun onSuccess(list: List<Player>) {
+                list.forEach {
+                    updatePlayerById(it)
+                }
             }
         }
 }

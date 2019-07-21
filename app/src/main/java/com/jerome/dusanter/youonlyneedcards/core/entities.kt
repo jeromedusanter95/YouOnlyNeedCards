@@ -29,6 +29,16 @@ data class PlayerEndGame(
     var ranking: String = ""
 )
 
+data class PlayerCustomStack(
+    val id: String,
+    val stack: Int,
+    val customStack: CustomStack
+)
+
+enum class CustomStack {
+    Add, Withdraw, Nothing
+}
+
 data class Winner(
     val id: String,
     val stackWon: Int
@@ -47,7 +57,7 @@ data class Settings(
     val isIncreaseBlindsEnabled: Boolean,
     val frequencyIncreasingBlind: Long,
     var ratioStackMoney: Int
-    )
+)
 
 enum class StateBlind {
     Nothing,

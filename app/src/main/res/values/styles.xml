@@ -57,10 +57,24 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="AppTheme.EditText.GameActivity">
+        <item name="android:backgroundTint">@color/accent</item>
+        <item name="android:textColorHint">@color/accent</item>
+        <item name="android:textSize">@dimen/text_size_3</item>
+        <item name="android:textColor">@color/accent</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+    </style>
+
     <!-- CheckBox -->
 
     <style name="AppTheme.CheckBox">
         <item name="android:buttonTint">@color/accent</item>
+    </style>
+
+    <style name="AppTheme.RadioButton">
+        <item name="android:buttonTint">@color/accent</item>
+        <item name="android:textColor">@color/accent</item>
     </style>
 
     <!-- ACTIVITIES -->

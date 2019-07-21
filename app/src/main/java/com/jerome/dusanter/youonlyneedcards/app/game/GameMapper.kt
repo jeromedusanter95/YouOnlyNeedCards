@@ -4,6 +4,9 @@ import android.content.Context
 import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.app.settings.SettingsConstants
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
+import com.jerome.dusanter.youonlyneedcards.core.CustomStack
+import com.jerome.dusanter.youonlyneedcards.core.Player
+import com.jerome.dusanter.youonlyneedcards.core.PlayerCustomStack
 import com.jerome.dusanter.youonlyneedcards.core.PlayerEndGame
 import com.jerome.dusanter.youonlyneedcards.core.PlayerEndTurn
 import com.jerome.dusanter.youonlyneedcards.core.Pot
@@ -171,5 +174,21 @@ class GameMapper {
             ranking += " ex aquo"
         }
         return ranking
+    }
+
+    fun mapToShowCustomStackDialog(
+        playerList: List<Player>
+    ): GameUiModel.ShowCustomStackDialog {
+        return GameUiModel.ShowCustomStackDialog(
+            playerList.map {
+                PlayerCustomStackUiModel(it.id, it.name, it.stack, CustomStack.Nothing)
+            }
+        )
+    }
+
+    fun mapToCustomStack(playerList: List<PlayerCustomStackUiModel>): List<PlayerCustomStack> {
+        return playerList.map {
+            PlayerCustomStack(it.id, it.stack, it.action)
+        }
     }
 }

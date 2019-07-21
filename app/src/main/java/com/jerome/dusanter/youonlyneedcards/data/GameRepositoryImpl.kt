@@ -2,6 +2,7 @@ package com.jerome.dusanter.youonlyneedcards.data
 
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.Player
+import com.jerome.dusanter.youonlyneedcards.core.PlayerCustomStack
 import com.jerome.dusanter.youonlyneedcards.core.PlayerEndGame
 import com.jerome.dusanter.youonlyneedcards.core.PlayerEndTurn
 import com.jerome.dusanter.youonlyneedcards.core.Pot
@@ -536,6 +537,20 @@ object GameRepositoryImpl {
         shouldIncreaseBlindNextTurn = false
         shouldStartTimer = false
         timeRemainingBeforeIncreaseBlinds = 0
+    }
+
+    fun addMoneyToPlayerBetweenTurn(playerCustomStack: PlayerCustomStack) {
+        val player = listPlayers.find { it.id == playerCustomStack.id }
+        if (player != null) {
+            player.stack += playerCustomStack.stack
+        }
+    }
+
+    fun withDrawMoneyToPlayerBetweenTurn(playerCustomStack: PlayerCustomStack) {
+        val player = listPlayers.find { it.id == playerCustomStack.id }
+        if (player != null) {
+            player.stack -= playerCustomStack.stack
+        }
     }
 
 }

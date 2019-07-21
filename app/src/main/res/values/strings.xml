@@ -49,4 +49,7 @@
     <string name="poker_actiivty_not_enought_player_error">Vous devez au moins être 2 joueurs pour jouer</string>
     <string name="poker_actiivty_confirmation_end_game_dialog_message">Etes vous sûrs de vouloir mettre fin à cette partie ?\n La partie sera définitivement supprimée</string>
     <string name="poker_activity_rebuy_title">Cliquez pour recave</string>
+    <string name="poker_activity_custom_stack">Ajouter/Retirer des jetons à un joueur</string>
+    <string name="poker_activity_custom_stack_add">Ajouter</string>
+    <string name="poker_activity_custom_stack_withdraw">Retirer</string>
 </resources>

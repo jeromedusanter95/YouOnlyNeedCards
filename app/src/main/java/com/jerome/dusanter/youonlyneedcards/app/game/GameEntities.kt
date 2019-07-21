@@ -1,6 +1,7 @@
 package com.jerome.dusanter.youonlyneedcards.app.game
 
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
+import com.jerome.dusanter.youonlyneedcards.core.CustomStack
 
 sealed class GameUiModel {
     data class ShowCurrentTurn(
@@ -31,6 +32,10 @@ sealed class GameUiModel {
     object ShowSaveGame : GameUiModel()
 
     object ShowErrorNotEnoughtPlayer : GameUiModel()
+
+    data class ShowCustomStackDialog(
+        val playerCustomStackList: List<PlayerCustomStackUiModel>
+    ) : GameUiModel()
 }
 
 data class RaiseDialogUiModel(
@@ -58,4 +63,11 @@ data class PlayerEndGameUiModel(
     val description: String,
     val money: String,
     val ranking: String
+)
+
+data class PlayerCustomStackUiModel(
+    val id: String,
+    val name: String,
+    var stack: Int,
+    var action: CustomStack
 )

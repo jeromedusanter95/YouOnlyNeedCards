@@ -12,6 +12,7 @@ import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.app.welcome.WelcomeActivity
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.Winner
+import kotlinx.android.synthetic.main.activity_game.buttonCustomStack
 import kotlinx.android.synthetic.main.activity_game.buttonEndGame
 import kotlinx.android.synthetic.main.activity_game.buttonLeft
 import kotlinx.android.synthetic.main.activity_game.buttonMiddle
@@ -154,6 +155,7 @@ class GameActivity : AppCompatActivity() {
                         }
                         is GameUiModel.ShowErrorNotEnoughtPlayer -> showErrotNotEnoughtPlayer()
                         is GameUiModel.ShowRaiseDialog -> showDialogRaise(gameUiModel.raiseDialogUiModel)
+                        is GameUiModel.ShowCustomStackDialog -> showDialogCustomStack(gameUiModel)
                     }
                 }
             }
@@ -190,6 +192,7 @@ class GameActivity : AppCompatActivity() {
     private fun updateTableCurrentTurn(gameUiModel: GameUiModel.ShowCurrentTurn) {
         buttonStartGame.visibility = View.GONE
         buttonStartTurn.visibility = View.GONE
+        buttonCustomStack.visibility = View.GONE
         buttonEndGame.visibility = View.GONE
         buttonLeft.visibility = View.VISIBLE
         buttonMiddle.visibility = View.VISIBLE
@@ -241,6 +244,7 @@ class GameActivity : AppCompatActivity() {
         } else {
             viewModel.onDistributeStack(GameMapper().map(gameUiModel.potList[0]))
         }
+        buttonCustomStack.visibility = View.VISIBLE
         buttonStartTurn.visibility = View.VISIBLE
         buttonEndGame.visibility = View.VISIBLE
         buttonLeft.visibility = View.GONE
@@ -361,6 +365,14 @@ class GameActivity : AppCompatActivity() {
             ConfirmationEndGameDialog.newInstance()
                 .show(supportFragmentManager, "ConfirmationEndGameDialog")
         }
+
+        buttonCustomStack.setOnClickListener {
+            viewModel.onCustomStack()
+        }
+    }
+
+    private fun showDialogCustomStack(gameUiModel: GameUiModel.ShowCustomStackDialog) {
+        CustomStackDialog.newInstance(gameUiModel).show(supportFragmentManager, "CustomStackDialog")
     }
 
     fun onClickOnCheckInConfirmationEndGameDialog() {
@@ -380,5 +392,9 @@ class GameActivity : AppCompatActivity() {
         val intent = Intent(this, WelcomeActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
+    }
+
+    fun onCheckCustomStackDialog(playerList: List<PlayerCustomStackUiModel>) {
+        viewModel.onAddOrWithdrawStack(playerList)
     }
 }
