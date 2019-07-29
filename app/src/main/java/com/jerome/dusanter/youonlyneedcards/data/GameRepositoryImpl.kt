@@ -439,9 +439,9 @@ object GameRepositoryImpl {
                         )
                     )
                 }
-                winnerList.find { it.id == player.id && it.stackWon < player.stackBetTurn } != null -> {
+                winnerList.find { it.id == player.id && it.stackWon <= player.stackBetTurn } != null -> {
                     val stackWon =
-                        winnerList.find { it.id == player.id && it.stackWon < player.stackBetTurn }!!.stackWon
+                        winnerList.find { it.id == player.id && it.stackWon <= player.stackBetTurn }!!.stackWon
                     playerEndTurnList.add(
                         PlayerEndTurn(
                             player.id,
