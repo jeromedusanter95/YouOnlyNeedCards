@@ -12,12 +12,8 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.SeekBar
 import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.utils.SeekBarChangeListener
-import kotlinx.android.synthetic.main.dialog_raise.buttonAllin
-import kotlinx.android.synthetic.main.dialog_raise.buttonMinRaise
-import kotlinx.android.synthetic.main.dialog_raise.imageButtonCheck
-import kotlinx.android.synthetic.main.dialog_raise.imageButtonClose
-import kotlinx.android.synthetic.main.dialog_raise.seekBarRaise
-import kotlinx.android.synthetic.main.dialog_raise.textViewMoneyToRaise
+import com.jerome.dusanter.youonlyneedcards.utils.transformIntoDecade
+import kotlinx.android.synthetic.main.dialog_raise.*
 
 class RaiseDialog : DialogFragment() {
 
@@ -46,9 +42,9 @@ class RaiseDialog : DialogFragment() {
         }
         seekBarRaise.setOnSeekBarChangeListener(object : SeekBarChangeListener() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                setTextViewMoneyToRaise(progress)
-                stackRaised = progress
-                isAllIn = progress == arguments?.get(EXTRA_STACK_PLAYER) as Int
+                stackRaised = progress.transformIntoDecade()
+                setTextViewMoneyToRaise(stackRaised)
+                isAllIn = stackRaised == arguments?.get(EXTRA_STACK_PLAYER) as Int
             }
         })
         buttonAllin.setOnClickListener {

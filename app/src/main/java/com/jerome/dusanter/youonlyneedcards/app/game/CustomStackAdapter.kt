@@ -9,12 +9,8 @@ import android.widget.SeekBar
 import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.core.CustomStack
 import com.jerome.dusanter.youonlyneedcards.utils.SeekBarChangeListener
-import kotlinx.android.synthetic.main.item_recycler_view_dialog_custom_stack.view.radioButtonAdd
-import kotlinx.android.synthetic.main.item_recycler_view_dialog_custom_stack.view.radioButtonWithdraw
-import kotlinx.android.synthetic.main.item_recycler_view_dialog_custom_stack.view.seekBarStack
-import kotlinx.android.synthetic.main.item_recycler_view_dialog_custom_stack.view.textViewName
-import kotlinx.android.synthetic.main.item_recycler_view_dialog_custom_stack.view.textViewResult
-import kotlinx.android.synthetic.main.item_recycler_view_dialog_custom_stack.view.textViewStack
+import com.jerome.dusanter.youonlyneedcards.utils.transformIntoDecade
+import kotlinx.android.synthetic.main.item_recycler_view_dialog_custom_stack.view.*
 
 class CustomStackAdapter(
     private val context: Context?,
@@ -64,11 +60,11 @@ class CustomStackViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         )
         itemView.seekBarStack.setOnSeekBarChangeListener(object : SeekBarChangeListener() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                uiModel.stack = progress.transformIntoDecade()
                 itemView.textViewStack.text = context?.getString(
                     R.string.poker_activity_number_chips,
-                    progress
+                    uiModel.stack
                 )
-                uiModel.stack = progress
             }
         })
     }

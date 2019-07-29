@@ -12,9 +12,7 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import com.jerome.dusanter.youonlyneedcards.R
-import kotlinx.android.synthetic.main.dialog_custom_stack.imageButtonCheck
-import kotlinx.android.synthetic.main.dialog_custom_stack.imageButtonClose
-import kotlinx.android.synthetic.main.dialog_custom_stack.recyclerView
+import kotlinx.android.synthetic.main.dialog_custom_stack.*
 import java.io.Serializable
 
 
@@ -31,7 +29,6 @@ class CustomStackDialog : DialogFragment() {
     )
 
     private var playerList = mutableListOf<PlayerCustomStackUiModel>()
-    private var initialStack = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,6 +40,7 @@ class CustomStackDialog : DialogFragment() {
 
     private fun setupRecycler(context: Context) {
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
+        recyclerView.isNestedScrollingEnabled = false
         recyclerView.adapter = CustomStackAdapter(context, playerList)
     }
 
