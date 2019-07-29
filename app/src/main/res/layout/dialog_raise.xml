@@ -16,7 +16,8 @@
         android:layout_marginStart="@dimen/sizing_1"
         android:layout_marginLeft="@dimen/sizing_1"
         android:text="@string/poker_activity_how_many_raise"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/textViewMoneyToRaise"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
@@ -29,6 +30,7 @@
         android:layout_marginStart="@dimen/sizing_1"
         android:layout_marginLeft="@dimen/sizing_1"
         android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/textViewTitle"
         app:layout_constraintTop_toTopOf="parent"
         />
