@@ -1,4 +1,4 @@
-package com.jerome.dusanter.youonlyneedcards.app.game
+package com.jerome.dusanter.youonlyneedcards.app.game.ChooseWinners
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jerome.dusanter.youonlyneedcards.R
+import com.jerome.dusanter.youonlyneedcards.app.game.PlayerUiModel
+import com.jerome.dusanter.youonlyneedcards.app.game.PotUiModel
 import kotlinx.android.synthetic.main.item_recycler_view_dialog_choose_winners.view.checkbox
 import kotlinx.android.synthetic.main.item_recycler_view_dialog_choose_winners.view.textViewName
 import kotlinx.android.synthetic.main.item_recycler_view_dialog_choose_winners.view.textViewStack

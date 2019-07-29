@@ -1,4 +1,4 @@
-package com.jerome.dusanter.youonlyneedcards.app.game
+package com.jerome.dusanter.youonlyneedcards.app.game.PlayerProfile
 
 import com.jerome.dusanter.youonlyneedcards.app.settings.SettingsConstants
 import com.jerome.dusanter.youonlyneedcards.core.Player

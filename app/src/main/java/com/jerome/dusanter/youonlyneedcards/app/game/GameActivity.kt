@@ -9,6 +9,12 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
 import com.jerome.dusanter.youonlyneedcards.R
+import com.jerome.dusanter.youonlyneedcards.app.game.ChooseWinners.ChooseWinnersDialog
+import com.jerome.dusanter.youonlyneedcards.app.game.CustomStack.CustomStackDialog
+import com.jerome.dusanter.youonlyneedcards.app.game.EndGame.ConfirmationEndGameDialog
+import com.jerome.dusanter.youonlyneedcards.app.game.EndGame.EndGameDialog
+import com.jerome.dusanter.youonlyneedcards.app.game.EndTurn.EndTurnDialog
+import com.jerome.dusanter.youonlyneedcards.app.game.Raise.RaiseDialog
 import com.jerome.dusanter.youonlyneedcards.app.welcome.WelcomeActivity
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.Winner

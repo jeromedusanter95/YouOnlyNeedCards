@@ -1,4 +1,4 @@
-package com.jerome.dusanter.youonlyneedcards.app.game
+package com.jerome.dusanter.youonlyneedcards.app.game.ChooseWinners
 
 import android.content.Context
 import android.graphics.Color
@@ -12,8 +12,14 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import com.jerome.dusanter.youonlyneedcards.R
+import com.jerome.dusanter.youonlyneedcards.app.game.GameActivity
+import com.jerome.dusanter.youonlyneedcards.app.game.GameUiModel
+import com.jerome.dusanter.youonlyneedcards.app.game.PotUiModel
 import com.jerome.dusanter.youonlyneedcards.core.Winner
-import kotlinx.android.synthetic.main.dialog_choose_winners.*
+import kotlinx.android.synthetic.main.dialog_choose_winners.imageButton
+import kotlinx.android.synthetic.main.dialog_choose_winners.recyclerView
+import kotlinx.android.synthetic.main.dialog_choose_winners.textViewError
+import kotlinx.android.synthetic.main.dialog_choose_winners.textViewResult
 import java.io.Serializable
 
 

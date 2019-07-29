@@ -1,4 +1,4 @@
-package com.jerome.dusanter.youonlyneedcards.app.game
+package com.jerome.dusanter.youonlyneedcards.app.game.EndTurn
 
 import android.content.Context
 import android.graphics.Color
@@ -12,19 +12,22 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import com.jerome.dusanter.youonlyneedcards.R
+import com.jerome.dusanter.youonlyneedcards.app.game.GameActivity
+import com.jerome.dusanter.youonlyneedcards.app.game.GameUiModel
+import com.jerome.dusanter.youonlyneedcards.app.game.PlayerEndTurnUiModel
 import kotlinx.android.synthetic.main.dialog_end_turn.imageButtonCheck
 import kotlinx.android.synthetic.main.dialog_end_turn.recyclerView
 import java.io.Serializable
 
 
-class EndGameDialog : DialogFragment() {
+class EndTurnDialog : DialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(
-        R.layout.dialog_end_game,
+        R.layout.dialog_end_turn,
         container,
         false
     )
@@ -33,24 +36,26 @@ class EndGameDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecycler(
             view.context,
-            arguments?.get(EXTRA_PLAYER_END_GAME_LIST) as MutableList<PlayerEndGameUiModel>
+            arguments?.get(EXTRA_PLAYER_END_TURN_LIST) as MutableList<PlayerEndTurnUiModel>
         )
         setupListeners()
-        dialog.setCanceledOnTouchOutside(false)
     }
 
     private fun setupRecycler(
         context: Context,
-        playerEndGameUiModelList: List<PlayerEndGameUiModel>
+        playerEndTurnUiModelList: List<PlayerEndTurnUiModel>
     ) {
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
-        recyclerView.adapter = EndGameAdapter(context, playerEndGameUiModelList)
+        recyclerView.adapter = EndTurnAdapter(
+            context,
+            playerEndTurnUiModelList
+        )
     }
 
     private fun setupListeners() {
         imageButtonCheck.setOnClickListener {
             dismiss()
-            (activity as GameActivity).onDismissEndGameDialog()
+            (activity as GameActivity).onDismissEndTurnDialog()
         }
     }
 
@@ -64,15 +69,15 @@ class EndGameDialog : DialogFragment() {
     }
 
     companion object {
-        private const val EXTRA_PLAYER_END_GAME_LIST = "EXTRA_PLAYER_END_GAME_LIST"
+        private const val EXTRA_PLAYER_END_TURN_LIST = "EXTRA_PLAYER_END_TURN_LIST"
 
-        fun newInstance(uiModel: GameUiModel.ShowEndGameDialog): EndGameDialog {
+        fun newInstance(uiModel: GameUiModel.ShowEndTurnDialog): EndTurnDialog {
             val args = Bundle()
             args.putSerializable(
-                EXTRA_PLAYER_END_GAME_LIST,
-                uiModel.playerEndGameList as Serializable
+                EXTRA_PLAYER_END_TURN_LIST,
+                uiModel.playerEndTurnList as Serializable
             )
-            val dialog = EndGameDialog()
+            val dialog = EndTurnDialog()
             dialog.arguments = args
             return dialog
         }

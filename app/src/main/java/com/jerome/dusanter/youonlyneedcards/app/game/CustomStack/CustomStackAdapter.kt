@@ -1,4 +1,4 @@
-package com.jerome.dusanter.youonlyneedcards.app.game
+package com.jerome.dusanter.youonlyneedcards.app.game.CustomStack
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -7,10 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import com.jerome.dusanter.youonlyneedcards.R
+import com.jerome.dusanter.youonlyneedcards.app.game.PlayerCustomStackUiModel
 import com.jerome.dusanter.youonlyneedcards.core.CustomStack
 import com.jerome.dusanter.youonlyneedcards.utils.SeekBarChangeListener
 import com.jerome.dusanter.youonlyneedcards.utils.transformIntoDecade
-import kotlinx.android.synthetic.main.item_recycler_view_dialog_custom_stack.view.*
+import kotlinx.android.synthetic.main.item_recycler_view_dialog_custom_stack.view.radioButtonAdd
+import kotlinx.android.synthetic.main.item_recycler_view_dialog_custom_stack.view.radioButtonWithdraw
+import kotlinx.android.synthetic.main.item_recycler_view_dialog_custom_stack.view.seekBarStack
+import kotlinx.android.synthetic.main.item_recycler_view_dialog_custom_stack.view.textViewName
+import kotlinx.android.synthetic.main.item_recycler_view_dialog_custom_stack.view.textViewResult
+import kotlinx.android.synthetic.main.item_recycler_view_dialog_custom_stack.view.textViewStack
 
 class CustomStackAdapter(
     private val context: Context?,

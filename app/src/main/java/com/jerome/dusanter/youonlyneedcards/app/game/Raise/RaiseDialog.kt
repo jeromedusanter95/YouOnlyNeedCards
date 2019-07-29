@@ -1,4 +1,4 @@
-package com.jerome.dusanter.youonlyneedcards.app.game
+package com.jerome.dusanter.youonlyneedcards.app.game.Raise
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -11,9 +11,16 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.SeekBar
 import com.jerome.dusanter.youonlyneedcards.R
+import com.jerome.dusanter.youonlyneedcards.app.game.GameActivity
+import com.jerome.dusanter.youonlyneedcards.app.game.RaiseDialogUiModel
 import com.jerome.dusanter.youonlyneedcards.utils.SeekBarChangeListener
 import com.jerome.dusanter.youonlyneedcards.utils.transformIntoDecade
-import kotlinx.android.synthetic.main.dialog_raise.*
+import kotlinx.android.synthetic.main.dialog_raise.buttonAllin
+import kotlinx.android.synthetic.main.dialog_raise.buttonMinRaise
+import kotlinx.android.synthetic.main.dialog_raise.imageButtonCheck
+import kotlinx.android.synthetic.main.dialog_raise.imageButtonClose
+import kotlinx.android.synthetic.main.dialog_raise.seekBarRaise
+import kotlinx.android.synthetic.main.dialog_raise.textViewMoneyToRaise
 
 class RaiseDialog : DialogFragment() {
 

@@ -1,4 +1,4 @@
-package com.jerome.dusanter.youonlyneedcards.app.game
+package com.jerome.dusanter.youonlyneedcards.app.game.EndGame
 
 import android.content.Context
 import android.graphics.Color
@@ -12,65 +12,73 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import com.jerome.dusanter.youonlyneedcards.R
-import kotlinx.android.synthetic.main.dialog_custom_stack.*
+import com.jerome.dusanter.youonlyneedcards.app.game.GameActivity
+import com.jerome.dusanter.youonlyneedcards.app.game.GameUiModel
+import com.jerome.dusanter.youonlyneedcards.app.game.PlayerEndGameUiModel
+import kotlinx.android.synthetic.main.dialog_end_turn.imageButtonCheck
+import kotlinx.android.synthetic.main.dialog_end_turn.recyclerView
 import java.io.Serializable
 
 
-class CustomStackDialog : DialogFragment() {
+class EndGameDialog : DialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(
-        R.layout.dialog_custom_stack,
+        R.layout.dialog_end_game,
         container,
         false
     )
 
-    private var playerList = mutableListOf<PlayerCustomStackUiModel>()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        playerList = arguments?.get(EXTRA_PlAYER_CUSTOM_STACK_LIST) as MutableList<PlayerCustomStackUiModel>
-        setupRecycler(view.context)
+        setupRecycler(
+            view.context,
+            arguments?.get(EXTRA_PLAYER_END_GAME_LIST) as MutableList<PlayerEndGameUiModel>
+        )
         setupListeners()
         dialog.setCanceledOnTouchOutside(false)
     }
 
-    private fun setupRecycler(context: Context) {
+    private fun setupRecycler(
+        context: Context,
+        playerEndGameUiModelList: List<PlayerEndGameUiModel>
+    ) {
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
-        recyclerView.isNestedScrollingEnabled = false
-        recyclerView.adapter = CustomStackAdapter(context, playerList)
+        recyclerView.adapter = EndGameAdapter(
+            context,
+            playerEndGameUiModelList
+        )
     }
 
     private fun setupListeners() {
         imageButtonCheck.setOnClickListener {
             dismiss()
-            (activity as GameActivity).onCheckCustomStackDialog(playerList)
-        }
-
-        imageButtonClose.setOnClickListener {
-            dismiss()
+            (activity as GameActivity).onDismissEndGameDialog()
         }
     }
 
     override fun onStart() {
         super.onStart()
-        dialog.window?.setLayout(WRAP_CONTENT, WRAP_CONTENT)
+        dialog.window?.setLayout(
+            resources.getDimension(R.dimen.dialog_raise_width).toInt(),
+            WRAP_CONTENT
+        )
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
 
     companion object {
-        private const val EXTRA_PlAYER_CUSTOM_STACK_LIST = "EXTRA_PlAYER_CUSTOM_STACK_LIST"
+        private const val EXTRA_PLAYER_END_GAME_LIST = "EXTRA_PLAYER_END_GAME_LIST"
 
-        fun newInstance(uiModel: GameUiModel.ShowCustomStackDialog): CustomStackDialog {
+        fun newInstance(uiModel: GameUiModel.ShowEndGameDialog): EndGameDialog {
             val args = Bundle()
             args.putSerializable(
-                EXTRA_PlAYER_CUSTOM_STACK_LIST,
-                uiModel.playerCustomStackList as Serializable
+                EXTRA_PLAYER_END_GAME_LIST,
+                uiModel.playerEndGameList as Serializable
             )
-            val dialog = CustomStackDialog()
+            val dialog = EndGameDialog()
             dialog.arguments = args
             return dialog
         }

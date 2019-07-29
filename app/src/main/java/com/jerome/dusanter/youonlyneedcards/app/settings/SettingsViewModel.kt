@@ -59,8 +59,8 @@ class SettingsViewModel : ViewModel() {
     }
 
     fun onSeekBarFrequencyIncreasedBlindUpdated(progress: Int) {
-        val milis = progress * 60 * 1000
-        settings = settings.copy(frequencyIncreasingBlind = milis.toLong())
+        val millis = progress * 60 * 1000
+        settings = settings.copy(frequencyIncreasingBlind = millis.toLong())
         state.value = mapper.mapToUiModelSuccess(settings)
     }
 

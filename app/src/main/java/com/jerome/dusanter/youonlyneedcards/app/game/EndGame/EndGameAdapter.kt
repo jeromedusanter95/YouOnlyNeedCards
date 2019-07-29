@@ -1,11 +1,15 @@
-package com.jerome.dusanter.youonlyneedcards.app.game
+package com.jerome.dusanter.youonlyneedcards.app.game.EndGame
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.item_recycler_view_dialog_end_game.view.*
+import com.jerome.dusanter.youonlyneedcards.R
+import com.jerome.dusanter.youonlyneedcards.app.game.PlayerEndGameUiModel
+import kotlinx.android.synthetic.main.item_recycler_view_dialog_end_game.view.textViewDescription
+import kotlinx.android.synthetic.main.item_recycler_view_dialog_end_game.view.textViewMoney
+import kotlinx.android.synthetic.main.item_recycler_view_dialog_end_game.view.textViewRanking
 
 class EndGameAdapter(
     private val context: Context?,
@@ -14,7 +18,7 @@ class EndGameAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EndGameViewHolder {
         return EndGameViewHolder(
             LayoutInflater.from(context).inflate(
-                com.jerome.dusanter.youonlyneedcards.R.layout.item_recycler_view_dialog_end_game,
+                R.layout.item_recycler_view_dialog_end_game,
                 parent,
                 false
             )
