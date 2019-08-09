@@ -24,7 +24,7 @@ class SettingsActivity : AppCompatActivity() {
         setupListeners()
         setupLiveData()
         setupSeekBarsColor()
-        viewModel.start()
+        viewModel.start(this)
     }
 
     private fun setupListeners() {
@@ -36,34 +36,34 @@ class SettingsActivity : AppCompatActivity() {
         //TODO add an extension function for setOnSeekBarChangedListener
         seekBarBlind.setOnSeekBarChangeListener(object : SeekBarChangeListener() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                viewModel.onSeekBarBlindUpdated(progress.transformIntoDecade())
+                viewModel.onSeekBarBlindUpdated(progress.transformIntoDecade(), this@SettingsActivity)
             }
         })
 
         seekBarMoney.setOnSeekBarChangeListener(object : SeekBarChangeListener() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                viewModel.onSeekBarMoneyUpdated(progress.transformIntoDecade())
+                viewModel.onSeekBarMoneyUpdated(progress.transformIntoDecade(), this@SettingsActivity)
             }
         })
 
         seekBarFrequencyIncreaseBlind.setOnSeekBarChangeListener(object : SeekBarChangeListener() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                viewModel.onSeekBarFrequencyIncreasedBlindUpdated(progress)
+                viewModel.onSeekBarFrequencyIncreasedBlindUpdated(progress, this@SettingsActivity)
             }
         })
 
         seekBarChips.setOnSeekBarChangeListener(object : SeekBarChangeListener() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                viewModel.onSeekBarStackUpdated(progress.transformIntoDecade())
+                viewModel.onSeekBarStackUpdated(progress.transformIntoDecade(), this@SettingsActivity)
             }
         })
 
         switchMoney.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.onSwitchMoneyToggled(isChecked)
+            viewModel.onSwitchMoneyToggled(isChecked, this@SettingsActivity)
         }
 
         switchIncreaseBlinds.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.onSwitchIncreaseBlindsToggled(isChecked)
+            viewModel.onSwitchIncreaseBlindsToggled(isChecked, this@SettingsActivity)
         }
     }
 

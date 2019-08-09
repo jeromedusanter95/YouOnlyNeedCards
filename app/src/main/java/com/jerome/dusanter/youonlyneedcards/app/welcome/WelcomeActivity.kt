@@ -38,7 +38,7 @@ class WelcomeActivity : AppCompatActivity() {
                     when (welcomeUiModel) {
                         is WelcomeUiModel.Error -> Toast.makeText(
                             this,
-                            getString(R.string.main_activity_error_retrieving_old_game),
+                            getString(R.string.welcome_activity_error_retrieving_old_game),
                             Toast.LENGTH_SHORT
                         ).show()
                     }

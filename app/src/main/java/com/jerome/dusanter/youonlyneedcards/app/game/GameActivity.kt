@@ -18,29 +18,8 @@ import com.jerome.dusanter.youonlyneedcards.app.game.Raise.RaiseDialog
 import com.jerome.dusanter.youonlyneedcards.app.welcome.WelcomeActivity
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.Winner
-import kotlinx.android.synthetic.main.activity_game.buttonCustomStack
-import kotlinx.android.synthetic.main.activity_game.buttonEndGame
-import kotlinx.android.synthetic.main.activity_game.buttonLeft
-import kotlinx.android.synthetic.main.activity_game.buttonMiddle
-import kotlinx.android.synthetic.main.activity_game.buttonRight
-import kotlinx.android.synthetic.main.activity_game.buttonStartGame
-import kotlinx.android.synthetic.main.activity_game.buttonStartTurn
-import kotlinx.android.synthetic.main.activity_game.playerProfilView1
-import kotlinx.android.synthetic.main.activity_game.playerProfilView2
-import kotlinx.android.synthetic.main.activity_game.playerProfilView3
-import kotlinx.android.synthetic.main.activity_game.playerProfilView4
-import kotlinx.android.synthetic.main.activity_game.playerProfilView5
-import kotlinx.android.synthetic.main.activity_game.playerProfilView6
-import kotlinx.android.synthetic.main.activity_game.playerProfilView7
-import kotlinx.android.synthetic.main.activity_game.playerProfilView8
-import kotlinx.android.synthetic.main.activity_game.textViewCurrentPlayerInformations
-import kotlinx.android.synthetic.main.activity_game.textViewErrorNotEnoughtPlayer
-import kotlinx.android.synthetic.main.activity_game.textViewPartTurnName
-import kotlinx.android.synthetic.main.activity_game.textViewTimerIncreaseBlinds
-import kotlinx.android.synthetic.main.activity_game.textViewTimerIncreaseBlindsTitle
-import kotlinx.android.synthetic.main.activity_game.textViewTurnStack
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.constraintLayoutRebuyPlayer
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.imageButtonCheck
+import kotlinx.android.synthetic.main.activity_game.*
+import kotlinx.android.synthetic.main.layout_profil_player_view.view.*
 
 
 class GameActivity : AppCompatActivity() {
@@ -55,7 +34,7 @@ class GameActivity : AppCompatActivity() {
         setupListeners()
         setupLiveDatas()
         if (intent.getBooleanExtra("fromWelcome", false)) {
-            viewModel.onStartTurn()
+            viewModel.onStartTurn(this)
         }
     }
 
@@ -154,7 +133,7 @@ class GameActivity : AppCompatActivity() {
                         is GameUiModel.ShowSaveGame -> {
                             Toast.makeText(
                                 this,
-                                getString(R.string.poker_activity_save_game_message),
+                                getString(R.string.game_activity_save_game_message),
                                 Toast.LENGTH_SHORT
                             ).show()
                             goBackToWelcomeActivity()
@@ -187,9 +166,9 @@ class GameActivity : AppCompatActivity() {
 
     fun onDismissRaiseDialog(isAllin: Boolean, stackRaised: Int) {
         if (isAllin) {
-            viewModel.play(ActionPlayer.AllIn.name, stackRaised)
+            viewModel.play(ActionPlayer.AllIn.name, stackRaised, this)
         } else {
-            viewModel.play(ActionPlayer.Raise.name, stackRaised)
+            viewModel.play(ActionPlayer.Raise.name, stackRaised, this)
         }
     }
 
@@ -248,7 +227,7 @@ class GameActivity : AppCompatActivity() {
             ChooseWinnersDialog.newInstance(gameUiModel)
                 .show(supportFragmentManager, "ChooseWinnersDialog")
         } else {
-            viewModel.onDistributeStack(GameMapper().map(gameUiModel.potList[0]))
+            viewModel.onDistributeStack(GameMapper().map(gameUiModel.potList[0]), this)
         }
         buttonCustomStack.visibility = View.VISIBLE
         buttonStartTurn.visibility = View.VISIBLE
@@ -262,7 +241,7 @@ class GameActivity : AppCompatActivity() {
     }
 
     fun onDismissChooseWinnersDialog(winnerList: List<Winner>) {
-        viewModel.onDistributeStack(winnerList)
+        viewModel.onDistributeStack(winnerList, this)
     }
 
     fun onDismissEndTurnDialog() {
@@ -272,99 +251,99 @@ class GameActivity : AppCompatActivity() {
     private fun setupListeners() {
         playerProfilView1.imageButtonCheck.setOnClickListener {
             if (!playerProfilView1.getName().isBlank()) {
-                viewModel.onAddPlayer("1", playerProfilView1.getName())
+                viewModel.onAddPlayer("1", playerProfilView1.getName(), this)
             }
         }
         playerProfilView2.imageButtonCheck.setOnClickListener {
             if (!playerProfilView2.getName().isBlank()) {
-                viewModel.onAddPlayer("2", playerProfilView2.getName())
+                viewModel.onAddPlayer("2", playerProfilView2.getName(), this)
             }
         }
         playerProfilView3.imageButtonCheck.setOnClickListener {
             if (!playerProfilView3.getName().isBlank()) {
-                viewModel.onAddPlayer("3", playerProfilView3.getName())
+                viewModel.onAddPlayer("3", playerProfilView3.getName(), this)
             }
         }
         playerProfilView4.imageButtonCheck.setOnClickListener {
             if (!playerProfilView4.getName().isBlank()) {
-                viewModel.onAddPlayer("4", playerProfilView4.getName())
+                viewModel.onAddPlayer("4", playerProfilView4.getName(), this)
             }
         }
         playerProfilView5.imageButtonCheck.setOnClickListener {
             if (!playerProfilView5.getName().isBlank()) {
-                viewModel.onAddPlayer("5", playerProfilView5.getName())
+                viewModel.onAddPlayer("5", playerProfilView5.getName(), this)
             }
         }
 
         playerProfilView6.imageButtonCheck.setOnClickListener {
             if (!playerProfilView6.getName().isBlank()) {
-                viewModel.onAddPlayer("6", playerProfilView6.getName())
+                viewModel.onAddPlayer("6", playerProfilView6.getName(), this)
             }
         }
 
         playerProfilView7.imageButtonCheck.setOnClickListener {
             if (!playerProfilView7.getName().isBlank()) {
-                viewModel.onAddPlayer("7", playerProfilView7.getName())
+                viewModel.onAddPlayer("7", playerProfilView7.getName(), this)
             }
         }
 
         playerProfilView8.imageButtonCheck.setOnClickListener {
             if (!playerProfilView8.getName().isBlank()) {
-                viewModel.onAddPlayer("8", playerProfilView8.getName())
+                viewModel.onAddPlayer("8", playerProfilView8.getName(), this)
             }
         }
 
         playerProfilView1.constraintLayoutRebuyPlayer.setOnClickListener {
-            viewModel.onRebuyPlayer("1")
+            viewModel.onRebuyPlayer("1", this)
         }
 
         playerProfilView2.constraintLayoutRebuyPlayer.setOnClickListener {
-            viewModel.onRebuyPlayer("2")
+            viewModel.onRebuyPlayer("2", this)
         }
 
         playerProfilView3.constraintLayoutRebuyPlayer.setOnClickListener {
-            viewModel.onRebuyPlayer("3")
+            viewModel.onRebuyPlayer("3", this)
         }
 
         playerProfilView4.constraintLayoutRebuyPlayer.setOnClickListener {
-            viewModel.onRebuyPlayer("4")
+            viewModel.onRebuyPlayer("4", this)
         }
 
         playerProfilView5.constraintLayoutRebuyPlayer.setOnClickListener {
-            viewModel.onRebuyPlayer("5")
+            viewModel.onRebuyPlayer("5", this)
         }
 
         playerProfilView6.constraintLayoutRebuyPlayer.setOnClickListener {
-            viewModel.onRebuyPlayer("6")
+            viewModel.onRebuyPlayer("6", this)
         }
 
         playerProfilView7.constraintLayoutRebuyPlayer.setOnClickListener {
-            viewModel.onRebuyPlayer("7")
+            viewModel.onRebuyPlayer("7", this)
         }
 
         playerProfilView8.constraintLayoutRebuyPlayer.setOnClickListener {
-            viewModel.onRebuyPlayer("8")
+            viewModel.onRebuyPlayer("8", this)
         }
 
         buttonStartGame.setOnClickListener {
             textViewErrorNotEnoughtPlayer.visibility = View.GONE
-            viewModel.onStartGame()
+            viewModel.onStartGame(this)
         }
 
         buttonLeft.setOnClickListener {
-            viewModel.onClickButtonLeft(buttonLeft.text.toString())
+            viewModel.onClickButtonLeft(buttonLeft.text.toString(), this)
         }
 
         buttonMiddle.setOnClickListener {
-            viewModel.onClickButtonMiddle(buttonMiddle.text.toString())
+            viewModel.onClickButtonMiddle(buttonMiddle.text.toString(), this)
         }
 
         buttonRight.setOnClickListener {
-            viewModel.onClickButtonRight(buttonRight.text.toString())
+            viewModel.onClickButtonRight(buttonRight.text.toString(), this)
         }
 
         buttonStartTurn.setOnClickListener {
-            viewModel.onStartTurn()
+            viewModel.onStartTurn(this)
         }
 
         buttonEndGame.setOnClickListener {
@@ -401,6 +380,6 @@ class GameActivity : AppCompatActivity() {
     }
 
     fun onCheckCustomStackDialog(playerList: List<PlayerCustomStackUiModel>) {
-        viewModel.onAddOrWithdrawStack(playerList)
+        viewModel.onAddOrWithdrawStack(playerList, this)
     }
 }

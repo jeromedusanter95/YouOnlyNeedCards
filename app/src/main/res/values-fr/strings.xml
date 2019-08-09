@@ -1,0 +1,70 @@
+<resources>
+    <string name="app_name">YouOnlyNeedCards</string>
+
+    <!-- COMMON -->
+    <string name="common_yes">oui</string>
+    <string name="common_no">non</string>
+    <string name="common_min">min</string>
+    <string name="common_chips">jetons</string>
+    <string name="common_euros">€</string>
+
+    <!-- WELCOME ACTIVITY -->
+    <string name="welcome_activity_new_game">Nouvelle partie</string>
+    <string name="welcome_activity_old_game">Reprendre la partie</string>
+    <string name="welcome_activity_error_retrieving_old_game">Aucune sauvegarde trouvée</string>
+
+    <!--SETTINGS ACTIVITY-->
+    <string name="settings_activity_title">Paramètres de la partie</string>
+    <string name="settings_activity_money">Miser de l\'argent ? :</string>
+    <string name="settings_activity_how_many_money">Combien d\'argent ? :</string>
+    <string name="settings_activity_number_chips">Nombre de jetons par joueur :</string>
+    <string name="settings_activity_blind">Petite Blind / Grosse Blind :</string>
+    <string name="settings_activity_blind_increase">Blinds augmentent au cours de la partie ? :</string>
+    <string name="settings_activity_blind_increase_frequency">Fréquence de l\'augmentation des blinds :</string>
+    <string name="settings_activity_start_game">Commencer</string>
+    <string name="settings_activity_blind_error">Les blinds ne peuvent pas être nulles</string>
+    <string name="settings_activity_stack_error">Le nombre de jetons ne peut pas être nul</string>
+    <string name="settings_activity_frequency_error">Le fréquence de temps ne peut pas être nulle</string>
+    <string name="settings_activity_money_error">La somme misée ne peut pas être nulle</string>
+
+    <!--GAME ACTIVITY-->
+    <string name="game_activity_add_player">Ajoutez un joueur</string>
+    <string name="game_activity_hint_add_player">Nom du joueur ?</string>
+    <string name="game_activity_call">Suivre</string>
+    <string name="game_activity_check">Check</string>
+    <string name="game_activity_raise">Relancer</string>
+    <string name="game_activity_fold">Se coucher</string>
+    <string name="game_activity_how_many_raise">Relancer de :</string>
+    <string name="game_activity_number_chips">%1$d jetons</string>
+    <string name="game_activity_choose_winners_title">Qui a la meilleure main parmi :</string>
+    <string name="game_activity_choose_winners_current_pot_stack">pot de %1$d jetons</string>
+    <string name="game_activity_choose_winners_error">Vous devez au moins choisir un joueur !</string>
+    <string name="game_activity_text_simulation">%1$s remporte %2$d jetons\n</string>
+    <string name="game_activity_all_in">All-in</string>
+    <string name="game_activity_start_turn">Nouveau tour</string>
+    <string name="game_activity_end_turn_title">Bilan du tour</string>
+    <string name="game_activity_end_turn_review_text_winner">%1$s a gagné %2$d jetons</string>
+    <string name="game_activity_end_turn_review_text_loser">%1$s a perdu %2$d jetons</string>
+    <string name="game_activity_end_turn_review_text_even">%1$s n\'a rien perdu</string>
+    <string name="game_activity_end_game_title">Fin de la partie</string>
+    <string name="game_activity_end_game_description">%1$s finit avec %2$d jetons</string>
+    <string name="game_activity_end_game_description_winner">Il gagne donc %1$d euros</string>
+    <string name="game_activity_end_game_description_loser">Il perd donc %1$d euros</string>
+    <string name="game_activity_end_game_description_no_money_bet">Pas d\'argent en jeu</string>
+    <string name="game_activity_end_game_ranking">Il finit %1$s de la partie</string>
+    <string name="game_activity_end_game_ranking_first">1er</string>
+    <string name="game_activity_end_game_ranking_second">2ème</string>
+    <string name="game_activity_end_game_ranking_third">3ème</string>
+    <string name="game_activity_end_game_ranking_others">%1$dème</string>
+    <string name="game_activity_end_game_ranking_exaquo">ex-aquo</string>
+    <string name="game_activity_end_game">Finir la partie</string>
+    <string name="game_activity_save_game_message">Partie sauvegardée !</string>
+    <string name="game_activity_timer_increase_blinds_title">Blinds augmentent dans</string>
+    <string name="game_activity_not_enought_player_error">Vous devez au moins être 2 joueurs pour jouer</string>
+    <string name="game_activity_confirmation_end_game_dialog_message">Etes vous sûrs de vouloir mettre fin à cette partie ?\n La partie sera définitivement supprimée</string>
+    <string name="game_activity_rebuy_title">Cliquez pour recave</string>
+    <string name="game_activity_custom_stack">Ajouter/Retirer des jetons à un joueur</string>
+    <string name="game_activity_custom_stack_add">Ajouter</string>
+    <string name="game_activity_custom_stack_withdraw">Retirer</string>
+</resources>
+

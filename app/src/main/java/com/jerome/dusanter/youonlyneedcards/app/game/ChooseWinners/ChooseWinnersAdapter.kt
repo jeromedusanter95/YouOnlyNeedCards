@@ -8,9 +8,7 @@ import android.view.ViewGroup
 import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.app.game.PlayerUiModel
 import com.jerome.dusanter.youonlyneedcards.app.game.PotUiModel
-import kotlinx.android.synthetic.main.item_recycler_view_dialog_choose_winners.view.checkbox
-import kotlinx.android.synthetic.main.item_recycler_view_dialog_choose_winners.view.textViewName
-import kotlinx.android.synthetic.main.item_recycler_view_dialog_choose_winners.view.textViewStack
+import kotlinx.android.synthetic.main.item_recycler_view_dialog_choose_winners.view.*
 
 class ChooseWinnersAdapter(
     private val pot: PotUiModel,
@@ -58,12 +56,12 @@ class ChooseWinnersViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         itemView.textViewName.text = player.name
         if (player.isWinner) {
             itemView.textViewStack.text = itemView.context.getString(
-                R.string.poker_activity_number_chips,
+                R.string.game_activity_number_chips,
                 stackEachPlayer
             )
         } else {
             itemView.textViewStack.text = itemView.context.getString(
-                R.string.poker_activity_number_chips,
+                R.string.game_activity_number_chips,
                 0
             )
         }

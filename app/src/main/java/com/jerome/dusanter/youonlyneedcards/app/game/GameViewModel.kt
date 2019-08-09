@@ -5,30 +5,8 @@ import android.arch.lifecycle.ViewModel
 import android.content.Context
 import com.jerome.dusanter.youonlyneedcards.app.game.PlayerProfile.PlayerProfileMapper
 import com.jerome.dusanter.youonlyneedcards.app.game.PlayerProfile.PlayerProfileUiModel
-import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
-import com.jerome.dusanter.youonlyneedcards.core.Player
-import com.jerome.dusanter.youonlyneedcards.core.PlayerEndGame
-import com.jerome.dusanter.youonlyneedcards.core.PlayerEndTurn
-import com.jerome.dusanter.youonlyneedcards.core.Pot
-import com.jerome.dusanter.youonlyneedcards.core.Settings
-import com.jerome.dusanter.youonlyneedcards.core.StatePlayer
-import com.jerome.dusanter.youonlyneedcards.core.StateTurn
-import com.jerome.dusanter.youonlyneedcards.core.Winner
-import com.jerome.dusanter.youonlyneedcards.core.interactor.AddOrWithdrawStackInteractor
-import com.jerome.dusanter.youonlyneedcards.core.interactor.AddPlayerInteractor
-import com.jerome.dusanter.youonlyneedcards.core.interactor.CheckIfGameOverInteractor
-import com.jerome.dusanter.youonlyneedcards.core.interactor.DeleteGameInteractor
-import com.jerome.dusanter.youonlyneedcards.core.interactor.DistributeStackInteractor
-import com.jerome.dusanter.youonlyneedcards.core.interactor.EndGameInteractor
-import com.jerome.dusanter.youonlyneedcards.core.interactor.GetParametersToRaiseInteractor
-import com.jerome.dusanter.youonlyneedcards.core.interactor.GetPlayerListAndInitialStackInteractor
-import com.jerome.dusanter.youonlyneedcards.core.interactor.IncreaseBlindsInteractor
-import com.jerome.dusanter.youonlyneedcards.core.interactor.PlayInteractor
-import com.jerome.dusanter.youonlyneedcards.core.interactor.PlayRequest
-import com.jerome.dusanter.youonlyneedcards.core.interactor.RebuyPlayerInteractor
-import com.jerome.dusanter.youonlyneedcards.core.interactor.SaveGameInInteractor
-import com.jerome.dusanter.youonlyneedcards.core.interactor.StartGameInteractor
-import com.jerome.dusanter.youonlyneedcards.core.interactor.StartTurnInteractor
+import com.jerome.dusanter.youonlyneedcards.core.*
+import com.jerome.dusanter.youonlyneedcards.core.interactor.*
 
 class GameViewModel : ViewModel() {
 
@@ -45,35 +23,27 @@ class GameViewModel : ViewModel() {
     // Live data of Game
     val stateGame = MutableLiveData<GameUiModel>()
 
-    fun onAddPlayer(id: String, name: String) {
-        AddPlayerInteractor().execute(id, name, buildAddPlayerListener())
+    fun onAddPlayer(id: String, name: String, context: Context) {
+        AddPlayerInteractor().execute(id, name, buildAddPlayerListener(context))
     }
 
-    private fun buildAddPlayerListener(): AddPlayerInteractor.Listener =
+    private fun buildAddPlayerListener(context: Context): AddPlayerInteractor.Listener =
         object : AddPlayerInteractor.Listener {
             override fun onSuccess(player: Player) {
-                updatePlayerById(player)
+                updatePlayerById(player, context)
             }
         }
 
-    private fun updatePlayerById(player: Player) {
+    private fun updatePlayerById(player: Player, context: Context) {
         when (player.id) {
-            "1" -> statePlayerProfileView1.value = PlayerProfileMapper()
-                .map(player)
-            "2" -> statePlayerProfileView2.value = PlayerProfileMapper()
-                .map(player)
-            "3" -> statePlayerProfileView3.value = PlayerProfileMapper()
-                .map(player)
-            "4" -> statePlayerProfileView4.value = PlayerProfileMapper()
-                .map(player)
-            "5" -> statePlayerProfileView5.value = PlayerProfileMapper()
-                .map(player)
-            "6" -> statePlayerProfileView6.value = PlayerProfileMapper()
-                .map(player)
-            "7" -> statePlayerProfileView7.value = PlayerProfileMapper()
-                .map(player)
-            "8" -> statePlayerProfileView8.value = PlayerProfileMapper()
-                .map(player)
+            "1" -> statePlayerProfileView1.value = PlayerProfileMapper().map(player, context)
+            "2" -> statePlayerProfileView2.value = PlayerProfileMapper().map(player, context)
+            "3" -> statePlayerProfileView3.value = PlayerProfileMapper().map(player, context)
+            "4" -> statePlayerProfileView4.value = PlayerProfileMapper().map(player, context)
+            "5" -> statePlayerProfileView5.value = PlayerProfileMapper().map(player, context)
+            "6" -> statePlayerProfileView6.value = PlayerProfileMapper().map(player, context)
+            "7" -> statePlayerProfileView7.value = PlayerProfileMapper().map(player, context)
+            "8" -> statePlayerProfileView8.value = PlayerProfileMapper().map(player, context)
         }
     }
 
@@ -90,77 +60,69 @@ class GameViewModel : ViewModel() {
         }
     }
 
-    private fun updatePlayerOrHidePlayer(list: List<Player>) {
+    private fun updatePlayerOrHidePlayer(list: List<Player>, context: Context) {
         val player1 = list.find { it.id == "1" }
         if (player1 != null) {
-            statePlayerProfileView1.value = PlayerProfileMapper()
-                .map(player1)
+            statePlayerProfileView1.value = PlayerProfileMapper().map(player1, context)
         } else {
             statePlayerProfileView1.value = null
         }
 
         val player2 = list.find { it.id == "2" }
         if (player2 != null) {
-            statePlayerProfileView2.value = PlayerProfileMapper()
-                .map(player2)
+            statePlayerProfileView2.value = PlayerProfileMapper().map(player2, context)
         } else {
             statePlayerProfileView2.value = null
         }
 
         val player3 = list.find { it.id == "3" }
         if (player3 != null) {
-            statePlayerProfileView3.value = PlayerProfileMapper()
-                .map(player3)
+            statePlayerProfileView3.value = PlayerProfileMapper().map(player3, context)
         } else {
             statePlayerProfileView3.value = null
         }
 
         val player4 = list.find { it.id == "4" }
         if (player4 != null) {
-            statePlayerProfileView4.value = PlayerProfileMapper()
-                .map(player4)
+            statePlayerProfileView4.value = PlayerProfileMapper().map(player4, context)
         } else {
             statePlayerProfileView4.value = null
         }
 
         val player5 = list.find { it.id == "5" }
         if (player5 != null) {
-            statePlayerProfileView5.value = PlayerProfileMapper()
-                .map(player5)
+            statePlayerProfileView5.value = PlayerProfileMapper().map(player5, context)
         } else {
             statePlayerProfileView5.value = null
         }
 
         val player6 = list.find { it.id == "6" }
         if (player6 != null) {
-            statePlayerProfileView6.value = PlayerProfileMapper()
-                .map(player6)
+            statePlayerProfileView6.value = PlayerProfileMapper().map(player6, context)
         } else {
             statePlayerProfileView6.value = null
         }
 
         val player7 = list.find { it.id == "7" }
         if (player7 != null) {
-            statePlayerProfileView7.value = PlayerProfileMapper()
-                .map(player7)
+            statePlayerProfileView7.value = PlayerProfileMapper().map(player7, context)
         } else {
             statePlayerProfileView7.value = null
         }
 
         val player8 = list.find { it.id == "8" }
         if (player8 != null) {
-            statePlayerProfileView8.value = PlayerProfileMapper()
-                .map(player8)
+            statePlayerProfileView8.value = PlayerProfileMapper().map(player8, context)
         } else {
             statePlayerProfileView8.value = null
         }
     }
 
-    fun onStartGame() {
-        StartGameInteractor().execute(buildGameListener())
+    fun onStartGame(context: Context) {
+        StartGameInteractor().execute(buildGameListener(context))
     }
 
-    private fun buildGameListener(): StartGameInteractor.Listener =
+    private fun buildGameListener(context: Context): StartGameInteractor.Listener =
         object : StartGameInteractor.Listener {
             override fun onError() {
                 stateGame.value = GameUiModel.ShowErrorNotEnoughtPlayer
@@ -181,31 +143,32 @@ class GameViewModel : ViewModel() {
                     nameCurrentPlayer = currentPlayer!!.name,
                     stackCurrentPlayer = currentPlayer.stack,
                     resetTimer = resetTimer,
-                    durationBeforeIncreasingBlinds = durationBeforeIncreasingBlind
+                    durationBeforeIncreasingBlinds = durationBeforeIncreasingBlind,
+                    context = context
                 )
-                updatePlayerOrHidePlayer(playerList)
+                updatePlayerOrHidePlayer(playerList, context)
             }
         }
 
-    fun onClickButtonLeft(actionPlayer: String?) {
+    fun onClickButtonLeft(actionPlayer: String?, context: Context) {
         if (actionPlayer != null && actionPlayer != ActionPlayer.Raise.name) {
-            play(actionPlayer)
+            play(actionPlayer, context)
         } else if (actionPlayer == ActionPlayer.Raise.name) {
             GetParametersToRaiseInteractor().execute(buildGetBigBlindInteractor())
         }
     }
 
-    fun onClickButtonMiddle(actionPlayer: String?) {
+    fun onClickButtonMiddle(actionPlayer: String?, context: Context) {
         if (actionPlayer != null && actionPlayer != ActionPlayer.Raise.name) {
-            play(actionPlayer)
+            play(actionPlayer, context)
         } else if (actionPlayer == ActionPlayer.Raise.name) {
             GetParametersToRaiseInteractor().execute(buildGetBigBlindInteractor())
         }
     }
 
-    fun onClickButtonRight(actionPlayer: String?) {
+    fun onClickButtonRight(actionPlayer: String?, context: Context) {
         if (actionPlayer != null && actionPlayer != ActionPlayer.Raise.name) {
-            play(actionPlayer)
+            play(actionPlayer, context)
         } else if (actionPlayer == ActionPlayer.Raise.name) {
             GetParametersToRaiseInteractor().execute(buildGetBigBlindInteractor())
         }
@@ -218,15 +181,15 @@ class GameViewModel : ViewModel() {
             }
         }
 
-    private fun play(actionPlayer: String) {
-        PlayInteractor().execute(PlayRequest(actionPlayer), buildPlayListener())
+    private fun play(actionPlayer: String, context: Context) {
+        PlayInteractor().execute(PlayRequest(actionPlayer), buildPlayListener(context))
     }
 
-    fun play(actionPlayer: String, stackRaised: Int) {
-        PlayInteractor().execute(PlayRequest(actionPlayer, stackRaised), buildPlayListener())
+    fun play(actionPlayer: String, stackRaised: Int, context: Context) {
+        PlayInteractor().execute(PlayRequest(actionPlayer, stackRaised), buildPlayListener(context))
     }
 
-    private fun buildPlayListener(): PlayInteractor.Listener =
+    private fun buildPlayListener(context: Context): PlayInteractor.Listener =
         object : PlayInteractor.Listener {
             override fun getGameInformations(
                 actionPlayerList: List<ActionPlayer>,
@@ -239,14 +202,15 @@ class GameViewModel : ViewModel() {
                 if (!isEndTurn) {
                     val currentPlayer = playerList.find { it.statePlayer == StatePlayer.CurrentTurn }
                     stateGame.value = GameMapper().map(
-                        actionPlayerList,
-                        currentPlayer!!.name,
-                        currentPlayer.stack,
-                        stateTurn.name,
-                        stackTurn
+                        actionPlayerList = actionPlayerList,
+                        nameCurrentPlayer = currentPlayer!!.name,
+                        stackCurrentPlayer = currentPlayer.stack,
+                        namePartTurn = stateTurn.name,
+                        stackTurn = stackTurn,
+                        context = context
                     )
                     playerList.forEach {
-                        updatePlayerById(it)
+                        updatePlayerById(it, context)
                     }
                 } else {
                     stateGame.value = GameMapper().map(
@@ -256,11 +220,11 @@ class GameViewModel : ViewModel() {
             }
         }
 
-    fun onStartTurn() {
-        StartTurnInteractor().execute(buildStartTurnListener())
+    fun onStartTurn(context: Context) {
+        StartTurnInteractor().execute(buildStartTurnListener(context))
     }
 
-    private fun buildStartTurnListener(): StartTurnInteractor.Listener =
+    private fun buildStartTurnListener(context: Context): StartTurnInteractor.Listener =
         object : StartTurnInteractor.Listener {
             override fun getPossibleActions(
                 actionPlayerList: List<ActionPlayer>,
@@ -278,28 +242,29 @@ class GameViewModel : ViewModel() {
                     stateTurn.name,
                     stackTurn,
                     resetTimer,
-                    durationBeforeIncreasingBlinds
+                    durationBeforeIncreasingBlinds,
+                    context
                 )
-                updatePlayerOrHidePlayer(playerList)
+                updatePlayerOrHidePlayer(playerList, context)
             }
         }
 
-    fun onDistributeStack(winnerList: List<Winner>) {
-        DistributeStackInteractor().execute(winnerList, buildDistributeStackListener())
+    fun onDistributeStack(winnerList: List<Winner>, context: Context) {
+        DistributeStackInteractor().execute(winnerList, buildDistributeStackListener(context))
     }
 
-    private fun buildDistributeStackListener(): DistributeStackInteractor.Listener =
+    private fun buildDistributeStackListener(context: Context): DistributeStackInteractor.Listener =
         object : DistributeStackInteractor.Listener {
             override fun onSuccess(
                 playerEndTurnList: List<PlayerEndTurn>,
                 playerList: List<Player>
             ) {
-                stateGame.value = GameMapper().map(playerEndTurnList)
+                stateGame.value = GameMapper().map(playerEndTurnList, context)
                 playerList.forEach {
                     if (it.statePlayer == StatePlayer.Eliminate) {
                         showRebuyById(it)
                     } else {
-                        updatePlayerById(it)
+                        updatePlayerById(it, context)
                     }
                 }
             }
@@ -357,14 +322,14 @@ class GameViewModel : ViewModel() {
         DeleteGameInteractor().execute(context)
     }
 
-    fun onRebuyPlayer(playerId: String) {
-        RebuyPlayerInteractor().execute(buildRebuyPlayerListener(), playerId)
+    fun onRebuyPlayer(playerId: String, context: Context) {
+        RebuyPlayerInteractor().execute(buildRebuyPlayerListener(context), playerId)
     }
 
-    private fun buildRebuyPlayerListener(): RebuyPlayerInteractor.Listener =
+    private fun buildRebuyPlayerListener(context: Context): RebuyPlayerInteractor.Listener =
         object : RebuyPlayerInteractor.Listener {
             override fun onSuccess(player: Player) {
-                updatePlayerById(player)
+                updatePlayerById(player, context)
             }
         }
 
@@ -379,18 +344,18 @@ class GameViewModel : ViewModel() {
             }
         }
 
-    fun onAddOrWithdrawStack(playerList: List<PlayerCustomStackUiModel>) {
+    fun onAddOrWithdrawStack(playerList: List<PlayerCustomStackUiModel>, context: Context) {
         AddOrWithdrawStackInteractor().execute(
-            buildAddOrWithdrawListener(),
+            buildAddOrWithdrawListener(context),
             GameMapper().mapToCustomStack(playerList)
         )
     }
 
-    private fun buildAddOrWithdrawListener(): AddOrWithdrawStackInteractor.Listener =
+    private fun buildAddOrWithdrawListener(context: Context): AddOrWithdrawStackInteractor.Listener =
         object : AddOrWithdrawStackInteractor.Listener {
             override fun onSuccess(list: List<Player>) {
                 list.forEach {
-                    updatePlayerById(it)
+                    updatePlayerById(it, context)
                 }
             }
         }

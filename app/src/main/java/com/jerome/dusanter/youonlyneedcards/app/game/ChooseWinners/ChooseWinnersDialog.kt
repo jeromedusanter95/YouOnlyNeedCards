@@ -16,10 +16,7 @@ import com.jerome.dusanter.youonlyneedcards.app.game.GameActivity
 import com.jerome.dusanter.youonlyneedcards.app.game.GameUiModel
 import com.jerome.dusanter.youonlyneedcards.app.game.PotUiModel
 import com.jerome.dusanter.youonlyneedcards.core.Winner
-import kotlinx.android.synthetic.main.dialog_choose_winners.imageButton
-import kotlinx.android.synthetic.main.dialog_choose_winners.recyclerView
-import kotlinx.android.synthetic.main.dialog_choose_winners.textViewError
-import kotlinx.android.synthetic.main.dialog_choose_winners.textViewResult
+import kotlinx.android.synthetic.main.dialog_choose_winners.*
 import java.io.Serializable
 
 
@@ -91,7 +88,7 @@ class ChooseWinnersDialog : DialogFragment() {
 
     private fun setupTextView() {
         textViewResult.text = getString(
-            R.string.poker_activity_choose_winners_current_pot_stack,
+            R.string.game_activity_choose_winners_current_pot_stack,
             currentPot.stack
         )
         textViewError.visibility = View.INVISIBLE

@@ -1,32 +1,31 @@
 package com.jerome.dusanter.youonlyneedcards.app.settings
 
+import android.content.Context
+import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.core.Settings
 
 
 class SettingsMapper {
 
-    fun mapToUiModelSuccess(settings: Settings): SettingsUiModel.Success? {
+    fun mapToUiModelSuccess(settings: Settings, context: Context): SettingsUiModel.Success? {
         return SettingsUiModel.Success(
-            stack = settings.stack.toString()
-                + SettingsConstants.CHIPS,
+            stack = "${settings.stack} " + context.resources.getString(R.string.common_chips),
             isIncreaseBlindsEnabled = settings.isIncreaseBlindsEnabled,
             isMoneyBetEnabled = settings.isMoneyBetEnabled,
-            smallBlind = settings.smallBlind.toString()
-                + "/"
-                + settings.smallBlind * 2
-                + SettingsConstants.CHIPS,
-            frequencyIncreasingBlind = (settings.frequencyIncreasingBlind / 60000).toString()
-                + SettingsConstants.MIN,
-            money = settings.money.toString() + SettingsConstants.EURO,
+            smallBlind = "${settings.smallBlind}/${settings.smallBlind * 2} "
+                    + context.resources.getString(R.string.common_chips),
+            frequencyIncreasingBlind = "${(settings.frequencyIncreasingBlind / 60000)} "
+                    + context.resources.getString(R.string.common_min),
+            money = "${settings.money} " + context.getString(R.string.common_euros),
             increaseBlindsAnswer = if (settings.isIncreaseBlindsEnabled) {
-                SettingsConstants.YES
+                context.resources.getString(R.string.common_yes)
             } else {
-                SettingsConstants.NO
+                context.resources.getString(R.string.common_no)
             },
             moneyBetAnswer = if (settings.isMoneyBetEnabled) {
-                SettingsConstants.YES
+                context.resources.getString(R.string.common_yes)
             } else {
-                SettingsConstants.NO
+                context.resources.getString(R.string.common_no)
             },
             showErrorMoney = settings.isMoneyBetEnabled && settings.money <= 0,
             showErrorFrequencyIncreaseBlinds = settings.isIncreaseBlindsEnabled && settings.frequencyIncreasingBlind <= 0,

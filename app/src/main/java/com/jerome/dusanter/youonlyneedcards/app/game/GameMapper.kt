@@ -2,16 +2,7 @@ package com.jerome.dusanter.youonlyneedcards.app.game
 
 import android.content.Context
 import com.jerome.dusanter.youonlyneedcards.R
-import com.jerome.dusanter.youonlyneedcards.app.settings.SettingsConstants
-import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
-import com.jerome.dusanter.youonlyneedcards.core.CustomStack
-import com.jerome.dusanter.youonlyneedcards.core.Player
-import com.jerome.dusanter.youonlyneedcards.core.PlayerCustomStack
-import com.jerome.dusanter.youonlyneedcards.core.PlayerEndGame
-import com.jerome.dusanter.youonlyneedcards.core.PlayerEndTurn
-import com.jerome.dusanter.youonlyneedcards.core.Pot
-import com.jerome.dusanter.youonlyneedcards.core.Settings
-import com.jerome.dusanter.youonlyneedcards.core.Winner
+import com.jerome.dusanter.youonlyneedcards.core.*
 
 class GameMapper {
     fun map(
@@ -21,13 +12,14 @@ class GameMapper {
         namePartTurn: String,
         stackTurn: Int,
         resetTimer: Boolean = false,
-        durationBeforeIncreasingBlinds: Long = 0
+        durationBeforeIncreasingBlinds: Long = 0,
+        context: Context
     ): GameUiModel.ShowCurrentTurn {
         return GameUiModel.ShowCurrentTurn(
             actionPlayerList = actionPlayerList,
             informationsCurrentPlayer = "$nameCurrentPlayer $stackCurrentPlayer",
             namePartTurn = namePartTurn,
-            stackTurn = "$stackTurn ${SettingsConstants.CHIPS}",
+            stackTurn = context.getString(R.string.game_activity_number_chips, stackTurn),
             resetTimer = resetTimer,
             durationBeforeIncreasingBlind = durationBeforeIncreasingBlinds
         )
@@ -49,14 +41,25 @@ class GameMapper {
         })
     }
 
-    fun map(playerEndTurnList: List<PlayerEndTurn>): GameUiModel.ShowEndTurnDialog {
+    fun map(playerEndTurnList: List<PlayerEndTurn>, context: Context): GameUiModel.ShowEndTurnDialog {
         return GameUiModel.ShowEndTurnDialog(
             playerEndTurnList.map {
                 PlayerEndTurnUiModel(
                     when {
-                        it.isWinner -> "${it.name} a gagné ${it.stack} jetons"
-                        it.stack > 0 -> "${it.name} a perdu ${it.stack} jetons"
-                        else -> "${it.name} n'a rien perdu"
+                        it.isWinner -> context.getString(
+                            R.string.game_activity_end_turn_review_text_winner,
+                            it.name,
+                            it.stack
+                        )
+                        it.stack > 0 -> context.getString(
+                            R.string.game_activity_end_turn_review_text_loser,
+                            it.name,
+                            it.stack
+                        )
+                        else -> context.getString(
+                            R.string.game_activity_end_turn_review_text_even,
+                            it.name
+                        )
                     }
                 )
             }
@@ -96,14 +99,16 @@ class GameMapper {
                 playerListForThisStack.forEach {
                     it.ranking = getRankingByIndex(
                         numberPlayerAlreadyRanked,
-                        true
+                        true,
+                        context
                     )
                 }
                 numberPlayerAlreadyRanked += playerListForThisStack.size
             } else {
                 playerListForThisStack[0].ranking = getRankingByIndex(
                     listStack.indexOf(stack),
-                    false
+                    false,
+                    context
                 )
                 numberPlayerAlreadyRanked++
             }
@@ -118,13 +123,13 @@ class GameMapper {
             playerEndGameList.map {
                 PlayerEndGameUiModel(
                     context.getString(
-                        R.string.poker_activity_end_game_description,
+                        R.string.game_activity_end_game_description,
                         it.name,
                         it.stack
                     ),
                     if (settings.isMoneyBetEnabled && it.isWinner) {
                         context.getString(
-                            R.string.poker_activity_end_game_description_winner,
+                            R.string.game_activity_end_game_description_winner,
                             getAmountMoneyWonOrLost(
                                 it.stack,
                                 settings.stack,
@@ -133,7 +138,7 @@ class GameMapper {
                         )
                     } else if (settings.isMoneyBetEnabled) {
                         context.getString(
-                            R.string.poker_activity_end_game_description_loser,
+                            R.string.game_activity_end_game_description_loser,
                             getAmountMoneyWonOrLost(
                                 it.stack,
                                 settings.stack,
@@ -141,10 +146,10 @@ class GameMapper {
                             )
                         )
                     } else {
-                        context.getString(R.string.poker_activity_end_game_description_no_money_bet)
+                        context.getString(R.string.game_activity_end_game_description_no_money_bet)
                     },
                     context.getString(
-                        R.string.poker_activity_end_game_ranking,
+                        R.string.game_activity_end_game_ranking,
                         it.ranking
                     )
                 )
@@ -164,14 +169,15 @@ class GameMapper {
         }
     }
 
-    private fun getRankingByIndex(index: Int, isExAquo: Boolean): String {
-        var ranking: String = if (index == 0) {
-            "1er"
-        } else {
-            "${index + 1}ème"
+    private fun getRankingByIndex(index: Int, isExAquo: Boolean, context: Context): String {
+        val ranking: String = when (index) {
+            0 -> context.getString(R.string.game_activity_end_game_ranking_first)
+            1 -> context.getString(R.string.game_activity_end_game_ranking_second)
+            2 -> context.getString(R.string.game_activity_end_game_ranking_third)
+            else -> context.getString(R.string.game_activity_end_game_ranking_others, index + 1)
         }
         if (isExAquo) {
-            ranking += " ex aquo"
+            "$ranking " + context.getString(R.string.game_activity_end_game_ranking_exaquo)
         }
         return ranking
     }

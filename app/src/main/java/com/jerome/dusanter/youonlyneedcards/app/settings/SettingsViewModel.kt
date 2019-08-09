@@ -44,38 +44,38 @@ class SettingsViewModel : ViewModel() {
             }
         }
 
-    fun start() {
-        state.value = mapper.mapToUiModelSuccess(settings)
+    fun start(context: Context) {
+        state.value = mapper.mapToUiModelSuccess(settings, context)
     }
 
-    fun onSeekBarBlindUpdated(progress: Int) {
+    fun onSeekBarBlindUpdated(progress: Int, context: Context) {
         settings = settings.copy(smallBlind = progress)
-        state.value = mapper.mapToUiModelSuccess(settings)
+        state.value = mapper.mapToUiModelSuccess(settings, context)
     }
 
-    fun onSeekBarStackUpdated(progress: Int) {
+    fun onSeekBarStackUpdated(progress: Int, context: Context) {
         settings = settings.copy(stack = progress)
-        state.value = mapper.mapToUiModelSuccess(settings)
+        state.value = mapper.mapToUiModelSuccess(settings, context)
     }
 
-    fun onSeekBarFrequencyIncreasedBlindUpdated(progress: Int) {
+    fun onSeekBarFrequencyIncreasedBlindUpdated(progress: Int, context: Context) {
         val millis = progress * 60 * 1000
         settings = settings.copy(frequencyIncreasingBlind = millis.toLong())
-        state.value = mapper.mapToUiModelSuccess(settings)
+        state.value = mapper.mapToUiModelSuccess(settings, context)
     }
 
-    fun onSeekBarMoneyUpdated(progress: Int) {
+    fun onSeekBarMoneyUpdated(progress: Int, context: Context) {
         settings = settings.copy(money = progress)
-        state.value = mapper.mapToUiModelSuccess(settings)
+        state.value = mapper.mapToUiModelSuccess(settings, context)
     }
 
-    fun onSwitchMoneyToggled(checked: Boolean) {
+    fun onSwitchMoneyToggled(checked: Boolean, context: Context) {
         settings = settings.copy(isMoneyBetEnabled = checked)
-        state.value = mapper.mapToUiModelSuccess(settings)
+        state.value = mapper.mapToUiModelSuccess(settings, context)
     }
 
-    fun onSwitchIncreaseBlindsToggled(checked: Boolean) {
+    fun onSwitchIncreaseBlindsToggled(checked: Boolean, context: Context) {
         settings = settings.copy(isIncreaseBlindsEnabled = checked)
-        state.value = mapper.mapToUiModelSuccess(settings)
+        state.value = mapper.mapToUiModelSuccess(settings, context)
     }
 }

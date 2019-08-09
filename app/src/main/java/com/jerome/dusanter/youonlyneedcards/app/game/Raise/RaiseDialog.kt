@@ -15,12 +15,7 @@ import com.jerome.dusanter.youonlyneedcards.app.game.GameActivity
 import com.jerome.dusanter.youonlyneedcards.app.game.RaiseDialogUiModel
 import com.jerome.dusanter.youonlyneedcards.utils.SeekBarChangeListener
 import com.jerome.dusanter.youonlyneedcards.utils.transformIntoDecade
-import kotlinx.android.synthetic.main.dialog_raise.buttonAllin
-import kotlinx.android.synthetic.main.dialog_raise.buttonMinRaise
-import kotlinx.android.synthetic.main.dialog_raise.imageButtonCheck
-import kotlinx.android.synthetic.main.dialog_raise.imageButtonClose
-import kotlinx.android.synthetic.main.dialog_raise.seekBarRaise
-import kotlinx.android.synthetic.main.dialog_raise.textViewMoneyToRaise
+import kotlinx.android.synthetic.main.dialog_raise.*
 
 class RaiseDialog : DialogFragment() {
 
@@ -77,7 +72,7 @@ class RaiseDialog : DialogFragment() {
     }
 
     private fun setTextViewMoneyToRaise(stack: Int) {
-        textViewMoneyToRaise.text = getString(R.string.poker_activity_number_chips, stack)
+        textViewMoneyToRaise.text = getString(R.string.game_activity_number_chips, stack)
     }
 
     override fun onStart() {

@@ -11,12 +11,7 @@ import com.jerome.dusanter.youonlyneedcards.app.game.PlayerCustomStackUiModel
 import com.jerome.dusanter.youonlyneedcards.core.CustomStack
 import com.jerome.dusanter.youonlyneedcards.utils.SeekBarChangeListener
 import com.jerome.dusanter.youonlyneedcards.utils.transformIntoDecade
-import kotlinx.android.synthetic.main.item_recycler_view_dialog_custom_stack.view.radioButtonAdd
-import kotlinx.android.synthetic.main.item_recycler_view_dialog_custom_stack.view.radioButtonWithdraw
-import kotlinx.android.synthetic.main.item_recycler_view_dialog_custom_stack.view.seekBarStack
-import kotlinx.android.synthetic.main.item_recycler_view_dialog_custom_stack.view.textViewName
-import kotlinx.android.synthetic.main.item_recycler_view_dialog_custom_stack.view.textViewResult
-import kotlinx.android.synthetic.main.item_recycler_view_dialog_custom_stack.view.textViewStack
+import kotlinx.android.synthetic.main.item_recycler_view_dialog_custom_stack.view.*
 
 class CustomStackAdapter(
     private val context: Context?,
@@ -47,28 +42,28 @@ class CustomStackViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         itemView.radioButtonAdd.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 itemView.textViewResult.text =
-                    context?.getString(R.string.poker_activity_custom_stack_add)
+                    context?.getString(R.string.game_activity_custom_stack_add)
                 uiModel.action = CustomStack.Add
             }
         }
         itemView.radioButtonWithdraw.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 itemView.textViewResult.text =
-                    context?.getString(R.string.poker_activity_custom_stack_withdraw)
+                    context?.getString(R.string.game_activity_custom_stack_withdraw)
                 uiModel.action = CustomStack.Withdraw
             }
         }
         itemView.seekBarStack.max = uiModel.stack
         uiModel.stack = 0
         itemView.textViewStack.text = context?.getString(
-            R.string.poker_activity_number_chips,
+            R.string.game_activity_number_chips,
             uiModel.stack
         )
         itemView.seekBarStack.setOnSeekBarChangeListener(object : SeekBarChangeListener() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 uiModel.stack = progress.transformIntoDecade()
                 itemView.textViewStack.text = context?.getString(
-                    R.string.poker_activity_number_chips,
+                    R.string.game_activity_number_chips,
                     uiModel.stack
                 )
             }

@@ -1,55 +1,70 @@
 <resources>
     <string name="app_name">YouOnlyNeedCards</string>
 
+    <!-- COMMON -->
+    <string name="common_yes">yes</string>
+    <string name="common_no">no</string>
+    <string name="common_min">min</string>
+    <string name="common_chips">chips</string>
+    <string name="common_euros">€</string>
+
     <!-- WELCOME ACTIVITY -->
-    <string name="main_activity_new_game">Nouvelle partie</string>
-    <string name="main_activity_old_game">Reprendre la partie</string>
-    <string name="main_activity_error_retrieving_old_game">Aucune sauvegarde trouvée</string>
+    <string name="welcome_activity_new_game">New Game</string>
+    <string name="welcome_activity_old_game">Resume Game</string>
+    <string name="welcome_activity_error_retrieving_old_game">No saved game found</string>
 
-    <!--SETTINGS GAME ACTIVITY-->
-    <string name="settings_game_activity_title">Paramètres de la partie</string>
-    <string name="settings_game_activity_money">Miser de l\'argent ? :</string>
-    <string name="settings_game_activity_how_many_money">Combien d\'argent ? :</string>
-    <string name="settings_game_activity_number_chips">Nombre de jetons par joueur :</string>
-    <string name="settings_game_activity_blind">Petite Blind / Grosse Blind :</string>
-    <string name="settings_game_activity_blind_increase">Blinds augmentent au cours de la partie ? :</string>
-    <string name="settings_game_activity_blind_increase_frequency">Fréquence de l\'augmentation des blinds :</string>
-    <string name="settings_game_activity_start_game">Commencer</string>
-    <string name="settings_game_activity_blind_error">Les blinds ne peuvent pas être nulles</string>
-    <string name="settings_game_activity_stack_error">Le nombre de jetons ne peut pas être nul</string>
-    <string name="settings_game_activity_frequency_error">Le fréquence de temps ne peut pas être nulle</string>
-    <string name="settings_game_activity_money_error">La somme misée ne peut pas être nulle</string>
+    <!--SETTINGS ACTIVITY-->
+    <string name="settings_activity_title">Game\'s settings</string>
+    <string name="settings_activity_money">Bet money ? :</string>
+    <string name="settings_activity_how_many_money">How much money :</string>
+    <string name="settings_activity_number_chips">Stack per player :</string>
+    <string name="settings_activity_blind">Small Blind / Big Blind :</string>
+    <string name="settings_activity_blind_increase">Blinds increase during the game ? :</string>
+    <string name="settings_activity_blind_increase_frequency">Frequency of increasing blinds :</string>
+    <string name="settings_activity_start_game">Start</string>
+    <string name="settings_activity_blind_error">Blinds can\'t be null</string>
+    <string name="settings_activity_stack_error">Stack per player can\'t be null</string>
+    <string name="settings_activity_frequency_error">Frequency of increasing blinds can\'t be null</string>
+    <string name="settings_activity_money_error">Money bet can\'t be null</string>
 
-    <!--POKER ACTIVITY-->
-    <string name="poker_activity_add_player">Ajoutez un joueur</string>
-    <string name="poker_activity_hint_add_player">Nom du joueur ?</string>
-    <string name="poker_activity_call">Suivre</string>
-    <string name="poker_activity_check">Check</string>
-    <string name="poker_activity_raise">Relancer</string>
-    <string name="poker_activity_fold">Se coucher</string>
-    <string name="poker_activity_how_many_raise">Relancer de :</string>
-    <string name="poker_activity_number_chips">%1$d jetons</string>
-    <string name="poker_activity_choose_winners_title">Qui a la meilleure main parmi :</string>
-    <string name="poker_activity_choose_winners_current_pot_stack">pot de %1$d jetons</string>
-    <string name="poker_activity_choose_winners_error">Vous devez au moins choisir un joueur !</string>
-    <string name="poker_activity_text_simulation">%1$s remporte %2$d jetons\n</string>
-    <string name="poker_activity_all_in">All-in</string>
-    <string name="poker_activity_start_turn">Nouveau tour</string>
-    <string name="poker_activity_end_turn_title">Bilan du tour</string>
-    <string name="poker_activity_end_game_title">Fin de la partie</string>
-    <string name="poker_activity_end_game_description">%1$s finit avec %2$d jetons</string>
-    <string name="poker_activity_end_game_description_winner">Il gagne donc %1$d euros</string>
-    <string name="poker_activity_end_game_description_loser">Il perd donc %1$d euros</string>
-    <string name="poker_activity_end_game_description_no_money_bet">Il n\'y avait pas d\'argent en jeu</string>
-    <string name="poker_activity_end_game_ranking">Il finit %1$s de la partie</string>
-    <string name="poker_activity_end_game">Finir la partie</string>
-    <string name="poker_activity_save_game">Sauvegarder</string>
-    <string name="poker_activity_save_game_message">Partie sauvegardée !</string>
-    <string name="poker_activity_timer_increase_blinds_title">Blinds augmentent dans</string>
-    <string name="poker_actiivty_not_enought_player_error">Vous devez au moins être 2 joueurs pour jouer</string>
-    <string name="poker_actiivty_confirmation_end_game_dialog_message">Etes vous sûrs de vouloir mettre fin à cette partie ?\n La partie sera définitivement supprimée</string>
-    <string name="poker_activity_rebuy_title">Cliquez pour recave</string>
-    <string name="poker_activity_custom_stack">Ajouter/Retirer des jetons à un joueur</string>
-    <string name="poker_activity_custom_stack_add">Ajouter</string>
-    <string name="poker_activity_custom_stack_withdraw">Retirer</string>
+    <!--GAME ACTIVITY-->
+    <string name="game_activity_add_player">Add a player</string>
+    <string name="game_activity_hint_add_player">Player\'s name ?</string>
+    <string name="game_activity_call">Call</string>
+    <string name="game_activity_check">Check</string>
+    <string name="game_activity_raise">Raise</string>
+    <string name="game_activity_fold">Fold</string>
+    <string name="game_activity_how_many_raise">Raise :</string>
+    <string name="game_activity_number_chips">%1$d chips</string>
+    <string name="game_activity_choose_winners_title">Who has the best hand among :</string>
+    <string name="game_activity_choose_winners_current_pot_stack">Stack of %1$d chips</string>
+    <string name="game_activity_choose_winners_error">You must choose one player !</string>
+    <string name="game_activity_text_simulation">%1$s win %2$d chips\n</string>
+    <string name="game_activity_all_in">All-in</string>
+    <string name="game_activity_start_turn">New turn</string>
+    <string name="game_activity_end_turn_title">Review of the turn</string>
+    <string name="game_activity_end_turn_review_text_winner">%1$s won %2$d chips</string>
+    <string name="game_activity_end_turn_review_text_loser">%1$s lost %2$d chips</string>
+    <string name="game_activity_end_turn_review_text_even">%1$s lost nothing</string>
+    <string name="game_activity_end_game_title">End of the game</string>
+    <string name="game_activity_end_game_description">%1$s ends with %2$d chips</string>
+    <string name="game_activity_end_game_description_winner">He wins %1$d euros</string>
+    <string name="game_activity_end_game_description_loser">He looses %1$d euros</string>
+    <string name="game_activity_end_game_description_no_money_bet">No money bet in this game</string>
+    <string name="game_activity_end_game_ranking">He ends %1$s of the game</string>
+    <string name="game_activity_end_game_ranking_first">1st</string>
+    <string name="game_activity_end_game_ranking_second">2nd</string>
+    <string name="game_activity_end_game_ranking_third">3rd</string>
+    <string name="game_activity_end_game_ranking_others">%1$dth</string>
+    <string name="game_activity_end_game_ranking_exaquo">ex-aquo</string>
+    <string name="game_activity_end_game">End the game</string>
+    <string name="game_activity_save_game_message">Game saved !</string>
+    <string name="game_activity_timer_increase_blinds_title">Blinds increase in</string>
+    <string name="game_activity_not_enought_player_error">You must be two players to play</string>
+    <string name="game_activity_confirmation_end_game_dialog_message">Are you sure to end the game ?\n The game will be deleted definitively</string>
+    <string name="game_activity_rebuy_title">Click to rebuy</string>
+    <string name="game_activity_custom_stack">Add/Withdraw stack to a player</string>
+    <string name="game_activity_custom_stack_add">Add</string>
+    <string name="game_activity_custom_stack_withdraw">Withdraw</string>
 </resources>
+
