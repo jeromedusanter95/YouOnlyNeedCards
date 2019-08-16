@@ -7,8 +7,9 @@ import com.jerome.dusanter.youonlyneedcards.app.game.PlayerProfile.PlayerProfile
 import com.jerome.dusanter.youonlyneedcards.app.game.PlayerProfile.PlayerProfileUiModel
 import com.jerome.dusanter.youonlyneedcards.core.*
 import com.jerome.dusanter.youonlyneedcards.core.interactor.*
+import javax.inject.Inject
 
-class GameViewModel : ViewModel() {
+class GameViewModel @Inject internal constructor() : ViewModel() {
 
     // Live data of ProfilePlayerView
     val statePlayerProfileView1 = MutableLiveData<PlayerProfileUiModel>()
@@ -319,7 +320,7 @@ class GameViewModel : ViewModel() {
     }
 
     fun deleteGame(context: Context) {
-        DeleteGameInteractor().execute(context)
+        DeleteGameInteractor(context).execute()
     }
 
     fun onRebuyPlayer(playerId: String, context: Context) {

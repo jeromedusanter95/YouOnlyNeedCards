@@ -1,6 +1,7 @@
 package com.jerome.dusanter.youonlyneedcards.app.settings
 
 import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.graphics.PorterDuff
 import android.os.Bundle
@@ -11,16 +12,23 @@ import android.widget.SeekBar
 import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.utils.SeekBarChangeListener
 import com.jerome.dusanter.youonlyneedcards.utils.transformIntoDecade
+import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_settings.*
+import javax.inject.Inject
 
 class SettingsActivity : AppCompatActivity() {
+
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: SettingsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-        viewModel = ViewModelProviders.of(this).get(SettingsViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(SettingsViewModel::class.java)
         setupListeners()
         setupLiveData()
         setupSeekBarsColor()
@@ -36,13 +44,19 @@ class SettingsActivity : AppCompatActivity() {
         //TODO add an extension function for setOnSeekBarChangedListener
         seekBarBlind.setOnSeekBarChangeListener(object : SeekBarChangeListener() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                viewModel.onSeekBarBlindUpdated(progress.transformIntoDecade(), this@SettingsActivity)
+                viewModel.onSeekBarBlindUpdated(
+                    progress.transformIntoDecade(),
+                    this@SettingsActivity
+                )
             }
         })
 
         seekBarMoney.setOnSeekBarChangeListener(object : SeekBarChangeListener() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                viewModel.onSeekBarMoneyUpdated(progress.transformIntoDecade(), this@SettingsActivity)
+                viewModel.onSeekBarMoneyUpdated(
+                    progress.transformIntoDecade(),
+                    this@SettingsActivity
+                )
             }
         })
 
@@ -54,7 +68,10 @@ class SettingsActivity : AppCompatActivity() {
 
         seekBarChips.setOnSeekBarChangeListener(object : SeekBarChangeListener() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                viewModel.onSeekBarStackUpdated(progress.transformIntoDecade(), this@SettingsActivity)
+                viewModel.onSeekBarStackUpdated(
+                    progress.transformIntoDecade(),
+                    this@SettingsActivity
+                )
             }
         })
 

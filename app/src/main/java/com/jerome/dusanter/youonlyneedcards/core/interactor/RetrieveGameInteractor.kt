@@ -7,11 +7,14 @@ import com.jerome.dusanter.youonlyneedcards.core.StateTurn
 import com.jerome.dusanter.youonlyneedcards.data.GameRepositoryImpl
 import com.jerome.dusanter.youonlyneedcards.data.SharedPreferencesManager
 import com.jerome.dusanter.youonlyneedcards.utils.MutableCircularList
+import javax.inject.Inject
 
 
-class RetrieveGameInteractor {
+class RetrieveGameInteractor @Inject internal constructor(
+    val context: Context
+) {
 
-    fun execute(listener: Listener, context: Context) {
+    fun execute(listener: Listener) {
         val gameString = SharedPreferencesManager.retrieveGame(context)
         if (!gameString.isNullOrBlank()) {
             mapFromJsonToGame(gameString)

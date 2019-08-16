@@ -1,6 +1,7 @@
 package com.jerome.dusanter.youonlyneedcards.app.game
 
 import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
@@ -18,19 +19,25 @@ import com.jerome.dusanter.youonlyneedcards.app.game.Raise.RaiseDialog
 import com.jerome.dusanter.youonlyneedcards.app.welcome.WelcomeActivity
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.Winner
+import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_game.*
 import kotlinx.android.synthetic.main.layout_profil_player_view.view.*
+import javax.inject.Inject
 
 
 class GameActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: GameViewModel
     private var timeRemainingBeforeIncreaseBlinds = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
-        viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
         setupListeners()
         setupLiveDatas()
         if (intent.getBooleanExtra("fromWelcome", false)) {

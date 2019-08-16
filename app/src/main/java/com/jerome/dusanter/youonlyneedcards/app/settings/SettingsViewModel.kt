@@ -7,8 +7,9 @@ import android.content.Intent
 import com.jerome.dusanter.youonlyneedcards.app.game.GameActivity
 import com.jerome.dusanter.youonlyneedcards.core.Settings
 import com.jerome.dusanter.youonlyneedcards.core.interactor.SaveSettingsInteractor
+import javax.inject.Inject
 
-class SettingsViewModel : ViewModel() {
+class SettingsViewModel @Inject internal constructor() : ViewModel() {
 
     val state = MutableLiveData<SettingsUiModel>()
     //TODO Inject properly later
