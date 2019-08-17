@@ -19,8 +19,32 @@ import com.jerome.dusanter.youonlyneedcards.app.welcome.WelcomeActivity
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.Winner
 import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_game.*
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.*
+import kotlinx.android.synthetic.main.activity_game.buttonCustomStack
+import kotlinx.android.synthetic.main.activity_game.buttonEndGame
+import kotlinx.android.synthetic.main.activity_game.buttonLeft
+import kotlinx.android.synthetic.main.activity_game.buttonMiddle
+import kotlinx.android.synthetic.main.activity_game.buttonRight
+import kotlinx.android.synthetic.main.activity_game.buttonStartGame
+import kotlinx.android.synthetic.main.activity_game.buttonStartTurn
+import kotlinx.android.synthetic.main.activity_game.groupBottomButtonsBetweenTurn
+import kotlinx.android.synthetic.main.activity_game.groupBottomButtonsDuringTurn
+import kotlinx.android.synthetic.main.activity_game.groupTextViewsDuringTurn
+import kotlinx.android.synthetic.main.activity_game.playerProfilView1
+import kotlinx.android.synthetic.main.activity_game.playerProfilView2
+import kotlinx.android.synthetic.main.activity_game.playerProfilView3
+import kotlinx.android.synthetic.main.activity_game.playerProfilView4
+import kotlinx.android.synthetic.main.activity_game.playerProfilView5
+import kotlinx.android.synthetic.main.activity_game.playerProfilView6
+import kotlinx.android.synthetic.main.activity_game.playerProfilView7
+import kotlinx.android.synthetic.main.activity_game.playerProfilView8
+import kotlinx.android.synthetic.main.activity_game.textViewCurrentPlayerInformations
+import kotlinx.android.synthetic.main.activity_game.textViewErrorNotEnoughtPlayer
+import kotlinx.android.synthetic.main.activity_game.textViewPartTurnName
+import kotlinx.android.synthetic.main.activity_game.textViewTimerIncreaseBlinds
+import kotlinx.android.synthetic.main.activity_game.textViewTimerIncreaseBlindsTitle
+import kotlinx.android.synthetic.main.activity_game.textViewTurnStack
+import kotlinx.android.synthetic.main.layout_profil_player_view.view.constraintLayoutRebuyPlayer
+import kotlinx.android.synthetic.main.layout_profil_player_view.view.imageButtonCheck
 import javax.inject.Inject
 
 
@@ -136,8 +160,10 @@ class GameActivity : AppCompatActivity() {
                         is GameUiModel.ShowCurrentTurn -> updateTableCurrentTurn(gameUiModel)
                         is GameUiModel.ShowEndTurnDialog -> showDialogEndTurn(gameUiModel)
                         is GameUiModel.ShowEndGameDialog -> showDialogEndGame(gameUiModel)
-                        is GameUiModel.ShowErrorNotEnoughtPlayer -> showErrotNotEnoughtPlayer()
-                        is GameUiModel.ShowRaiseDialog -> showDialogRaise(gameUiModel.raiseDialogUiModel)
+                        is GameUiModel.ShowErrorNotEnoughtPlayer -> showErrorNotEnoughPlayer()
+                        is GameUiModel.ShowRaiseDialog -> showDialogRaise(
+                            gameUiModel.raiseDialogUiModel
+                        )
                         is GameUiModel.ShowCustomStackDialog -> showDialogCustomStack(gameUiModel)
                     }
                 }
@@ -145,7 +171,7 @@ class GameActivity : AppCompatActivity() {
         )
     }
 
-    private fun showErrotNotEnoughtPlayer() {
+    private fun showErrorNotEnoughPlayer() {
         textViewErrorNotEnoughtPlayer.visibility = View.VISIBLE
     }
 
@@ -170,18 +196,11 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
-
-    //TODO use group to handle visibility
     private fun updateTableCurrentTurn(gameUiModel: GameUiModel.ShowCurrentTurn) {
         buttonStartGame.visibility = View.GONE
-        buttonStartTurn.visibility = View.GONE
-        buttonCustomStack.visibility = View.GONE
-        buttonEndGame.visibility = View.GONE
-        buttonLeft.visibility = View.VISIBLE
-        buttonMiddle.visibility = View.VISIBLE
-        textViewPartTurnName.visibility = View.VISIBLE
-        textViewTurnStack.visibility = View.VISIBLE
-        textViewCurrentPlayerInformations.visibility = View.VISIBLE
+        groupBottomButtonsBetweenTurn.visibility = View.GONE
+        groupBottomButtonsDuringTurn.visibility = View.VISIBLE
+        groupTextViewsDuringTurn.visibility = View.VISIBLE
         buttonLeft.text = gameUiModel.actionPlayerList[0].name
         buttonMiddle.text = gameUiModel.actionPlayerList[1].name
         if (gameUiModel.actionPlayerList.size > 2) {
@@ -227,15 +246,10 @@ class GameActivity : AppCompatActivity() {
         } else {
             viewModel.onDistributeStack(gameUiModel.potList[0])
         }
-        buttonCustomStack.visibility = View.VISIBLE
-        buttonStartTurn.visibility = View.VISIBLE
-        buttonEndGame.visibility = View.VISIBLE
-        buttonLeft.visibility = View.GONE
-        buttonMiddle.visibility = View.GONE
+        groupBottomButtonsBetweenTurn.visibility = View.VISIBLE
+        groupBottomButtonsDuringTurn.visibility = View.GONE
         buttonRight.visibility = View.GONE
-        textViewPartTurnName.visibility = View.GONE
-        textViewTurnStack.visibility = View.GONE
-        textViewCurrentPlayerInformations.visibility = View.GONE
+        groupTextViewsDuringTurn.visibility = View.GONE
     }
 
     fun onDismissChooseWinnersDialog(winnerList: List<Winner>) {
@@ -345,7 +359,8 @@ class GameActivity : AppCompatActivity() {
         }
 
         buttonEndGame.setOnClickListener {
-            ConfirmationEndGameDialog.newInstance().show(supportFragmentManager, "ConfirmationEndGameDialog")
+            ConfirmationEndGameDialog.newInstance()
+                .show(supportFragmentManager, "ConfirmationEndGameDialog")
         }
 
         buttonCustomStack.setOnClickListener {

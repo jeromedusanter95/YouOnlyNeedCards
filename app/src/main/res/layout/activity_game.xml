@@ -394,4 +394,28 @@
         app:layout_constraintTop_toBottomOf="@id/viewSeparator"
         />
 
+    <android.support.constraint.Group
+        android:id="@+id/groupBottomButtonsBetweenTurn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="buttonCustomStack, buttonEndGame, buttonStartTurn"
+        />
+
+    <android.support.constraint.Group
+        android:id="@+id/groupBottomButtonsDuringTurn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="buttonLeft, buttonMiddle"
+        />
+
+    <android.support.constraint.Group
+        android:id="@+id/groupTextViewsDuringTurn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="textViewCurrentPlayerInformations, textViewTurnStack, textViewPartTurnName"
+        />
+
 </android.support.constraint.ConstraintLayout>
