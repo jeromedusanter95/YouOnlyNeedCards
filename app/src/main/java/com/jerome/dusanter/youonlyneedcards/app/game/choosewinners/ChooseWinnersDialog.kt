@@ -1,4 +1,4 @@
-package com.jerome.dusanter.youonlyneedcards.app.game.ChooseWinners
+package com.jerome.dusanter.youonlyneedcards.app.game.choosewinners
 
 import android.content.Context
 import android.graphics.Color

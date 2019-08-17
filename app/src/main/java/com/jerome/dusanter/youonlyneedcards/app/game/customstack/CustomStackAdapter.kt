@@ -1,4 +1,4 @@
-package com.jerome.dusanter.youonlyneedcards.app.game.CustomStack
+package com.jerome.dusanter.youonlyneedcards.app.game.customstack
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView

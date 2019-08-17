@@ -1,4 +1,4 @@
-package com.jerome.dusanter.youonlyneedcards.app.game.PlayerProfile
+package com.jerome.dusanter.youonlyneedcards.app.game.playerprofile
 
 import android.content.Context
 import com.jerome.dusanter.youonlyneedcards.R

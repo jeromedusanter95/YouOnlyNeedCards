@@ -148,7 +148,7 @@
         app:layout_constraintGuide_percent="0.72"
         />
 
-    <com.jerome.dusanter.youonlyneedcards.app.game.PlayerProfile.PlayerProfileView
+    <com.jerome.dusanter.youonlyneedcards.app.game.playerprofile.PlayerProfileView
         android:id="@+id/playerProfilView1"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -159,7 +159,7 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
-    <com.jerome.dusanter.youonlyneedcards.app.game.PlayerProfile.PlayerProfileView
+    <com.jerome.dusanter.youonlyneedcards.app.game.playerprofile.PlayerProfileView
         android:id="@+id/playerProfilView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -169,7 +169,7 @@
         app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal_0.08"
         />
 
-    <com.jerome.dusanter.youonlyneedcards.app.game.PlayerProfile.PlayerProfileView
+    <com.jerome.dusanter.youonlyneedcards.app.game.playerprofile.PlayerProfileView
         android:id="@+id/playerProfilView3"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -179,7 +179,7 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
-    <com.jerome.dusanter.youonlyneedcards.app.game.PlayerProfile.PlayerProfileView
+    <com.jerome.dusanter.youonlyneedcards.app.game.playerprofile.PlayerProfileView
         android:id="@+id/playerProfilView4"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -189,7 +189,7 @@
         app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal_0.08"
         />
 
-    <com.jerome.dusanter.youonlyneedcards.app.game.PlayerProfile.PlayerProfileView
+    <com.jerome.dusanter.youonlyneedcards.app.game.playerprofile.PlayerProfileView
         android:id="@+id/playerProfilView5"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -200,7 +200,7 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
-    <com.jerome.dusanter.youonlyneedcards.app.game.PlayerProfile.PlayerProfileView
+    <com.jerome.dusanter.youonlyneedcards.app.game.playerprofile.PlayerProfileView
         android:id="@+id/playerProfilView6"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -210,7 +210,7 @@
         app:layout_constraintStart_toStartOf="@id/guideline0.68"
         />
 
-    <com.jerome.dusanter.youonlyneedcards.app.game.PlayerProfile.PlayerProfileView
+    <com.jerome.dusanter.youonlyneedcards.app.game.playerprofile.PlayerProfileView
         android:id="@+id/playerProfilView7"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -220,7 +220,7 @@
         app:layout_constraintStart_toStartOf="@id/guideline0.42"
         />
 
-    <com.jerome.dusanter.youonlyneedcards.app.game.PlayerProfile.PlayerProfileView
+    <com.jerome.dusanter.youonlyneedcards.app.game.playerprofile.PlayerProfileView
         android:id="@+id/playerProfilView8"
         android:layout_width="0dp"
         android:layout_height="0dp"

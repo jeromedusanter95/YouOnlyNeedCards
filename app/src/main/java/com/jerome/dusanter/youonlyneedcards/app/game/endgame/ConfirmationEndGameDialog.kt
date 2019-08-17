@@ -1,4 +1,4 @@
-package com.jerome.dusanter.youonlyneedcards.app.game.EndGame
+package com.jerome.dusanter.youonlyneedcards.app.game.endgame
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -10,8 +10,7 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.app.game.GameActivity
-import kotlinx.android.synthetic.main.dialog_confirmation_end_game.imageButtonCheck
-import kotlinx.android.synthetic.main.dialog_confirmation_end_game.imageButtonClose
+import kotlinx.android.synthetic.main.dialog_confirmation_end_game.*
 
 
 class ConfirmationEndGameDialog : DialogFragment() {

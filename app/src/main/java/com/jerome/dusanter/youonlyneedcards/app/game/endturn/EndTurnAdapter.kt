@@ -1,4 +1,4 @@
-package com.jerome.dusanter.youonlyneedcards.app.game.EndTurn
+package com.jerome.dusanter.youonlyneedcards.app.game.endturn
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.app.game.PlayerEndTurnUiModel
-import kotlinx.android.synthetic.main.item_recycler_view_dialog_end_turn.view.textViewDescription
+import kotlinx.android.synthetic.main.item_recycler_view_dialog_end_turn.view.*
 
 class EndTurnAdapter(
     private val context: Context?,

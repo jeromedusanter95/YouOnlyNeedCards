@@ -1,4 +1,4 @@
-package com.jerome.dusanter.youonlyneedcards.app.game.PlayerProfile
+package com.jerome.dusanter.youonlyneedcards.app.game.playerprofile
 
 import android.content.Context
 import android.os.Build
@@ -9,17 +9,7 @@ import com.jerome.dusanter.youonlyneedcards.R.drawable
 import com.jerome.dusanter.youonlyneedcards.R.layout
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.StatePlayer
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.constraintLayoutAddPlayer
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.constraintLayoutEditPlayer
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.constraintLayoutRebuyPlayer
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.constraintLayoutShowPlayer
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.editTextAddPlayer
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.imageButtonClose
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.textViewName
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.textViewPlayerNameEliminate
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.textViewStack
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.textViewStateBlind
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.textViewStatePlayer
+import kotlinx.android.synthetic.main.layout_profil_player_view.view.*
 
 
 class PlayerProfileView @JvmOverloads constructor(

@@ -1,4 +1,4 @@
-package com.jerome.dusanter.youonlyneedcards.app.game.EndGame
+package com.jerome.dusanter.youonlyneedcards.app.game.endgame
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -7,9 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.app.game.PlayerEndGameUiModel
-import kotlinx.android.synthetic.main.item_recycler_view_dialog_end_game.view.textViewDescription
-import kotlinx.android.synthetic.main.item_recycler_view_dialog_end_game.view.textViewMoney
-import kotlinx.android.synthetic.main.item_recycler_view_dialog_end_game.view.textViewRanking
+import kotlinx.android.synthetic.main.item_recycler_view_dialog_end_game.view.*
 
 class EndGameAdapter(
     private val context: Context?,

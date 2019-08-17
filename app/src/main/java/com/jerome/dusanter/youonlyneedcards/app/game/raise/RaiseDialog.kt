@@ -1,4 +1,4 @@
-package com.jerome.dusanter.youonlyneedcards.app.game.Raise
+package com.jerome.dusanter.youonlyneedcards.app.game.raise
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
