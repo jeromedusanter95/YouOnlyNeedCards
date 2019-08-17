@@ -37,7 +37,6 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun setupListeners() {
-
         buttonStartGame.setOnClickListener {
             viewModel.onStartGame()
         }
@@ -108,44 +107,64 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun updateView(uiModel: SettingsUiModel.Success?) {
         if (uiModel != null) {
-            textViewBlindAmount.text = uiModel.smallBlind
-            if (!uiModel.showErrorBlinds
-                && textViewErrorBlinds.visibility == View.VISIBLE
+            updateTextViewAlwaysVisible(uiModel)
+            updateTextViewNotAlwaysVisible(uiModel)
+        }
+    }
+
+    private fun updateTextViewAlwaysVisible(uiModel: SettingsUiModel.Success) {
+        textViewBlindAmount.text = uiModel.smallBlind
+        textViewChipsAmount.text = uiModel.stack
+        textViewMoneyAnswer.text = uiModel.moneyBetAnswer
+        textViewIncreaseBlindAnswer.text = uiModel.increaseBlindsAnswer
+    }
+
+    private fun updateTextViewNotAlwaysVisible(uiModel: SettingsUiModel.Success) {
+        hideTextViewBlindsErrorIfShouldNotShowAndVisible(uiModel)
+        hideTextViewStackErrorIfShouldNotShowAndVisible(uiModel)
+        handleBlockMoneyVisibility(uiModel)
+        handleBlockIncreaseBlindsVisibility(uiModel)
+    }
+
+    private fun hideTextViewBlindsErrorIfShouldNotShowAndVisible(uiModel: SettingsUiModel.Success) {
+        if (!uiModel.showErrorBlinds && textViewErrorBlinds.visibility == View.VISIBLE) {
+            textViewErrorBlinds.visibility = View.GONE
+        }
+    }
+
+    private fun hideTextViewStackErrorIfShouldNotShowAndVisible(uiModel: SettingsUiModel.Success) {
+        if (!uiModel.showErrorStack && textViewErrorStack.visibility == View.VISIBLE) {
+            textViewErrorStack.visibility = View.GONE
+        }
+    }
+
+    private fun handleBlockMoneyVisibility(uiModel: SettingsUiModel.Success) {
+        if (uiModel.isMoneyBetEnabled) {
+            textViewMoneyAmount.text = uiModel.money
+            if (!uiModel.showErrorMoney
+                && textViewErrorMoney.visibility == View.VISIBLE
             ) {
-                textViewErrorBlinds.visibility = View.GONE
-            }
-            textViewChipsAmount.text = uiModel.stack
-            if (!uiModel.showErrorStack
-                && textViewErrorStack.visibility == View.VISIBLE
-            ) {
-                textViewErrorStack.visibility = View.GONE
-            }
-            textViewMoneyAnswer.text = uiModel.moneyBetAnswer
-            textViewIncreaseBlindAnswer.text = uiModel.increaseBlindsAnswer
-            if (uiModel.isMoneyBetEnabled) {
-                textViewMoneyAmount.text = uiModel.money
-                if (!uiModel.showErrorMoney
-                    && textViewErrorMoney.visibility == View.VISIBLE
-                ) {
-                    textViewErrorMoney.visibility = View.GONE
-                }
-                groupMoney.visibility = View.VISIBLE
-            } else {
-                groupMoney.visibility = View.GONE
                 textViewErrorMoney.visibility = View.GONE
             }
-            if (uiModel.isIncreaseBlindsEnabled) {
-                textViewIncreaseBlindFrequencyAmount.text = uiModel.frequencyIncreasingBlind
-                if (!uiModel.showErrorFrequencyIncreaseBlinds
-                    && textViewErrorFrequency.visibility == View.VISIBLE
-                ) {
-                    textViewErrorFrequency.visibility = View.GONE
-                }
-                groupIncreasedBlinds.visibility = View.VISIBLE
-            } else {
-                groupIncreasedBlinds.visibility = View.GONE
+            groupMoney.visibility = View.VISIBLE
+        } else {
+            groupMoney.visibility = View.GONE
+            textViewErrorMoney.visibility = View.GONE
+        }
+    }
+
+    private fun handleBlockIncreaseBlindsVisibility(uiModel: SettingsUiModel.Success) {
+        if (uiModel.isIncreaseBlindsEnabled) {
+            textViewIncreaseBlindFrequencyAmount.text = uiModel.frequencyIncreasingBlind
+            if (!uiModel.showErrorFrequencyIncreaseBlinds
+                && textViewErrorFrequency.visibility == View.VISIBLE
+            ) {
                 textViewErrorFrequency.visibility = View.GONE
             }
+            groupIncreasedBlinds.visibility = View.VISIBLE
+        } else {
+            groupIncreasedBlinds.visibility = View.GONE
+            textViewErrorFrequency.visibility = View.GONE
         }
     }
 
