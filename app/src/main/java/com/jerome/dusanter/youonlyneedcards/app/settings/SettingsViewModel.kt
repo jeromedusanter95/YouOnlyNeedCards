@@ -23,11 +23,11 @@ class SettingsViewModel @Inject internal constructor(
     )
 
     fun onStartGame() {
-        if (settings.smallBlind == 0
-            || settings.stack == 0
-            || (settings.isMoneyBetEnabled && settings.money == 0)
-            || (settings.isIncreaseBlindsEnabled && settings.frequencyIncreasingBlind.toInt() == 0)
-        ) {
+        val isOneNecessarySettingNull = (settings.smallBlind == 0
+                || settings.stack == 0
+                || (settings.isMoneyBetEnabled && settings.money == 0)
+                || (settings.isIncreaseBlindsEnabled && settings.frequencyIncreasingBlind.toInt() == 0))
+        if (isOneNecessarySettingNull) {
             state.value = mapper.mapToUiModelError(settings)
         } else {
             saveSettingsInteractor.execute(settings, buildSaveSettingsListener())
