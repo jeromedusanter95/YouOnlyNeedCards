@@ -3,19 +3,19 @@ package com.jerome.dusanter.youonlyneedcards.core.interactor
 import com.jerome.dusanter.youonlyneedcards.core.CustomStack
 import com.jerome.dusanter.youonlyneedcards.core.Player
 import com.jerome.dusanter.youonlyneedcards.core.PlayerCustomStack
-import com.jerome.dusanter.youonlyneedcards.data.GameRepositoryImpl
+import com.jerome.dusanter.youonlyneedcards.core.Game
 
 class AddOrWithdrawStackInteractor {
 
     fun execute(listener: Listener, playerList: List<PlayerCustomStack>) {
         playerList.forEach {
             if (it.customStack == CustomStack.Add) {
-                GameRepositoryImpl.addMoneyToPlayerBetweenTurn(it)
+                Game.addMoneyToPlayerBetweenTurn(it)
             } else if (it.customStack == CustomStack.Withdraw) {
-                GameRepositoryImpl.withDrawMoneyToPlayerBetweenTurn(it)
+                Game.withDrawMoneyToPlayerBetweenTurn(it)
             }
         }
-        listener.onSuccess(GameRepositoryImpl.listPlayers)
+        listener.onSuccess(Game.listPlayers)
     }
 
     interface Listener {

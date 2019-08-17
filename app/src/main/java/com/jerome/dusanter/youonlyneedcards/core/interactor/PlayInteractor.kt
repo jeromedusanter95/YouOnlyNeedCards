@@ -4,62 +4,62 @@ import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.Player
 import com.jerome.dusanter.youonlyneedcards.core.Pot
 import com.jerome.dusanter.youonlyneedcards.core.StateTurn
-import com.jerome.dusanter.youonlyneedcards.data.GameRepositoryImpl
+import com.jerome.dusanter.youonlyneedcards.core.Game
 
 class PlayInteractor {
 
     fun execute(request: PlayRequest, listener: Listener) {
         when (request.actionPlayer) {
             ActionPlayer.AllIn.name -> {
-                GameRepositoryImpl.allin()
+                Game.allin()
             }
             ActionPlayer.Call.name -> {
-                GameRepositoryImpl.call()
+                Game.call()
             }
             ActionPlayer.Check.name -> {
-                GameRepositoryImpl.check()
+                Game.check()
             }
             ActionPlayer.Fold.name -> {
-                GameRepositoryImpl.fold()
+                Game.fold()
             }
             ActionPlayer.Raise.name -> {
-                GameRepositoryImpl.raise(request.stackRaised)
+                Game.raise(request.stackRaised)
             }
         }
         when {
-            GameRepositoryImpl.isTurnOver() -> {
-                val potList = GameRepositoryImpl.createAllPot()
-                GameRepositoryImpl.endTurn()
+            Game.isTurnOver() -> {
+                val potList = Game.createAllPot()
+                Game.endTurn()
                 listener.getGameInformations(
-                    GameRepositoryImpl.getPossibleActions(),
-                    GameRepositoryImpl.listPlayers,
-                    GameRepositoryImpl.currentStackTurn,
-                    GameRepositoryImpl.currentStateTurn,
+                    Game.getPossibleActions(),
+                    Game.listPlayers,
+                    Game.currentStackTurn,
+                    Game.currentStateTurn,
                     true,
                     potList
                 )
             }
-            GameRepositoryImpl.isPartTurnOver() -> {
-                GameRepositoryImpl.endPartTurn()
-                if (GameRepositoryImpl.getNumberPlayersNotEliminated() == 2) {
-                    GameRepositoryImpl.moveToBigBlindWhenRemainingOnlyTwoPlayers()
+            Game.isPartTurnOver() -> {
+                Game.endPartTurn()
+                if (Game.getNumberPlayersNotEliminated() == 2) {
+                    Game.moveToBigBlindWhenRemainingOnlyTwoPlayers()
                 } else {
-                    GameRepositoryImpl.moveToFirstPlayerAvailableFromSmallBlind()
+                    Game.moveToFirstPlayerAvailableFromSmallBlind()
                 }
                 listener.getGameInformations(
-                    GameRepositoryImpl.getPossibleActions(),
-                    GameRepositoryImpl.listPlayers,
-                    GameRepositoryImpl.currentStackTurn,
-                    GameRepositoryImpl.currentStateTurn
+                    Game.getPossibleActions(),
+                    Game.listPlayers,
+                    Game.currentStackTurn,
+                    Game.currentStateTurn
                 )
             }
             else -> {
-                GameRepositoryImpl.moveToNextPlayerAvailable()
+                Game.moveToNextPlayerAvailable()
                 listener.getGameInformations(
-                    GameRepositoryImpl.getPossibleActions(),
-                    GameRepositoryImpl.listPlayers,
-                    GameRepositoryImpl.currentStackTurn,
-                    GameRepositoryImpl.currentStateTurn
+                    Game.getPossibleActions(),
+                    Game.listPlayers,
+                    Game.currentStackTurn,
+                    Game.currentStateTurn
                 )
             }
         }

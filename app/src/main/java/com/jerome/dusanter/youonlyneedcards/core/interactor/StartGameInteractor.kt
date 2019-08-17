@@ -2,20 +2,20 @@ package com.jerome.dusanter.youonlyneedcards.core.interactor
 
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.Player
-import com.jerome.dusanter.youonlyneedcards.data.GameRepositoryImpl
+import com.jerome.dusanter.youonlyneedcards.core.Game
 
 class StartGameInteractor {
     fun execute(listener: Listener) {
-        if (GameRepositoryImpl.listPlayers.size > 1) {
-            GameRepositoryImpl.initializeListWithGoodOrder()
-            GameRepositoryImpl.initializeStateBlind()
-            GameRepositoryImpl.initializeCurrentPlayerAfterBigBlind()
+        if (Game.listPlayers.size > 1) {
+            Game.initializeListWithGoodOrder()
+            Game.initializeStateBlind()
+            Game.initializeCurrentPlayerAfterBigBlind()
             listener.onSuccess(
-                GameRepositoryImpl.getPossibleActions(),
-                GameRepositoryImpl.listPlayers,
-                GameRepositoryImpl.currentStackTurn,
-                GameRepositoryImpl.isIncreaseBlindsEnabled(),
-                GameRepositoryImpl.settings.frequencyIncreasingBlind
+                Game.getPossibleActions(),
+                Game.listPlayers,
+                Game.currentStackTurn,
+                Game.isIncreaseBlindsEnabled(),
+                Game.settings.frequencyIncreasingBlind
             )
         } else {
             listener.onError()

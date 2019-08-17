@@ -1,12 +1,12 @@
 package com.jerome.dusanter.youonlyneedcards.core.interactor
 
 import com.jerome.dusanter.youonlyneedcards.core.Player
-import com.jerome.dusanter.youonlyneedcards.data.GameRepositoryImpl
+import com.jerome.dusanter.youonlyneedcards.core.Game
 
 class RebuyPlayerInteractor {
 
     fun execute(listener: Listener, playerId: String) {
-        listener.onSuccess(GameRepositoryImpl.rebuyPlayer(playerId))
+        listener.onSuccess(Game.rebuyPlayer(playerId))
     }
 
     interface Listener {

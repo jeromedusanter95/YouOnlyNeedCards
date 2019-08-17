@@ -1,11 +1,11 @@
 package com.jerome.dusanter.youonlyneedcards.core.interactor
 
-import com.jerome.dusanter.youonlyneedcards.data.GameRepositoryImpl
+import com.jerome.dusanter.youonlyneedcards.core.Game
 
 class GetParametersToRaiseInteractor {
 
     fun execute(listener: Listener) {
-        listener.onSuccess(GameRepositoryImpl.settings.smallBlind * 2, GameRepositoryImpl.currentPlayer.stack)
+        listener.onSuccess(Game.settings.smallBlind * 2, Game.currentPlayer.stack)
     }
 
     interface Listener {

@@ -1,19 +1,8 @@
-package com.jerome.dusanter.youonlyneedcards.data
+package com.jerome.dusanter.youonlyneedcards.core
 
-import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
-import com.jerome.dusanter.youonlyneedcards.core.Player
-import com.jerome.dusanter.youonlyneedcards.core.PlayerCustomStack
-import com.jerome.dusanter.youonlyneedcards.core.PlayerEndGame
-import com.jerome.dusanter.youonlyneedcards.core.PlayerEndTurn
-import com.jerome.dusanter.youonlyneedcards.core.Pot
-import com.jerome.dusanter.youonlyneedcards.core.Settings
-import com.jerome.dusanter.youonlyneedcards.core.StateBlind
-import com.jerome.dusanter.youonlyneedcards.core.StatePlayer
-import com.jerome.dusanter.youonlyneedcards.core.StateTurn
-import com.jerome.dusanter.youonlyneedcards.core.Winner
 import com.jerome.dusanter.youonlyneedcards.utils.MutableCircularList
 
-object GameRepositoryImpl {
+object Game {
 
     var listPlayers: MutableCircularList<Player> = MutableCircularList(mutableListOf())
     lateinit var settings: Settings
@@ -63,18 +52,30 @@ object GameRepositoryImpl {
     private fun initializeStateBlindTwoPlayers() {
         val previousDealerIndex = getDealerIndex()
         listPlayers[previousDealerIndex].stateBlind = StateBlind.BigBlind
-        val currentDealerIndex = getIndexNextPlayerNotEliminatedOrFolded(previousDealerIndex + 1)
+        val currentDealerIndex =
+            getIndexNextPlayerNotEliminatedOrFolded(
+                previousDealerIndex + 1
+            )
         listPlayers[currentDealerIndex].stateBlind = StateBlind.Dealer
     }
 
     private fun initializeStateBlindThreePlayersOrMore() {
         val previousDealerIndex = getDealerIndex()
         listPlayers[previousDealerIndex].stateBlind = StateBlind.Nothing
-        val currentDealerIndex = getIndexNextPlayerNotEliminatedOrFolded(previousDealerIndex + 1)
+        val currentDealerIndex =
+            getIndexNextPlayerNotEliminatedOrFolded(
+                previousDealerIndex + 1
+            )
         listPlayers[currentDealerIndex].stateBlind = StateBlind.Dealer
-        val currentSmallBlindIndex = getIndexNextPlayerNotEliminatedOrFolded(currentDealerIndex + 1)
+        val currentSmallBlindIndex =
+            getIndexNextPlayerNotEliminatedOrFolded(
+                currentDealerIndex + 1
+            )
         listPlayers[currentSmallBlindIndex].stateBlind = StateBlind.SmallBlind
-        val currentBigBlindIndex = getIndexNextPlayerNotEliminatedOrFolded(currentSmallBlindIndex + 1)
+        val currentBigBlindIndex =
+            getIndexNextPlayerNotEliminatedOrFolded(
+                currentSmallBlindIndex + 1
+            )
         listPlayers[currentBigBlindIndex].stateBlind = StateBlind.BigBlind
     }
 
@@ -124,29 +125,53 @@ object GameRepositoryImpl {
         val bigBlindIndex = getBigBlindIndex()
         if (getNumberPlayersNotEliminated() == 2) {
             if (listPlayers[dealerIndex].stack < settings.smallBlind) {
-                withDrawMoneyToPlayer(dealerIndex, listPlayers[dealerIndex].stack)
+                withDrawMoneyToPlayer(
+                    dealerIndex,
+                    listPlayers[dealerIndex].stack
+                )
                 listPlayers[dealerIndex].actionPlayer = ActionPlayer.AllIn
             } else {
-                withDrawMoneyToPlayer(dealerIndex, settings.smallBlind)
+                withDrawMoneyToPlayer(
+                    dealerIndex,
+                    settings.smallBlind
+                )
             }
             if (listPlayers[bigBlindIndex].stack < settings.smallBlind * 2) {
-                withDrawMoneyToPlayer(bigBlindIndex, listPlayers[bigBlindIndex].stack)
+                withDrawMoneyToPlayer(
+                    bigBlindIndex,
+                    listPlayers[bigBlindIndex].stack
+                )
                 listPlayers[bigBlindIndex].actionPlayer = ActionPlayer.AllIn
             } else {
-                withDrawMoneyToPlayer(bigBlindIndex, settings.smallBlind * 2)
+                withDrawMoneyToPlayer(
+                    bigBlindIndex,
+                    settings.smallBlind * 2
+                )
             }
         } else {
             if (listPlayers[smallBlindIndex].stack < settings.smallBlind) {
-                withDrawMoneyToPlayer(smallBlindIndex, listPlayers[smallBlindIndex].stack)
+                withDrawMoneyToPlayer(
+                    smallBlindIndex,
+                    listPlayers[smallBlindIndex].stack
+                )
                 listPlayers[smallBlindIndex].actionPlayer = ActionPlayer.AllIn
             } else {
-                withDrawMoneyToPlayer(smallBlindIndex, settings.smallBlind)
+                withDrawMoneyToPlayer(
+                    smallBlindIndex,
+                    settings.smallBlind
+                )
             }
             if (listPlayers[bigBlindIndex].stack < settings.smallBlind * 2) {
-                withDrawMoneyToPlayer(bigBlindIndex, listPlayers[bigBlindIndex].stack)
+                withDrawMoneyToPlayer(
+                    bigBlindIndex,
+                    listPlayers[bigBlindIndex].stack
+                )
                 listPlayers[bigBlindIndex].actionPlayer = ActionPlayer.AllIn
             } else {
-                withDrawMoneyToPlayer(bigBlindIndex, settings.smallBlind * 2)
+                withDrawMoneyToPlayer(
+                    bigBlindIndex,
+                    settings.smallBlind * 2
+                )
             }
         }
     }
@@ -175,7 +200,9 @@ object GameRepositoryImpl {
 
     fun initializeCurrentPlayerAfterBigBlind() {
         val bigBlindIndex = getBigBlindIndex()
-        currentPlayer = listPlayers[getIndexNextPlayerNotEliminatedOrFolded(bigBlindIndex + 1)]
+        currentPlayer = listPlayers[getIndexNextPlayerNotEliminatedOrFolded(
+            bigBlindIndex + 1
+        )]
         currentPlayer.statePlayer = StatePlayer.CurrentTurn
     }
 
@@ -195,7 +222,10 @@ object GameRepositoryImpl {
 
     fun raise(stackRaised: Int) {
         val currentPlayerIndex = getCurrentPlayerIndex()
-        withDrawMoneyToPlayer(currentPlayerIndex, stackRaised)
+        withDrawMoneyToPlayer(
+            currentPlayerIndex,
+            stackRaised
+        )
         listPlayers[currentPlayerIndex].actionPlayer = ActionPlayer.Raise
     }
 
@@ -206,7 +236,10 @@ object GameRepositoryImpl {
 
     fun allin() {
         val currentPlayerIndex = getCurrentPlayerIndex()
-        withDrawMoneyToPlayer(currentPlayerIndex, currentPlayer.stack)
+        withDrawMoneyToPlayer(
+            currentPlayerIndex,
+            currentPlayer.stack
+        )
         listPlayers[currentPlayerIndex].actionPlayer = ActionPlayer.AllIn
     }
 
@@ -245,9 +278,12 @@ object GameRepositoryImpl {
     }
 
     fun moveToNextPlayerAvailable() {
-        val previousCurrentPlayerIndex = getCurrentPlayerIndex()
+        val previousCurrentPlayerIndex =
+            getCurrentPlayerIndex()
         listPlayers[previousCurrentPlayerIndex].statePlayer = StatePlayer.Playing
-        listPlayers[getIndexNextPlayerNotEliminatedOrFoldedOrAllin(previousCurrentPlayerIndex + 1)].statePlayer =
+        listPlayers[getIndexNextPlayerNotEliminatedOrFoldedOrAllin(
+            previousCurrentPlayerIndex + 1
+        )].statePlayer =
             StatePlayer.CurrentTurn
         currentPlayer = listPlayers[getIndexNextPlayerNotEliminatedOrFoldedOrAllin(
             previousCurrentPlayerIndex + 1
@@ -255,18 +291,21 @@ object GameRepositoryImpl {
     }
 
     fun moveToFirstPlayerAvailableFromSmallBlind() {
-        val previousCurrentPlayerIndex = getCurrentPlayerIndex()
+        val previousCurrentPlayerIndex =
+            getCurrentPlayerIndex()
         listPlayers[previousCurrentPlayerIndex].statePlayer = StatePlayer.Playing
-        val newCurrentPlayerIndex = getIndexNextPlayerNotEliminatedOrFoldedOrAllin(
-            getSmallBlindIndex()
-        )
+        val newCurrentPlayerIndex =
+            getIndexNextPlayerNotEliminatedOrFoldedOrAllin(
+                getSmallBlindIndex()
+            )
         listPlayers[newCurrentPlayerIndex].statePlayer = StatePlayer.CurrentTurn
         currentPlayer = listPlayers[newCurrentPlayerIndex]
     }
 
 
     fun moveToBigBlindWhenRemainingOnlyTwoPlayers() {
-        val previousCurrentPlayerIndex = getCurrentPlayerIndex()
+        val previousCurrentPlayerIndex =
+            getCurrentPlayerIndex()
         listPlayers[previousCurrentPlayerIndex].statePlayer = StatePlayer.Playing
         listPlayers[getBigBlindIndex()].statePlayer = StatePlayer.CurrentTurn
         currentPlayer = listPlayers[getBigBlindIndex()]
@@ -406,12 +445,16 @@ object GameRepositoryImpl {
         val playerWHoHasToRecoverMoney = potentialWinners.find { it.stackBetTurn != 0 }
         if (playerWHoHasToRecoverMoney != null) {
             addStackToPlayer(
-                getPlayerIndexById(playerWHoHasToRecoverMoney.id),
+                getPlayerIndexById(
+                    playerWHoHasToRecoverMoney.id
+                ),
                 playerWHoHasToRecoverMoney.stackBetTurn
             )
         }
         if (potentialWinners.size == 1) {
-            potList.add(Pot(potentialWinners, currentStackTurn))
+            potList.add(Pot(potentialWinners,
+                currentStackTurn
+            ))
         }
         return potList
     }
@@ -423,7 +466,11 @@ object GameRepositoryImpl {
     fun distributePotsToWinners(winnerList: List<Winner>): MutableList<PlayerEndTurn> {
         val playerEndTurnList = mutableListOf<PlayerEndTurn>()
         winnerList.forEach {
-            addStackToPlayer(getPlayerIndexById(it.id), it.stackWon)
+            addStackToPlayer(
+                getPlayerIndexById(
+                    it.id
+                ), it.stackWon
+            )
         }
         listPlayers.filter { it.statePlayer != StatePlayer.Eliminate }.forEach { player ->
             when {

@@ -1,7 +1,7 @@
 package com.jerome.dusanter.youonlyneedcards.core.interactor
 
 import com.jerome.dusanter.youonlyneedcards.core.Settings
-import com.jerome.dusanter.youonlyneedcards.data.GameRepositoryImpl
+import com.jerome.dusanter.youonlyneedcards.core.Game
 import javax.inject.Inject
 
 class SaveSettingsInteractor @Inject internal constructor() {
@@ -9,7 +9,7 @@ class SaveSettingsInteractor @Inject internal constructor() {
         if (settings.isMoneyBetEnabled) {
             settings.ratioStackMoney = settings.stack / settings.money
         }
-        GameRepositoryImpl.settings = settings
+        Game.settings = settings
         listener.onSuccess()
     }
 

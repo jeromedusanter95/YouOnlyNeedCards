@@ -3,33 +3,33 @@ package com.jerome.dusanter.youonlyneedcards.core.interactor
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.Player
 import com.jerome.dusanter.youonlyneedcards.core.StateTurn
-import com.jerome.dusanter.youonlyneedcards.data.GameRepositoryImpl
+import com.jerome.dusanter.youonlyneedcards.core.Game
 
 class StartTurnInteractor {
     fun execute(listener: Listener) {
-        if (GameRepositoryImpl.settings.isIncreaseBlindsEnabled && GameRepositoryImpl.shouldIncreaseBlindNextTurn) {
-            GameRepositoryImpl.increaseBlinds()
+        if (Game.settings.isIncreaseBlindsEnabled && Game.shouldIncreaseBlindNextTurn) {
+            Game.increaseBlinds()
         }
-        GameRepositoryImpl.initializeStateBlind()
-        GameRepositoryImpl.initializeCurrentPlayerAfterBigBlind()
+        Game.initializeStateBlind()
+        Game.initializeCurrentPlayerAfterBigBlind()
         listener.getPossibleActions(
-            GameRepositoryImpl.getPossibleActions(),
-            GameRepositoryImpl.listPlayers,
-            GameRepositoryImpl.currentStackTurn,
-            GameRepositoryImpl.currentStateTurn,
-            if (GameRepositoryImpl.timeRemainingBeforeIncreaseBlinds > 0) {
+            Game.getPossibleActions(),
+            Game.listPlayers,
+            Game.currentStackTurn,
+            Game.currentStateTurn,
+            if (Game.timeRemainingBeforeIncreaseBlinds > 0) {
                 true
             } else {
-                GameRepositoryImpl.shouldStartTimer
+                Game.shouldStartTimer
             },
-            if (GameRepositoryImpl.timeRemainingBeforeIncreaseBlinds > 0) {
-                GameRepositoryImpl.timeRemainingBeforeIncreaseBlinds
+            if (Game.timeRemainingBeforeIncreaseBlinds > 0) {
+                Game.timeRemainingBeforeIncreaseBlinds
             } else {
-                GameRepositoryImpl.settings.frequencyIncreasingBlind
+                Game.settings.frequencyIncreasingBlind
             }
         )
-        GameRepositoryImpl.timeRemainingBeforeIncreaseBlinds = 0
-        GameRepositoryImpl.shouldStartTimer = false
+        Game.timeRemainingBeforeIncreaseBlinds = 0
+        Game.shouldStartTimer = false
     }
 
     interface Listener {

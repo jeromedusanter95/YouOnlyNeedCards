@@ -3,12 +3,12 @@ package com.jerome.dusanter.youonlyneedcards.core.interactor
 import com.jerome.dusanter.youonlyneedcards.core.Player
 import com.jerome.dusanter.youonlyneedcards.core.PlayerEndTurn
 import com.jerome.dusanter.youonlyneedcards.core.Winner
-import com.jerome.dusanter.youonlyneedcards.data.GameRepositoryImpl
+import com.jerome.dusanter.youonlyneedcards.core.Game
 
 class DistributeStackInteractor {
 
     fun execute(winnerList: List<Winner>, listener: Listener) {
-        listener.onSuccess(GameRepositoryImpl.distributePotsToWinners(winnerList), GameRepositoryImpl.listPlayers)
+        listener.onSuccess(Game.distributePotsToWinners(winnerList), Game.listPlayers)
     }
 
     interface Listener {

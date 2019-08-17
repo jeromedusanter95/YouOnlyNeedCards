@@ -88,7 +88,7 @@ enum class StateTurn {
     River
 }
 
-data class Game(
+data class SavedParams(
     var listPlayers: ArrayList<Player>,
     var settings: Settings,
     var timeRemainingBeforeIncreasingBlinds: Long

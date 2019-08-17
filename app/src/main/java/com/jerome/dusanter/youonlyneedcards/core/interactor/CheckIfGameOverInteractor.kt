@@ -2,20 +2,20 @@ package com.jerome.dusanter.youonlyneedcards.core.interactor
 
 import com.jerome.dusanter.youonlyneedcards.core.PlayerEndGame
 import com.jerome.dusanter.youonlyneedcards.core.Settings
-import com.jerome.dusanter.youonlyneedcards.data.GameRepositoryImpl
+import com.jerome.dusanter.youonlyneedcards.core.Game
 
 class CheckIfGameOverInteractor {
 
     fun execute(listener: Listener) {
 
-        if (GameRepositoryImpl.isGameOver()) {
+        if (Game.isGameOver()) {
             listener.onSuccess(
                 true,
-                GameRepositoryImpl.getListPlayerEndGame(),
-                GameRepositoryImpl.settings
+                Game.getListPlayerEndGame(),
+                Game.settings
             )
         } else {
-            listener.onSuccess(false, null, GameRepositoryImpl.settings)
+            listener.onSuccess(false, null, Game.settings)
         }
 
     }
