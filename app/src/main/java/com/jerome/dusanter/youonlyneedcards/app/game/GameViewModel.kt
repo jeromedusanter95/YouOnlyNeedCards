@@ -9,7 +9,10 @@ import com.jerome.dusanter.youonlyneedcards.core.*
 import com.jerome.dusanter.youonlyneedcards.core.interactor.*
 import javax.inject.Inject
 
-class GameViewModel @Inject internal constructor() : ViewModel() {
+class GameViewModel @Inject internal constructor(
+    private val deleteGameInteractor: DeleteGameInteractor,
+    val saveGameInInteractor: SaveGameInInteractor
+) : ViewModel() {
 
     // Live data of ProfilePlayerView
     val statePlayerProfileView1 = MutableLiveData<PlayerProfileUiModel>()
@@ -315,12 +318,12 @@ class GameViewModel @Inject internal constructor() : ViewModel() {
         IncreaseBlindsInteractor().execute()
     }
 
-    fun saveGame(context: Context, timeRemainingBeforeIncreaseBlind: Long) {
-        SaveGameInInteractor().execute(context, timeRemainingBeforeIncreaseBlind)
+    fun saveGame(timeRemainingBeforeIncreaseBlind: Long) {
+        saveGameInInteractor.execute(timeRemainingBeforeIncreaseBlind)
     }
 
-    fun deleteGame(context: Context) {
-        DeleteGameInteractor(context).execute()
+    fun deleteGame() {
+        deleteGameInteractor.execute()
     }
 
     fun onRebuyPlayer(playerId: String, context: Context) {

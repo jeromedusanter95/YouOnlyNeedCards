@@ -164,7 +164,7 @@ class GameActivity : AppCompatActivity() {
 
     private fun showDialogEndTurn(gameUiModel: GameUiModel.ShowEndTurnDialog) {
         EndTurnDialog.newInstance(gameUiModel).show(supportFragmentManager, "EndTurnDialog")
-        viewModel.saveGame(this, timeRemainingBeforeIncreaseBlinds.toLong())
+        viewModel.saveGame(timeRemainingBeforeIncreaseBlinds.toLong())
     }
 
     private fun showDialogRaise(eventDialogUiModel: RaiseDialogUiModel) {
@@ -376,7 +376,7 @@ class GameActivity : AppCompatActivity() {
     }
 
     fun onDismissEndGameDialog() {
-        viewModel.deleteGame(this)
+        viewModel.deleteGame()
         goBackToWelcomeActivity()
     }
 

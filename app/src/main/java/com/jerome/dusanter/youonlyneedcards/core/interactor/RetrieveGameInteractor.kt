@@ -1,21 +1,20 @@
 package com.jerome.dusanter.youonlyneedcards.core.interactor
 
-import android.content.Context
 import com.google.gson.Gson
 import com.jerome.dusanter.youonlyneedcards.core.Game
 import com.jerome.dusanter.youonlyneedcards.core.StateTurn
+import com.jerome.dusanter.youonlyneedcards.core.boundaries.PreferencesRepository
 import com.jerome.dusanter.youonlyneedcards.data.GameRepositoryImpl
-import com.jerome.dusanter.youonlyneedcards.data.SharedPreferencesManager
 import com.jerome.dusanter.youonlyneedcards.utils.MutableCircularList
 import javax.inject.Inject
 
 
 class RetrieveGameInteractor @Inject internal constructor(
-    val context: Context
+    private val preferencesRepository: PreferencesRepository
 ) {
 
     fun execute(listener: Listener) {
-        val gameString = SharedPreferencesManager.retrieveGame(context)
+        val gameString = preferencesRepository.retrieveGame()
         if (!gameString.isNullOrBlank()) {
             mapFromJsonToGame(gameString)
             listener.onSuccess()

@@ -1,19 +1,17 @@
 package com.jerome.dusanter.youonlyneedcards.core.interactor
 
-import android.content.Context
 import com.google.gson.Gson
 import com.jerome.dusanter.youonlyneedcards.core.Game
 import com.jerome.dusanter.youonlyneedcards.core.Player
+import com.jerome.dusanter.youonlyneedcards.core.boundaries.PreferencesRepository
 import com.jerome.dusanter.youonlyneedcards.data.GameRepositoryImpl
-import com.jerome.dusanter.youonlyneedcards.data.SharedPreferencesManager
+import javax.inject.Inject
 
-class SaveGameInInteractor {
-
-    fun execute(context: Context, timeRemainingBeforeIncreaseBlinds: Long) {
-        SharedPreferencesManager.saveGame(
-            context,
-            Gson().toJson(mapToGame(timeRemainingBeforeIncreaseBlinds))
-        )
+class SaveGameInInteractor @Inject internal constructor(
+    private val preferencesRepository: PreferencesRepository
+) {
+    fun execute(timeRemainingBeforeIncreaseBlinds: Long) {
+        preferencesRepository.saveGame(Gson().toJson(mapToGame(timeRemainingBeforeIncreaseBlinds)))
     }
 
     private fun mapToGame(timeRemainingBeforeIncreaseBlinds: Long): Game {
