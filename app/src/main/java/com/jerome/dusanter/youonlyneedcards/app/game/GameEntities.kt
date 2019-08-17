@@ -29,8 +29,6 @@ sealed class GameUiModel {
         val raiseDialogUiModel: RaiseDialogUiModel
     ) : GameUiModel()
 
-    object ShowSaveGame : GameUiModel()
-
     object ShowErrorNotEnoughtPlayer : GameUiModel()
 
     data class ShowCustomStackDialog(

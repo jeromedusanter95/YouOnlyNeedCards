@@ -1,10 +1,11 @@
 package com.jerome.dusanter.youonlyneedcards.core.interactor
 
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
-import com.jerome.dusanter.youonlyneedcards.core.Player
 import com.jerome.dusanter.youonlyneedcards.core.Game
+import com.jerome.dusanter.youonlyneedcards.core.Player
+import javax.inject.Inject
 
-class StartGameInteractor {
+class StartGameInteractor @Inject internal constructor() {
     fun execute(listener: Listener) {
         if (Game.listPlayers.size > 1) {
             Game.initializeListWithGoodOrder()

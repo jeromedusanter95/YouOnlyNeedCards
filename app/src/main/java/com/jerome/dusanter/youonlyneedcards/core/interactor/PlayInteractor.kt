@@ -1,12 +1,9 @@
 package com.jerome.dusanter.youonlyneedcards.core.interactor
 
-import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
-import com.jerome.dusanter.youonlyneedcards.core.Player
-import com.jerome.dusanter.youonlyneedcards.core.Pot
-import com.jerome.dusanter.youonlyneedcards.core.StateTurn
-import com.jerome.dusanter.youonlyneedcards.core.Game
+import com.jerome.dusanter.youonlyneedcards.core.*
+import javax.inject.Inject
 
-class PlayInteractor {
+class PlayInteractor @Inject internal constructor() {
 
     fun execute(request: PlayRequest, listener: Listener) {
         when (request.actionPlayer) {

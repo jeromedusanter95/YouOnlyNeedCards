@@ -1,12 +1,12 @@
 package com.jerome.dusanter.youonlyneedcards.core.interactor
 
 import com.jerome.dusanter.youonlyneedcards.core.CustomStack
+import com.jerome.dusanter.youonlyneedcards.core.Game
 import com.jerome.dusanter.youonlyneedcards.core.Player
 import com.jerome.dusanter.youonlyneedcards.core.PlayerCustomStack
-import com.jerome.dusanter.youonlyneedcards.core.Game
+import javax.inject.Inject
 
-class AddOrWithdrawStackInteractor {
-
+class AddOrWithdrawStackInteractor @Inject internal constructor(){
     fun execute(listener: Listener, playerList: List<PlayerCustomStack>) {
         playerList.forEach {
             if (it.customStack == CustomStack.Add) {

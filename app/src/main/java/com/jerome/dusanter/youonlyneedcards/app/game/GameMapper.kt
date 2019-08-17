@@ -3,8 +3,11 @@ package com.jerome.dusanter.youonlyneedcards.app.game
 import android.content.Context
 import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.core.*
+import javax.inject.Inject
 
-class GameMapper {
+class GameMapper @Inject internal constructor(
+    private val context: Context
+) {
     fun map(
         actionPlayerList: List<ActionPlayer>,
         nameCurrentPlayer: String,
@@ -12,8 +15,7 @@ class GameMapper {
         namePartTurn: String,
         stackTurn: Int,
         resetTimer: Boolean = false,
-        durationBeforeIncreasingBlinds: Long = 0,
-        context: Context
+        durationBeforeIncreasingBlinds: Long = 0
     ): GameUiModel.ShowCurrentTurn {
         return GameUiModel.ShowCurrentTurn(
             actionPlayerList = actionPlayerList,
@@ -41,7 +43,7 @@ class GameMapper {
         })
     }
 
-    fun map(playerEndTurnList: List<PlayerEndTurn>, context: Context): GameUiModel.ShowEndTurnDialog {
+    fun map(playerEndTurnList: List<PlayerEndTurn>): GameUiModel.ShowEndTurnDialog {
         return GameUiModel.ShowEndTurnDialog(
             playerEndTurnList.map {
                 PlayerEndTurnUiModel(
@@ -72,13 +74,7 @@ class GameMapper {
         }
     }
 
-    //TODO Inject context into constructor
-    fun map(
-        context: Context,
-        playerEndGameList: MutableList<PlayerEndGame>,
-        settings: Settings
-    ): GameUiModel.ShowEndGameDialog {
-
+    fun map(playerEndGameList: MutableList<PlayerEndGame>, settings: Settings): GameUiModel.ShowEndGameDialog {
         val listStack = mutableListOf<Int>()
         playerEndGameList.forEach {
             if (!listStack.contains(it.stack)) {
@@ -99,16 +95,14 @@ class GameMapper {
                 playerListForThisStack.forEach {
                     it.ranking = getRankingByIndex(
                         numberPlayerAlreadyRanked,
-                        true,
-                        context
+                        true
                     )
                 }
                 numberPlayerAlreadyRanked += playerListForThisStack.size
             } else {
                 playerListForThisStack[0].ranking = getRankingByIndex(
                     listStack.indexOf(stack),
-                    false,
-                    context
+                    false
                 )
                 numberPlayerAlreadyRanked++
             }
@@ -169,7 +163,7 @@ class GameMapper {
         }
     }
 
-    private fun getRankingByIndex(index: Int, isExAquo: Boolean, context: Context): String {
+    private fun getRankingByIndex(index: Int, isExAquo: Boolean): String {
         val ranking: String = when (index) {
             0 -> context.getString(R.string.game_activity_end_game_ranking_first)
             1 -> context.getString(R.string.game_activity_end_game_ranking_second)

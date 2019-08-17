@@ -1,11 +1,12 @@
 package com.jerome.dusanter.youonlyneedcards.core.interactor
 
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
+import com.jerome.dusanter.youonlyneedcards.core.Game
 import com.jerome.dusanter.youonlyneedcards.core.Player
 import com.jerome.dusanter.youonlyneedcards.core.StateTurn
-import com.jerome.dusanter.youonlyneedcards.core.Game
+import javax.inject.Inject
 
-class StartTurnInteractor {
+class StartTurnInteractor @Inject internal constructor() {
     fun execute(listener: Listener) {
         if (Game.settings.isIncreaseBlindsEnabled && Game.shouldIncreaseBlindNextTurn) {
             Game.increaseBlinds()

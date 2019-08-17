@@ -1,11 +1,12 @@
 package com.jerome.dusanter.youonlyneedcards.core.interactor
 
+import com.jerome.dusanter.youonlyneedcards.core.Game
 import com.jerome.dusanter.youonlyneedcards.core.Player
 import com.jerome.dusanter.youonlyneedcards.core.PlayerEndTurn
 import com.jerome.dusanter.youonlyneedcards.core.Winner
-import com.jerome.dusanter.youonlyneedcards.core.Game
+import javax.inject.Inject
 
-class DistributeStackInteractor {
+class DistributeStackInteractor @Inject internal constructor() {
 
     fun execute(winnerList: List<Winner>, listener: Listener) {
         listener.onSuccess(Game.distributePotsToWinners(winnerList), Game.listPlayers)

@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.Toast
 import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.app.game.ChooseWinners.ChooseWinnersDialog
 import com.jerome.dusanter.youonlyneedcards.app.game.CustomStack.CustomStackDialog
@@ -41,7 +40,7 @@ class GameActivity : AppCompatActivity() {
         setupListeners()
         setupLiveDatas()
         if (intent.getBooleanExtra("fromWelcome", false)) {
-            viewModel.onStartTurn(this)
+            viewModel.onStartTurn()
         }
     }
 
@@ -137,14 +136,6 @@ class GameActivity : AppCompatActivity() {
                         is GameUiModel.ShowCurrentTurn -> updateTableCurrentTurn(gameUiModel)
                         is GameUiModel.ShowEndTurnDialog -> showDialogEndTurn(gameUiModel)
                         is GameUiModel.ShowEndGameDialog -> showDialogEndGame(gameUiModel)
-                        is GameUiModel.ShowSaveGame -> {
-                            Toast.makeText(
-                                this,
-                                getString(R.string.game_activity_save_game_message),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            goBackToWelcomeActivity()
-                        }
                         is GameUiModel.ShowErrorNotEnoughtPlayer -> showErrotNotEnoughtPlayer()
                         is GameUiModel.ShowRaiseDialog -> showDialogRaise(gameUiModel.raiseDialogUiModel)
                         is GameUiModel.ShowCustomStackDialog -> showDialogCustomStack(gameUiModel)
@@ -173,9 +164,9 @@ class GameActivity : AppCompatActivity() {
 
     fun onDismissRaiseDialog(isAllin: Boolean, stackRaised: Int) {
         if (isAllin) {
-            viewModel.play(ActionPlayer.AllIn.name, stackRaised, this)
+            viewModel.play(ActionPlayer.AllIn.name, stackRaised)
         } else {
-            viewModel.play(ActionPlayer.Raise.name, stackRaised, this)
+            viewModel.play(ActionPlayer.Raise.name, stackRaised)
         }
     }
 
@@ -234,7 +225,7 @@ class GameActivity : AppCompatActivity() {
             ChooseWinnersDialog.newInstance(gameUiModel)
                 .show(supportFragmentManager, "ChooseWinnersDialog")
         } else {
-            viewModel.onDistributeStack(GameMapper().map(gameUiModel.potList[0]), this)
+            viewModel.onDistributeStack(gameUiModel.potList[0])
         }
         buttonCustomStack.visibility = View.VISIBLE
         buttonStartTurn.visibility = View.VISIBLE
@@ -248,114 +239,113 @@ class GameActivity : AppCompatActivity() {
     }
 
     fun onDismissChooseWinnersDialog(winnerList: List<Winner>) {
-        viewModel.onDistributeStack(winnerList, this)
+        viewModel.onDistributeStack(winnerList)
     }
 
     fun onDismissEndTurnDialog() {
-        viewModel.onCheckIfGameOver(this)
+        viewModel.onCheckIfGameOver()
     }
 
     private fun setupListeners() {
         playerProfilView1.imageButtonCheck.setOnClickListener {
             if (!playerProfilView1.getName().isBlank()) {
-                viewModel.onAddPlayer("1", playerProfilView1.getName(), this)
+                viewModel.onAddPlayer("1", playerProfilView1.getName())
             }
         }
         playerProfilView2.imageButtonCheck.setOnClickListener {
             if (!playerProfilView2.getName().isBlank()) {
-                viewModel.onAddPlayer("2", playerProfilView2.getName(), this)
+                viewModel.onAddPlayer("2", playerProfilView2.getName())
             }
         }
         playerProfilView3.imageButtonCheck.setOnClickListener {
             if (!playerProfilView3.getName().isBlank()) {
-                viewModel.onAddPlayer("3", playerProfilView3.getName(), this)
+                viewModel.onAddPlayer("3", playerProfilView3.getName())
             }
         }
         playerProfilView4.imageButtonCheck.setOnClickListener {
             if (!playerProfilView4.getName().isBlank()) {
-                viewModel.onAddPlayer("4", playerProfilView4.getName(), this)
+                viewModel.onAddPlayer("4", playerProfilView4.getName())
             }
         }
         playerProfilView5.imageButtonCheck.setOnClickListener {
             if (!playerProfilView5.getName().isBlank()) {
-                viewModel.onAddPlayer("5", playerProfilView5.getName(), this)
+                viewModel.onAddPlayer("5", playerProfilView5.getName())
             }
         }
 
         playerProfilView6.imageButtonCheck.setOnClickListener {
             if (!playerProfilView6.getName().isBlank()) {
-                viewModel.onAddPlayer("6", playerProfilView6.getName(), this)
+                viewModel.onAddPlayer("6", playerProfilView6.getName())
             }
         }
 
         playerProfilView7.imageButtonCheck.setOnClickListener {
             if (!playerProfilView7.getName().isBlank()) {
-                viewModel.onAddPlayer("7", playerProfilView7.getName(), this)
+                viewModel.onAddPlayer("7", playerProfilView7.getName())
             }
         }
 
         playerProfilView8.imageButtonCheck.setOnClickListener {
             if (!playerProfilView8.getName().isBlank()) {
-                viewModel.onAddPlayer("8", playerProfilView8.getName(), this)
+                viewModel.onAddPlayer("8", playerProfilView8.getName())
             }
         }
 
         playerProfilView1.constraintLayoutRebuyPlayer.setOnClickListener {
-            viewModel.onRebuyPlayer("1", this)
+            viewModel.onRebuyPlayer("1")
         }
 
         playerProfilView2.constraintLayoutRebuyPlayer.setOnClickListener {
-            viewModel.onRebuyPlayer("2", this)
+            viewModel.onRebuyPlayer("2")
         }
 
         playerProfilView3.constraintLayoutRebuyPlayer.setOnClickListener {
-            viewModel.onRebuyPlayer("3", this)
+            viewModel.onRebuyPlayer("3")
         }
 
         playerProfilView4.constraintLayoutRebuyPlayer.setOnClickListener {
-            viewModel.onRebuyPlayer("4", this)
+            viewModel.onRebuyPlayer("4")
         }
 
         playerProfilView5.constraintLayoutRebuyPlayer.setOnClickListener {
-            viewModel.onRebuyPlayer("5", this)
+            viewModel.onRebuyPlayer("5")
         }
 
         playerProfilView6.constraintLayoutRebuyPlayer.setOnClickListener {
-            viewModel.onRebuyPlayer("6", this)
+            viewModel.onRebuyPlayer("6")
         }
 
         playerProfilView7.constraintLayoutRebuyPlayer.setOnClickListener {
-            viewModel.onRebuyPlayer("7", this)
+            viewModel.onRebuyPlayer("7")
         }
 
         playerProfilView8.constraintLayoutRebuyPlayer.setOnClickListener {
-            viewModel.onRebuyPlayer("8", this)
+            viewModel.onRebuyPlayer("8")
         }
 
         buttonStartGame.setOnClickListener {
             textViewErrorNotEnoughtPlayer.visibility = View.GONE
-            viewModel.onStartGame(this)
+            viewModel.onStartGame()
         }
 
         buttonLeft.setOnClickListener {
-            viewModel.onClickButtonLeft(buttonLeft.text.toString(), this)
+            viewModel.onClickButtonLeft(buttonLeft.text.toString())
         }
 
         buttonMiddle.setOnClickListener {
-            viewModel.onClickButtonMiddle(buttonMiddle.text.toString(), this)
+            viewModel.onClickButtonMiddle(buttonMiddle.text.toString())
         }
 
         buttonRight.setOnClickListener {
-            viewModel.onClickButtonRight(buttonRight.text.toString(), this)
+            viewModel.onClickButtonRight(buttonRight.text.toString())
         }
 
         buttonStartTurn.setOnClickListener {
-            viewModel.onStartTurn(this)
+            viewModel.onStartTurn()
         }
 
         buttonEndGame.setOnClickListener {
-            ConfirmationEndGameDialog.newInstance()
-                .show(supportFragmentManager, "ConfirmationEndGameDialog")
+            ConfirmationEndGameDialog.newInstance().show(supportFragmentManager, "ConfirmationEndGameDialog")
         }
 
         buttonCustomStack.setOnClickListener {
@@ -368,7 +358,7 @@ class GameActivity : AppCompatActivity() {
     }
 
     fun onClickOnCheckInConfirmationEndGameDialog() {
-        viewModel.onEndGame(this)
+        viewModel.onEndGame()
     }
 
     override fun onBackPressed() {
@@ -387,6 +377,6 @@ class GameActivity : AppCompatActivity() {
     }
 
     fun onCheckCustomStackDialog(playerList: List<PlayerCustomStackUiModel>) {
-        viewModel.onAddOrWithdrawStack(playerList, this)
+        viewModel.onAddOrWithdrawStack(playerList)
     }
 }
