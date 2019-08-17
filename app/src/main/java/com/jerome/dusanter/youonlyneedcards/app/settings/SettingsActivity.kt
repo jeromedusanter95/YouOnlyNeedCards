@@ -3,6 +3,7 @@ package com.jerome.dusanter.youonlyneedcards.app.settings
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.SeekBar
 import com.jerome.dusanter.youonlyneedcards.R
+import com.jerome.dusanter.youonlyneedcards.app.game.GameActivity
 import com.jerome.dusanter.youonlyneedcards.utils.SeekBarChangeListener
 import com.jerome.dusanter.youonlyneedcards.utils.transformIntoDecade
 import dagger.android.AndroidInjection
@@ -17,7 +19,6 @@ import kotlinx.android.synthetic.main.activity_settings.*
 import javax.inject.Inject
 
 class SettingsActivity : AppCompatActivity() {
-
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -32,55 +33,45 @@ class SettingsActivity : AppCompatActivity() {
         setupListeners()
         setupLiveData()
         setupSeekBarsColor()
-        viewModel.start(this)
+        viewModel.start()
     }
 
     private fun setupListeners() {
 
         buttonStartGame.setOnClickListener {
-            viewModel.onStartGame(this)
+            viewModel.onStartGame()
         }
 
-        //TODO add an extension function for setOnSeekBarChangedListener
         seekBarBlind.setOnSeekBarChangeListener(object : SeekBarChangeListener() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                viewModel.onSeekBarBlindUpdated(
-                    progress.transformIntoDecade(),
-                    this@SettingsActivity
-                )
+                viewModel.onSeekBarBlindUpdated(progress.transformIntoDecade())
             }
         })
 
         seekBarMoney.setOnSeekBarChangeListener(object : SeekBarChangeListener() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                viewModel.onSeekBarMoneyUpdated(
-                    progress.transformIntoDecade(),
-                    this@SettingsActivity
-                )
+                viewModel.onSeekBarMoneyUpdated(progress.transformIntoDecade())
             }
         })
 
         seekBarFrequencyIncreaseBlind.setOnSeekBarChangeListener(object : SeekBarChangeListener() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                viewModel.onSeekBarFrequencyIncreasedBlindUpdated(progress, this@SettingsActivity)
+                viewModel.onSeekBarFrequencyIncreasedBlindUpdated(progress)
             }
         })
 
         seekBarChips.setOnSeekBarChangeListener(object : SeekBarChangeListener() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                viewModel.onSeekBarStackUpdated(
-                    progress.transformIntoDecade(),
-                    this@SettingsActivity
-                )
+                viewModel.onSeekBarStackUpdated(progress.transformIntoDecade())
             }
         })
 
         switchMoney.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.onSwitchMoneyToggled(isChecked, this@SettingsActivity)
+            viewModel.onSwitchMoneyToggled(isChecked)
         }
 
         switchIncreaseBlinds.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.onSwitchIncreaseBlindsToggled(isChecked, this@SettingsActivity)
+            viewModel.onSwitchIncreaseBlindsToggled(isChecked)
         }
     }
 
@@ -91,6 +82,7 @@ class SettingsActivity : AppCompatActivity() {
                 when (settingsUiModel) {
                     is SettingsUiModel.Success -> updateView(settingsUiModel)
                     is SettingsUiModel.Error -> showError(settingsUiModel)
+                    is SettingsUiModel.GoToGameActivity -> goToGameActivity()
                 }
             })
     }
@@ -170,6 +162,10 @@ class SettingsActivity : AppCompatActivity() {
         if (settingsUiModel.showErrorMoney) {
             textViewErrorMoney.visibility = View.VISIBLE
         }
+    }
+
+    private fun goToGameActivity() {
+        startActivity(Intent(this, GameActivity::class.java))
     }
 
 }

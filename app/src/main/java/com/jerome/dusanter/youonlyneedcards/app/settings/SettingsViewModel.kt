@@ -2,18 +2,16 @@ package com.jerome.dusanter.youonlyneedcards.app.settings
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.content.Context
-import android.content.Intent
-import com.jerome.dusanter.youonlyneedcards.app.game.GameActivity
 import com.jerome.dusanter.youonlyneedcards.core.Settings
 import com.jerome.dusanter.youonlyneedcards.core.interactor.SaveSettingsInteractor
 import javax.inject.Inject
 
-class SettingsViewModel @Inject internal constructor() : ViewModel() {
+class SettingsViewModel @Inject internal constructor(
+    private val saveSettingsInteractor: SaveSettingsInteractor,
+    private val mapper: SettingsMapper
+) : ViewModel() {
 
     val state = MutableLiveData<SettingsUiModel>()
-    //TODO Inject properly later
-    private val mapper = SettingsMapper()
     private var settings: Settings = Settings(
         stack = 0,
         isMoneyBetEnabled = false,
@@ -24,59 +22,58 @@ class SettingsViewModel @Inject internal constructor() : ViewModel() {
         ratioStackMoney = 0
     )
 
-    fun onStartGame(context: Context) {
-        //TODO Inject later interactor & context
+    fun onStartGame() {
         if (settings.smallBlind == 0
             || settings.stack == 0
             || (settings.isMoneyBetEnabled && settings.money == 0)
             || (settings.isIncreaseBlindsEnabled && settings.frequencyIncreasingBlind.toInt() == 0)
         ) {
-            state.value = SettingsMapper().mapToUiModelError(settings)
+            state.value = mapper.mapToUiModelError(settings)
         } else {
-            SaveSettingsInteractor().execute(settings, buildSaveSettingsListener(context))
+            saveSettingsInteractor.execute(settings, buildSaveSettingsListener())
         }
 
     }
 
-    private fun buildSaveSettingsListener(context: Context): SaveSettingsInteractor.Listener =
+    private fun buildSaveSettingsListener(): SaveSettingsInteractor.Listener =
         object : SaveSettingsInteractor.Listener {
             override fun onSuccess() {
-                context.startActivity(Intent(context, GameActivity::class.java))
+                state.value = SettingsUiModel.GoToGameActivity
             }
         }
 
-    fun start(context: Context) {
-        state.value = mapper.mapToUiModelSuccess(settings, context)
+    fun start() {
+        state.value = mapper.mapToUiModelSuccess(settings)
     }
 
-    fun onSeekBarBlindUpdated(progress: Int, context: Context) {
+    fun onSeekBarBlindUpdated(progress: Int) {
         settings = settings.copy(smallBlind = progress)
-        state.value = mapper.mapToUiModelSuccess(settings, context)
+        state.value = mapper.mapToUiModelSuccess(settings)
     }
 
-    fun onSeekBarStackUpdated(progress: Int, context: Context) {
+    fun onSeekBarStackUpdated(progress: Int) {
         settings = settings.copy(stack = progress)
-        state.value = mapper.mapToUiModelSuccess(settings, context)
+        state.value = mapper.mapToUiModelSuccess(settings)
     }
 
-    fun onSeekBarFrequencyIncreasedBlindUpdated(progress: Int, context: Context) {
+    fun onSeekBarFrequencyIncreasedBlindUpdated(progress: Int) {
         val millis = progress * 60 * 1000
         settings = settings.copy(frequencyIncreasingBlind = millis.toLong())
-        state.value = mapper.mapToUiModelSuccess(settings, context)
+        state.value = mapper.mapToUiModelSuccess(settings)
     }
 
-    fun onSeekBarMoneyUpdated(progress: Int, context: Context) {
+    fun onSeekBarMoneyUpdated(progress: Int) {
         settings = settings.copy(money = progress)
-        state.value = mapper.mapToUiModelSuccess(settings, context)
+        state.value = mapper.mapToUiModelSuccess(settings)
     }
 
-    fun onSwitchMoneyToggled(checked: Boolean, context: Context) {
+    fun onSwitchMoneyToggled(checked: Boolean) {
         settings = settings.copy(isMoneyBetEnabled = checked)
-        state.value = mapper.mapToUiModelSuccess(settings, context)
+        state.value = mapper.mapToUiModelSuccess(settings)
     }
 
-    fun onSwitchIncreaseBlindsToggled(checked: Boolean, context: Context) {
+    fun onSwitchIncreaseBlindsToggled(checked: Boolean) {
         settings = settings.copy(isIncreaseBlindsEnabled = checked)
-        state.value = mapper.mapToUiModelSuccess(settings, context)
+        state.value = mapper.mapToUiModelSuccess(settings)
     }
 }

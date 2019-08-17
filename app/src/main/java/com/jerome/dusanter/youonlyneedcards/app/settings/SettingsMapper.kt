@@ -3,11 +3,13 @@ package com.jerome.dusanter.youonlyneedcards.app.settings
 import android.content.Context
 import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.core.Settings
+import javax.inject.Inject
 
 
-class SettingsMapper {
-
-    fun mapToUiModelSuccess(settings: Settings, context: Context): SettingsUiModel.Success? {
+class SettingsMapper @Inject internal constructor(
+    private val context: Context
+) {
+    fun mapToUiModelSuccess(settings: Settings): SettingsUiModel.Success? {
         return SettingsUiModel.Success(
             stack = "${settings.stack} " + context.resources.getString(R.string.common_chips),
             isIncreaseBlindsEnabled = settings.isIncreaseBlindsEnabled,

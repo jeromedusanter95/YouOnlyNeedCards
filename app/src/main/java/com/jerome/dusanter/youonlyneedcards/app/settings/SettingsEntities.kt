@@ -22,5 +22,7 @@ sealed class SettingsUiModel {
         val showErrorMoney: Boolean,
         val showErrorFrequencyIncreaseBlinds: Boolean
     ) : SettingsUiModel()
+
+    object GoToGameActivity : SettingsUiModel()
 }
 
