@@ -62,7 +62,7 @@ class EndGameDialog : DialogFragment() {
     override fun onStart() {
         super.onStart()
         dialog.window?.setLayout(
-            resources.getDimension(R.dimen.dialog_raise_width).toInt(),
+            resources.getDimension(R.dimen.dialog_end_game_width).toInt(),
             WRAP_CONTENT
         )
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
