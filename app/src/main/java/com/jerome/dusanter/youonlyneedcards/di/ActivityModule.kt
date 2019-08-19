@@ -1,6 +1,7 @@
 package com.jerome.dusanter.youonlyneedcards.di
 
 import com.jerome.dusanter.youonlyneedcards.app.game.GameActivity
+import com.jerome.dusanter.youonlyneedcards.app.game.raise.RaiseDialogFragment
 import com.jerome.dusanter.youonlyneedcards.app.settings.SettingsActivity
 import com.jerome.dusanter.youonlyneedcards.app.welcome.WelcomeActivity
 import dagger.Module
@@ -17,4 +18,7 @@ abstract class ActivityModule {
 
     @ContributesAndroidInjector
     abstract fun contributeGameActivity(): GameActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributeRaiseDialogFragment(): RaiseDialogFragment
 }

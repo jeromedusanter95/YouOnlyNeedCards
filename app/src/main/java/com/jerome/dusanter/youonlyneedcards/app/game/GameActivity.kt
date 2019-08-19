@@ -14,37 +14,13 @@ import com.jerome.dusanter.youonlyneedcards.app.game.customstack.CustomStackDial
 import com.jerome.dusanter.youonlyneedcards.app.game.endgame.ConfirmationEndGameDialog
 import com.jerome.dusanter.youonlyneedcards.app.game.endgame.EndGameDialog
 import com.jerome.dusanter.youonlyneedcards.app.game.endturn.EndTurnDialog
-import com.jerome.dusanter.youonlyneedcards.app.game.raise.RaiseDialog
+import com.jerome.dusanter.youonlyneedcards.app.game.raise.RaiseDialogFragment
 import com.jerome.dusanter.youonlyneedcards.app.welcome.WelcomeActivity
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.Winner
 import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_game.buttonCustomStack
-import kotlinx.android.synthetic.main.activity_game.buttonEndGame
-import kotlinx.android.synthetic.main.activity_game.buttonLeft
-import kotlinx.android.synthetic.main.activity_game.buttonMiddle
-import kotlinx.android.synthetic.main.activity_game.buttonRight
-import kotlinx.android.synthetic.main.activity_game.buttonStartGame
-import kotlinx.android.synthetic.main.activity_game.buttonStartTurn
-import kotlinx.android.synthetic.main.activity_game.groupBottomButtonsBetweenTurn
-import kotlinx.android.synthetic.main.activity_game.groupBottomButtonsDuringTurn
-import kotlinx.android.synthetic.main.activity_game.groupTextViewsDuringTurn
-import kotlinx.android.synthetic.main.activity_game.playerProfilView1
-import kotlinx.android.synthetic.main.activity_game.playerProfilView2
-import kotlinx.android.synthetic.main.activity_game.playerProfilView3
-import kotlinx.android.synthetic.main.activity_game.playerProfilView4
-import kotlinx.android.synthetic.main.activity_game.playerProfilView5
-import kotlinx.android.synthetic.main.activity_game.playerProfilView6
-import kotlinx.android.synthetic.main.activity_game.playerProfilView7
-import kotlinx.android.synthetic.main.activity_game.playerProfilView8
-import kotlinx.android.synthetic.main.activity_game.textViewCurrentPlayerInformations
-import kotlinx.android.synthetic.main.activity_game.textViewErrorNotEnoughtPlayer
-import kotlinx.android.synthetic.main.activity_game.textViewPartTurnName
-import kotlinx.android.synthetic.main.activity_game.textViewTimerIncreaseBlinds
-import kotlinx.android.synthetic.main.activity_game.textViewTimerIncreaseBlindsTitle
-import kotlinx.android.synthetic.main.activity_game.textViewTurnStack
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.constraintLayoutRebuyPlayer
-import kotlinx.android.synthetic.main.layout_profil_player_view.view.imageButtonCheck
+import kotlinx.android.synthetic.main.activity_game.*
+import kotlinx.android.synthetic.main.layout_profil_player_view.view.*
 import javax.inject.Inject
 
 
@@ -162,7 +138,8 @@ class GameActivity : AppCompatActivity() {
                         is GameUiModel.ShowEndGameDialog -> showDialogEndGame(gameUiModel)
                         is GameUiModel.ShowErrorNotEnoughtPlayer -> showErrorNotEnoughPlayer()
                         is GameUiModel.ShowRaiseDialog -> showDialogRaise(
-                            gameUiModel.raiseDialogUiModel
+                            gameUiModel.bigBlind,
+                            gameUiModel.stackPlayer
                         )
                         is GameUiModel.ShowCustomStackDialog -> showDialogCustomStack(gameUiModel)
                     }
@@ -184,8 +161,8 @@ class GameActivity : AppCompatActivity() {
         viewModel.saveGame(timeRemainingBeforeIncreaseBlinds.toLong())
     }
 
-    private fun showDialogRaise(eventDialogUiModel: RaiseDialogUiModel) {
-        RaiseDialog.newInstance(eventDialogUiModel).show(supportFragmentManager, "GameActivity")
+    private fun showDialogRaise(bigBlind: Int, stackPlayer: Int) {
+        RaiseDialogFragment.newInstance(bigBlind, stackPlayer).show(supportFragmentManager, "GameActivity")
     }
 
     fun onDismissRaiseDialog(isAllin: Boolean, stackRaised: Int) {

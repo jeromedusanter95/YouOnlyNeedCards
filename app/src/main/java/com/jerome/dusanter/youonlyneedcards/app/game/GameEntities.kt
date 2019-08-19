@@ -26,7 +26,8 @@ sealed class GameUiModel {
     ) : GameUiModel()
 
     data class ShowRaiseDialog(
-        val raiseDialogUiModel: RaiseDialogUiModel
+        val bigBlind: Int,
+        val stackPlayer: Int
     ) : GameUiModel()
 
     object ShowErrorNotEnoughtPlayer : GameUiModel()
@@ -35,11 +36,6 @@ sealed class GameUiModel {
         val playerCustomStackList: List<PlayerCustomStackUiModel>
     ) : GameUiModel()
 }
-
-data class RaiseDialogUiModel(
-    val bigBlind: Int,
-    val stackPlayer: Int
-)
 
 data class PlayerUiModel(
     val id: String,

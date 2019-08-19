@@ -41,10 +41,6 @@ class PlayerProfileView @JvmOverloads constructor(
             constraintLayoutEditPlayer.visibility = View.GONE
             constraintLayoutAddPlayer.visibility = View.VISIBLE
         }
-
-        constraintLayoutRebuyPlayer.setOnClickListener {
-
-        }
     }
 
     private fun showPlayerLayout() {

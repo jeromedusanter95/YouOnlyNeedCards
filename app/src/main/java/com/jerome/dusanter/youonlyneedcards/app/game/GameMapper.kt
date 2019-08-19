@@ -29,9 +29,7 @@ class GameMapper @Inject internal constructor(
 
     fun map(bigBlind: Int, stackPlayer: Int): GameUiModel.ShowRaiseDialog {
         return GameUiModel.ShowRaiseDialog(
-            RaiseDialogUiModel(
-                bigBlind = bigBlind, stackPlayer = stackPlayer
-            )
+            bigBlind = bigBlind, stackPlayer = stackPlayer
         )
     }
 
@@ -74,7 +72,10 @@ class GameMapper @Inject internal constructor(
         }
     }
 
-    fun map(playerEndGameList: MutableList<PlayerEndGame>, settings: Settings): GameUiModel.ShowEndGameDialog {
+    fun map(
+        playerEndGameList: MutableList<PlayerEndGame>,
+        settings: Settings
+    ): GameUiModel.ShowEndGameDialog {
         val listStack = mutableListOf<Int>()
         playerEndGameList.forEach {
             if (!listStack.contains(it.stack)) {
