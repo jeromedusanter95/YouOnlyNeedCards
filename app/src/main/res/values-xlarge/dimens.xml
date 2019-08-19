@@ -2,5 +2,6 @@
 <resources>
     <dimen name="settings_activity_padding">@dimen/sizing_3</dimen>
     <dimen name="dialog_raise_width">400dp</dimen>
+    <dimen name="dialog_end_turn_width">400dp</dimen>
     <dimen name="dialog_end_game_width">400dp</dimen>
 </resources>
