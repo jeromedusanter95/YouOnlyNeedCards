@@ -9,7 +9,7 @@ import android.os.CountDownTimer
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.jerome.dusanter.youonlyneedcards.R
-import com.jerome.dusanter.youonlyneedcards.app.game.choosewinners.ChooseWinnersDialog
+import com.jerome.dusanter.youonlyneedcards.app.game.choosewinners.ChooseWinnersDialogFragment
 import com.jerome.dusanter.youonlyneedcards.app.game.customstack.CustomStackDialog
 import com.jerome.dusanter.youonlyneedcards.app.game.endgame.ConfirmationEndGameDialog
 import com.jerome.dusanter.youonlyneedcards.app.game.endgame.EndGameDialog
@@ -218,8 +218,8 @@ class GameActivity : AppCompatActivity() {
 
     private fun updateTableChooseWinners(gameUiModel: GameUiModel.ShowChooseWinnersDialog) {
         if (gameUiModel.potList[0].potentialWinnerList.size > 1) {
-            ChooseWinnersDialog.newInstance(gameUiModel)
-                .show(supportFragmentManager, "ChooseWinnersDialog")
+            ChooseWinnersDialogFragment.newInstance(gameUiModel)
+                .show(supportFragmentManager, "ChooseWinnersDialogFragment")
         } else {
             viewModel.onDistributeStack(gameUiModel.potList[0])
         }

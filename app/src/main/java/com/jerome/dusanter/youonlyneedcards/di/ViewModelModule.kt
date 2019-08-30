@@ -3,6 +3,7 @@ package com.jerome.dusanter.youonlyneedcards.di
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.jerome.dusanter.youonlyneedcards.app.game.GameViewModel
+import com.jerome.dusanter.youonlyneedcards.app.game.choosewinners.ChooseWinnersViewModel
 import com.jerome.dusanter.youonlyneedcards.app.game.raise.RaiseViewModel
 import com.jerome.dusanter.youonlyneedcards.app.settings.SettingsViewModel
 import com.jerome.dusanter.youonlyneedcards.app.welcome.WelcomeViewModel
@@ -46,4 +47,9 @@ internal abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(RaiseViewModel::class)
     protected abstract fun raiseDialogViewModel(raiseViewModel: RaiseViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ChooseWinnersViewModel::class)
+    protected abstract fun chooseWinnersViewModel(chooseWinnersViewModel: ChooseWinnersViewModel): ViewModel
 }

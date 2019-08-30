@@ -7,14 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import com.jerome.dusanter.youonlyneedcards.R
 import com.jerome.dusanter.youonlyneedcards.app.game.PlayerUiModel
-import com.jerome.dusanter.youonlyneedcards.app.game.PotUiModel
 import kotlinx.android.synthetic.main.item_recycler_view_dialog_choose_winners.view.*
 
 class ChooseWinnersAdapter(
-    private val pot: PotUiModel,
     private val context: Context?,
     private val listener: Listener
 ) : RecyclerView.Adapter<ChooseWinnersViewHolder>() {
+
+    lateinit var pot: PotUiModel
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChooseWinnersViewHolder {
         return ChooseWinnersViewHolder(
             LayoutInflater.from(context).inflate(
@@ -25,13 +26,7 @@ class ChooseWinnersAdapter(
         )
     }
 
-    override fun getItemCount(): Int {
-        return if (pot.potentialWinnerList.isNotEmpty()) {
-            pot.potentialWinnerList.size
-        } else {
-            0
-        }
-    }
+    override fun getItemCount(): Int = if (pot.potentialWinnerList.isNotEmpty()) pot.potentialWinnerList.size else 0
 
     override fun onBindViewHolder(holderChooseWinners: ChooseWinnersViewHolder, position: Int) {
         holderChooseWinners.bind(pot.potentialWinnerList[position], pot.stackForEachPlayer)
@@ -44,6 +39,11 @@ class ChooseWinnersAdapter(
             }
             listener.onChecked(pot)
         }
+    }
+
+    fun refresh(currentPot: PotUiModel) {
+        pot = currentPot
+        notifyDataSetChanged()
     }
 
     interface Listener {

@@ -1,6 +1,7 @@
 package com.jerome.dusanter.youonlyneedcards.di
 
 import com.jerome.dusanter.youonlyneedcards.app.game.GameActivity
+import com.jerome.dusanter.youonlyneedcards.app.game.choosewinners.ChooseWinnersDialogFragment
 import com.jerome.dusanter.youonlyneedcards.app.game.raise.RaiseDialogFragment
 import com.jerome.dusanter.youonlyneedcards.app.settings.SettingsActivity
 import com.jerome.dusanter.youonlyneedcards.app.welcome.WelcomeActivity
@@ -21,4 +22,7 @@ abstract class ActivityModule {
 
     @ContributesAndroidInjector
     abstract fun contributeRaiseDialogFragment(): RaiseDialogFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeChooseWinnersDialogFragment(): ChooseWinnersDialogFragment
 }

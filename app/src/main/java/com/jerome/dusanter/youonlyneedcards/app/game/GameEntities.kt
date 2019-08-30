@@ -1,5 +1,6 @@
 package com.jerome.dusanter.youonlyneedcards.app.game
 
+import com.jerome.dusanter.youonlyneedcards.app.game.choosewinners.PotUiModel
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.CustomStack
 
@@ -41,12 +42,6 @@ data class PlayerUiModel(
     val id: String,
     val name: String,
     var isWinner: Boolean = false
-)
-
-data class PotUiModel(
-    val potentialWinnerList: List<PlayerUiModel>,
-    val stack: Int,
-    var stackForEachPlayer: Int = 0
 )
 
 data class PlayerEndTurnUiModel(

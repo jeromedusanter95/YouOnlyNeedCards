@@ -2,6 +2,7 @@ package com.jerome.dusanter.youonlyneedcards.app.game
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import com.jerome.dusanter.youonlyneedcards.app.game.choosewinners.PotUiModel
 import com.jerome.dusanter.youonlyneedcards.app.game.playerprofile.PlayerProfileMapper
 import com.jerome.dusanter.youonlyneedcards.app.game.playerprofile.PlayerProfileUiModel
 import com.jerome.dusanter.youonlyneedcards.core.*
