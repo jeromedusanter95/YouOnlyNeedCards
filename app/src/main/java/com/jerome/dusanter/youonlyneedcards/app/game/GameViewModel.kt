@@ -2,7 +2,7 @@ package com.jerome.dusanter.youonlyneedcards.app.game
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.jerome.dusanter.youonlyneedcards.app.game.choosewinners.PotUiModel
+import com.jerome.dusanter.youonlyneedcards.app.game.choosewinners.PotChooseWinners
 import com.jerome.dusanter.youonlyneedcards.app.game.playerprofile.PlayerProfileMapper
 import com.jerome.dusanter.youonlyneedcards.app.game.playerprofile.PlayerProfileUiModel
 import com.jerome.dusanter.youonlyneedcards.core.*
@@ -264,8 +264,8 @@ class GameViewModel @Inject internal constructor(
             }
         }
 
-    fun onDistributeStack(potUiModel: PotUiModel) {
-        distributeStackInteractor.execute(gameMapper.map(potUiModel), buildDistributeStackListener())
+    fun onDistributeStack(potChooseWinners: PotChooseWinners) {
+        distributeStackInteractor.execute(gameMapper.map(potChooseWinners), buildDistributeStackListener())
     }
 
     fun onDistributeStack(winnerList: List<Winner>) {

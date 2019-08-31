@@ -1,6 +1,6 @@
 package com.jerome.dusanter.youonlyneedcards.app.game
 
-import com.jerome.dusanter.youonlyneedcards.app.game.choosewinners.PotUiModel
+import com.jerome.dusanter.youonlyneedcards.app.game.choosewinners.PotChooseWinners
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.CustomStack
 
@@ -15,7 +15,7 @@ sealed class GameUiModel {
     ) : GameUiModel()
 
     data class ShowChooseWinnersDialog(
-        val potList: List<PotUiModel>
+        val potList: List<PotChooseWinners>
     ) : GameUiModel()
 
     data class ShowEndTurnDialog(
@@ -37,12 +37,6 @@ sealed class GameUiModel {
         val playerCustomStackList: List<PlayerCustomStackUiModel>
     ) : GameUiModel()
 }
-
-data class PlayerUiModel(
-    val id: String,
-    val name: String,
-    var isWinner: Boolean = false
-)
 
 data class PlayerEndTurnUiModel(
     val description: String

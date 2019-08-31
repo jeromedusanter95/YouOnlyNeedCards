@@ -2,6 +2,8 @@ package com.jerome.dusanter.youonlyneedcards.app.game
 
 import android.content.Context
 import com.jerome.dusanter.youonlyneedcards.R
+import com.jerome.dusanter.youonlyneedcards.app.game.choosewinners.PlayerChooseWinners
+import com.jerome.dusanter.youonlyneedcards.app.game.choosewinners.PotChooseWinners
 import com.jerome.dusanter.youonlyneedcards.core.*
 import javax.inject.Inject
 
@@ -35,8 +37,8 @@ class GameMapper @Inject internal constructor(
 
     fun map(potList: List<Pot>): GameUiModel.ShowChooseWinnersDialog {
         return GameUiModel.ShowChooseWinnersDialog(potList.map { pot ->
-            PotUiModel(pot.potentialWinners.map { player ->
-                PlayerUiModel(player.id, player.name)
+            PotChooseWinners(pot.potentialWinners.map { player ->
+                PlayerChooseWinners(player.id, player.name)
             }, pot.stack)
         })
     }
@@ -66,9 +68,9 @@ class GameMapper @Inject internal constructor(
         )
     }
 
-    fun map(potUiModel: PotUiModel): List<Winner> {
-        return potUiModel.potentialWinnerList.map {
-            Winner(it.id, potUiModel.stack)
+    fun map(potChooseWinners: PotChooseWinners): List<Winner> {
+        return potChooseWinners.potentialWinnerList.map {
+            Winner(it.id, potChooseWinners.stack)
         }
     }
 

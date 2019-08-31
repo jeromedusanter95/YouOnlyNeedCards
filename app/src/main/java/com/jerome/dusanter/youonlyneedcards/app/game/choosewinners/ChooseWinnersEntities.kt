@@ -1,17 +1,22 @@
 package com.jerome.dusanter.youonlyneedcards.app.game.choosewinners
 
-import com.jerome.dusanter.youonlyneedcards.app.game.PlayerUiModel
 import com.jerome.dusanter.youonlyneedcards.core.Winner
 
-data class PotUiModel(
-    val potentialWinnerList: List<PlayerUiModel>,
+data class PotChooseWinners(
+    val potentialWinnerList: List<PlayerChooseWinners>,
     val stack: Int,
     var stackForEachPlayer: Int = 0
 )
 
+data class PlayerChooseWinners(
+    val id: String,
+    val name: String,
+    var isWinner: Boolean = false
+)
+
 sealed class ChooseWinnersUiModel {
     data class NextPot(
-        val currentPot: PotUiModel,
+        val currentPot: PotChooseWinners,
         val isImageButtonCheck: Boolean
     ) : ChooseWinnersUiModel()
 
@@ -20,4 +25,8 @@ sealed class ChooseWinnersUiModel {
     ) : ChooseWinnersUiModel()
 
     object Error : ChooseWinnersUiModel()
+
+    data class RefreshList(
+        val potChooseWinners: PotChooseWinners
+    ) : ChooseWinnersUiModel()
 }

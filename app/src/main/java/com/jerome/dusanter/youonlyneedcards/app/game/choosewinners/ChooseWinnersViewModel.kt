@@ -2,6 +2,7 @@ package com.jerome.dusanter.youonlyneedcards.app.game.choosewinners
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import com.jerome.dusanter.youonlyneedcards.core.Winner
 import javax.inject.Inject
 
 class ChooseWinnersViewModel @Inject internal constructor(
@@ -9,28 +10,43 @@ class ChooseWinnersViewModel @Inject internal constructor(
 ) : ViewModel() {
 
     val state = MutableLiveData<ChooseWinnersUiModel>()
+    private var potList = mutableListOf<PotChooseWinners>()
+    private var winnerList = mutableListOf<Winner>()
+    private var currentIndex = 0
 
-    private var potList = mutableListOf<PotUiModel>()
-
-    fun onStart(potList: MutableList<PotUiModel>) {
-        this.potList = potList
+    fun onStartDialog(potList: List<PotChooseWinners>) {
+        this.potList = potList.toMutableList()
+        updateView(potList)
     }
 
-    fun onChoosePlayer(pot: PotUiModel) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+    fun onChoosePlayer(pot: PotChooseWinners) {
+        state.value = ChooseWinnersUiModel.RefreshList(pot)
     }
 
     fun onClickImageButton() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (currentIndex == potList.lastIndex) {
+            onCheck()
+        } else {
+            onNextPot()
+        }
     }
 
-    fun onNextPot() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    private fun onCheck() {
+        winnerList.addAll(mapper.mapToWinnersList(potList[currentIndex]))
+        state.value = ChooseWinnersUiModel.Check(winnerList)
     }
 
-    fun onCheck() {
-        
+    private fun onNextPot() {
+        winnerList.addAll(mapper.mapToWinnersList(potList[currentIndex]))
+        currentIndex++
+        updateView(potList)
     }
 
-
+    private fun updateView(potList: List<PotChooseWinners>) {
+        state.value = ChooseWinnersUiModel.NextPot(
+            currentPot = potList[currentIndex],
+            isImageButtonCheck = currentIndex == potList.lastIndex
+        )
+    }
 }

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jerome.dusanter.youonlyneedcards.R
-import com.jerome.dusanter.youonlyneedcards.app.game.PlayerUiModel
 import kotlinx.android.synthetic.main.item_recycler_view_dialog_choose_winners.view.*
 
 class ChooseWinnersAdapter(
@@ -14,7 +13,11 @@ class ChooseWinnersAdapter(
     private val listener: Listener
 ) : RecyclerView.Adapter<ChooseWinnersViewHolder>() {
 
-    lateinit var pot: PotUiModel
+    var pot: PotChooseWinners = PotChooseWinners(
+        listOf(),
+        0,
+        0
+    )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChooseWinnersViewHolder {
         return ChooseWinnersViewHolder(
@@ -26,14 +29,16 @@ class ChooseWinnersAdapter(
         )
     }
 
-    override fun getItemCount(): Int = if (pot.potentialWinnerList.isNotEmpty()) pot.potentialWinnerList.size else 0
+    override fun getItemCount(): Int =
+        if (pot.potentialWinnerList.isNotEmpty()) pot.potentialWinnerList.size else 0
 
     override fun onBindViewHolder(holderChooseWinners: ChooseWinnersViewHolder, position: Int) {
         holderChooseWinners.bind(pot.potentialWinnerList[position], pot.stackForEachPlayer)
-        holderChooseWinners.itemView.checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
+        holderChooseWinners.itemView.checkbox.setOnCheckedChangeListener { _, isChecked ->
             pot.potentialWinnerList[position].isWinner = isChecked
             if (pot.potentialWinnerList.any { it.isWinner }) {
-                pot.stackForEachPlayer = pot.stack / pot.potentialWinnerList.filter { it.isWinner }.size
+                pot.stackForEachPlayer =
+                    pot.stack / pot.potentialWinnerList.filter { it.isWinner }.size
             } else {
                 pot.stackForEachPlayer = 0
             }
@@ -41,18 +46,18 @@ class ChooseWinnersAdapter(
         }
     }
 
-    fun refresh(currentPot: PotUiModel) {
+    fun refresh(currentPot: PotChooseWinners) {
         pot = currentPot
         notifyDataSetChanged()
     }
 
     interface Listener {
-        fun onChecked(pot: PotUiModel)
+        fun onChecked(pot: PotChooseWinners)
     }
 }
 
 class ChooseWinnersViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    fun bind(player: PlayerUiModel, stackEachPlayer: Int) {
+    fun bind(player: PlayerChooseWinners, stackEachPlayer: Int) {
         itemView.textViewName.text = player.name
         if (player.isWinner) {
             itemView.textViewStack.text = itemView.context.getString(

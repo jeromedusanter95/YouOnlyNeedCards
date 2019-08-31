@@ -22,7 +22,6 @@ import kotlinx.android.synthetic.main.dialog_choose_winners.*
 import java.io.Serializable
 import javax.inject.Inject
 
-
 class ChooseWinnersDialogFragment : DialogFragment() {
 
     @Inject
@@ -57,6 +56,7 @@ class ChooseWinnersDialogFragment : DialogFragment() {
         setupListeners()
         setupLiveDatas()
         setupRecycler()
+        setupView()
         dialog.setCanceledOnTouchOutside(false)
     }
 
@@ -64,8 +64,6 @@ class ChooseWinnersDialogFragment : DialogFragment() {
         super.onStart()
         dialog.window?.setLayout(WRAP_CONTENT, WRAP_CONTENT)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        val potList = arguments?.get(EXTRA_POT_LIST) as MutableList<PotUiModel>
-        viewModel.onStart(potList)
     }
 
     private fun setupListeners() {
@@ -83,9 +81,21 @@ class ChooseWinnersDialogFragment : DialogFragment() {
                         is ChooseWinnersUiModel.Check -> dismissView(uiModel)
                         is ChooseWinnersUiModel.NextPot -> updateView(uiModel)
                         is ChooseWinnersUiModel.Error -> showError()
+                        is ChooseWinnersUiModel.RefreshList -> refreshRecyclerView(uiModel.potChooseWinners)
                     }
                 }
             })
+    }
+
+    private fun setupRecycler() {
+        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
+        adapter = ChooseWinnersAdapter(context, buildChooseWinnersAdapterListener())
+        recyclerView.adapter = adapter
+    }
+
+    private fun setupView() {
+        val potList = arguments?.get(EXTRA_POT_LIST) as MutableList<PotChooseWinners>
+        viewModel.onStartDialog(potList)
     }
 
     private fun dismissView(uiModel: ChooseWinnersUiModel.Check) {
@@ -106,20 +116,15 @@ class ChooseWinnersDialogFragment : DialogFragment() {
         textViewError.visibility = View.VISIBLE
     }
 
-    private fun setupRecycler() {
-        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
-        adapter = ChooseWinnersAdapter(context, buildChooseWinnersAdapterListener())
-        recyclerView.adapter = adapter
-    }
 
     private fun buildChooseWinnersAdapterListener(): ChooseWinnersAdapter.Listener =
         object : ChooseWinnersAdapter.Listener {
-            override fun onChecked(pot: PotUiModel) {
+            override fun onChecked(pot: PotChooseWinners) {
                 viewModel.onChoosePlayer(pot)
             }
         }
 
-    private fun refreshRecyclerView(currentPot: PotUiModel) {
+    private fun refreshRecyclerView(currentPot: PotChooseWinners) {
         adapter.refresh(currentPot)
     }
 
@@ -132,7 +137,8 @@ class ChooseWinnersDialogFragment : DialogFragment() {
     }
 
     private fun setupTextViewResult(currentPotStack: Int) {
-        textViewResult.text = getString(R.string.game_activity_choose_winners_current_pot_stack, currentPotStack)
+        textViewResult.text =
+            getString(R.string.game_activity_choose_winners_current_pot_stack, currentPotStack)
     }
 
     companion object {
