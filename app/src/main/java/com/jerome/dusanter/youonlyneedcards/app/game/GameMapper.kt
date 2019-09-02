@@ -36,11 +36,15 @@ class GameMapper @Inject internal constructor(
     }
 
     fun map(potList: List<Pot>): GameUiModel.ShowChooseWinnersDialog {
-        return GameUiModel.ShowChooseWinnersDialog(potList.map { pot ->
+        val potListChooseWinners = potList.map { pot ->
             PotChooseWinners(pot.potentialWinners.map { player ->
                 PlayerChooseWinners(player.id, player.name)
             }, pot.stack)
-        })
+        }
+        return GameUiModel.ShowChooseWinnersDialog(
+            potList = potListChooseWinners,
+            shouldShowChooseWinnersDialog = potListChooseWinners[0].potentialWinnerList.size > 1
+        )
     }
 
     fun map(playerEndTurnList: List<PlayerEndTurn>): GameUiModel.ShowEndTurnDialog {
@@ -66,12 +70,6 @@ class GameMapper @Inject internal constructor(
                 )
             }
         )
-    }
-
-    fun map(potChooseWinners: PotChooseWinners): List<Winner> {
-        return potChooseWinners.potentialWinnerList.map {
-            Winner(it.id, potChooseWinners.stack)
-        }
     }
 
     fun map(

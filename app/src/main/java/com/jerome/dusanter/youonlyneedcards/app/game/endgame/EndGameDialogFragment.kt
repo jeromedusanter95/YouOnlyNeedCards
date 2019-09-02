@@ -12,14 +12,15 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import com.jerome.dusanter.youonlyneedcards.R
-import com.jerome.dusanter.youonlyneedcards.app.game.GameActivity
 import com.jerome.dusanter.youonlyneedcards.app.game.GameUiModel
 import com.jerome.dusanter.youonlyneedcards.app.game.PlayerEndGameUiModel
 import kotlinx.android.synthetic.main.dialog_end_turn.*
 import java.io.Serializable
 
 
-class EndGameDialog : DialogFragment() {
+class EndGameDialogFragment : DialogFragment() {
+
+    private var listener: Listener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +34,7 @@ class EndGameDialog : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        listener = arguments?.get(EXTRA_END_GAME_DIALOG_LISTENER) as Listener
         setupRecycler(
             view.context,
             arguments?.get(EXTRA_PLAYER_END_GAME_LIST) as MutableList<PlayerEndGameUiModel>
@@ -55,7 +57,7 @@ class EndGameDialog : DialogFragment() {
     private fun setupListeners() {
         imageButtonCheck.setOnClickListener {
             dismiss()
-            (activity as GameActivity).onDismissEndGameDialog()
+            listener?.onDismissEndGameDialogFragment()
         }
     }
 
@@ -68,16 +70,22 @@ class EndGameDialog : DialogFragment() {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
 
+    interface Listener : Serializable {
+        fun onDismissEndGameDialogFragment()
+    }
+
     companion object {
         private const val EXTRA_PLAYER_END_GAME_LIST = "EXTRA_PLAYER_END_GAME_LIST"
+        private const val EXTRA_END_GAME_DIALOG_LISTENER = "EXTRA_END_GAME_DIALOG_LISTENER"
 
-        fun newInstance(uiModel: GameUiModel.ShowEndGameDialog): EndGameDialog {
+        fun newInstance(uiModel: GameUiModel.ShowEndGameDialog, listener: Listener): EndGameDialogFragment {
             val args = Bundle()
             args.putSerializable(
                 EXTRA_PLAYER_END_GAME_LIST,
                 uiModel.playerEndGameList as Serializable
             )
-            val dialog = EndGameDialog()
+            args.putSerializable(EXTRA_END_GAME_DIALOG_LISTENER, listener)
+            val dialog = EndGameDialogFragment()
             dialog.arguments = args
             return dialog
         }

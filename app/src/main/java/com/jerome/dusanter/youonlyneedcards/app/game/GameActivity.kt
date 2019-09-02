@@ -9,12 +9,14 @@ import android.os.CountDownTimer
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.jerome.dusanter.youonlyneedcards.R
+import com.jerome.dusanter.youonlyneedcards.app.Keys
 import com.jerome.dusanter.youonlyneedcards.app.game.choosewinners.ChooseWinnersDialogFragment
-import com.jerome.dusanter.youonlyneedcards.app.game.customstack.CustomStackDialog
-import com.jerome.dusanter.youonlyneedcards.app.game.endgame.ConfirmationEndGameDialog
-import com.jerome.dusanter.youonlyneedcards.app.game.endgame.EndGameDialog
-import com.jerome.dusanter.youonlyneedcards.app.game.endturn.EndTurnDialog
+import com.jerome.dusanter.youonlyneedcards.app.game.customstack.CustomStackDialogFragment
+import com.jerome.dusanter.youonlyneedcards.app.game.endgame.ConfirmationEndGameDialogFragment
+import com.jerome.dusanter.youonlyneedcards.app.game.endgame.EndGameDialogFragment
+import com.jerome.dusanter.youonlyneedcards.app.game.endturn.EndTurnDialogFragment
 import com.jerome.dusanter.youonlyneedcards.app.game.raise.RaiseDialogFragment
+import com.jerome.dusanter.youonlyneedcards.app.game.raise.RaiseUiModel
 import com.jerome.dusanter.youonlyneedcards.app.welcome.WelcomeActivity
 import com.jerome.dusanter.youonlyneedcards.core.ActionPlayer
 import com.jerome.dusanter.youonlyneedcards.core.Winner
@@ -24,13 +26,18 @@ import kotlinx.android.synthetic.main.layout_profil_player_view.view.*
 import javax.inject.Inject
 
 
-class GameActivity : AppCompatActivity() {
+class GameActivity : AppCompatActivity(),
+    RaiseDialogFragment.Listener,
+    CustomStackDialogFragment.Listener,
+    ChooseWinnersDialogFragment.Listener,
+    EndTurnDialogFragment.Listener,
+    ConfirmationEndGameDialogFragment.Listener,
+    EndGameDialogFragment.Listener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: GameViewModel
-    private var timeRemainingBeforeIncreaseBlinds = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -39,8 +46,136 @@ class GameActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
         setupListeners()
         setupLiveDatas()
-        if (intent.getBooleanExtra("fromWelcome", false)) {
-            viewModel.onStartTurn()
+    }
+
+    private fun setupListeners() {
+        playerProfilView1.imageButtonCheck.setOnClickListener {
+            if (!playerProfilView1.getName().isBlank()) {
+                viewModel.onClickImageButtonCheckProfilePlayerView(
+                    "1",
+                    playerProfilView1.getName()
+                )
+            }
+        }
+        playerProfilView2.imageButtonCheck.setOnClickListener {
+            if (!playerProfilView2.getName().isBlank()) {
+                viewModel.onClickImageButtonCheckProfilePlayerView(
+                    "2",
+                    playerProfilView2.getName()
+                )
+            }
+        }
+        playerProfilView3.imageButtonCheck.setOnClickListener {
+            if (!playerProfilView3.getName().isBlank()) {
+                viewModel.onClickImageButtonCheckProfilePlayerView(
+                    "3",
+                    playerProfilView3.getName()
+                )
+            }
+        }
+        playerProfilView4.imageButtonCheck.setOnClickListener {
+            if (!playerProfilView4.getName().isBlank()) {
+                viewModel.onClickImageButtonCheckProfilePlayerView(
+                    "4",
+                    playerProfilView4.getName()
+                )
+            }
+        }
+        playerProfilView5.imageButtonCheck.setOnClickListener {
+            if (!playerProfilView5.getName().isBlank()) {
+                viewModel.onClickImageButtonCheckProfilePlayerView(
+                    "5",
+                    playerProfilView5.getName()
+                )
+            }
+        }
+
+        playerProfilView6.imageButtonCheck.setOnClickListener {
+            if (!playerProfilView6.getName().isBlank()) {
+                viewModel.onClickImageButtonCheckProfilePlayerView(
+                    "6",
+                    playerProfilView6.getName()
+                )
+            }
+        }
+
+        playerProfilView7.imageButtonCheck.setOnClickListener {
+            if (!playerProfilView7.getName().isBlank()) {
+                viewModel.onClickImageButtonCheckProfilePlayerView(
+                    "7",
+                    playerProfilView7.getName()
+                )
+            }
+        }
+
+        playerProfilView8.imageButtonCheck.setOnClickListener {
+            if (!playerProfilView8.getName().isBlank()) {
+                viewModel.onClickImageButtonCheckProfilePlayerView(
+                    "8",
+                    playerProfilView8.getName()
+                )
+            }
+        }
+
+        playerProfilView1.constraintLayoutRebuyPlayer.setOnClickListener {
+            viewModel.onClickRebuyLayoutProfilePlayerView("1")
+        }
+
+        playerProfilView2.constraintLayoutRebuyPlayer.setOnClickListener {
+            viewModel.onClickRebuyLayoutProfilePlayerView("2")
+        }
+
+        playerProfilView3.constraintLayoutRebuyPlayer.setOnClickListener {
+            viewModel.onClickRebuyLayoutProfilePlayerView("3")
+        }
+
+        playerProfilView4.constraintLayoutRebuyPlayer.setOnClickListener {
+            viewModel.onClickRebuyLayoutProfilePlayerView("4")
+        }
+
+        playerProfilView5.constraintLayoutRebuyPlayer.setOnClickListener {
+            viewModel.onClickRebuyLayoutProfilePlayerView("5")
+        }
+
+        playerProfilView6.constraintLayoutRebuyPlayer.setOnClickListener {
+            viewModel.onClickRebuyLayoutProfilePlayerView("6")
+        }
+
+        playerProfilView7.constraintLayoutRebuyPlayer.setOnClickListener {
+            viewModel.onClickRebuyLayoutProfilePlayerView("7")
+        }
+
+        playerProfilView8.constraintLayoutRebuyPlayer.setOnClickListener {
+            viewModel.onClickRebuyLayoutProfilePlayerView("8")
+        }
+
+        buttonStartGame.setOnClickListener {
+            textViewErrorNotEnoughtPlayer.visibility = View.GONE
+            viewModel.onClickButtonStartGame()
+        }
+
+        buttonLeft.setOnClickListener {
+            viewModel.onClickButtonLeft()
+        }
+
+        buttonMiddle.setOnClickListener {
+            viewModel.onClickButtonMiddle()
+        }
+
+        buttonRight.setOnClickListener {
+            viewModel.onClickButtonRight()
+        }
+
+        buttonStartTurn.setOnClickListener {
+            viewModel.onClickButtonStartTurn()
+        }
+
+        buttonEndGame.setOnClickListener {
+            showConfirmationEndGameDialogFragment()
+        }
+
+        buttonCustomStack.setOnClickListener {
+            viewModel.onClickButtonCustomStack()
         }
     }
 
@@ -130,50 +265,102 @@ class GameActivity : AppCompatActivity() {
             Observer { gameUiModel ->
                 if (gameUiModel != null) {
                     when (gameUiModel) {
-                        is GameUiModel.ShowChooseWinnersDialog -> updateTableChooseWinners(
+                        is GameUiModel.ShowChooseWinnersDialog -> updateViewBetweenTurn(
                             gameUiModel
                         )
-                        is GameUiModel.ShowCurrentTurn -> updateTableCurrentTurn(gameUiModel)
-                        is GameUiModel.ShowEndTurnDialog -> showDialogEndTurn(gameUiModel)
-                        is GameUiModel.ShowEndGameDialog -> showDialogEndGame(gameUiModel)
+                        is GameUiModel.ShowCurrentTurn -> updateViewDuringTurn(gameUiModel)
+                        is GameUiModel.ShowEndTurnDialog -> showEndTurnDialogFragment(gameUiModel)
+                        is GameUiModel.ShowEndGameDialog -> showEndGameDialogFragment(gameUiModel)
                         is GameUiModel.ShowErrorNotEnoughtPlayer -> showErrorNotEnoughPlayer()
-                        is GameUiModel.ShowRaiseDialog -> showDialogRaise(
+                        is GameUiModel.ShowRaiseDialog -> showRaiseDialogFragment(
                             gameUiModel.bigBlind,
                             gameUiModel.stackPlayer
                         )
-                        is GameUiModel.ShowCustomStackDialog -> showDialogCustomStack(gameUiModel)
+                        is GameUiModel.ShowCustomStackDialog -> showCustomStackDialogFragment(
+                            gameUiModel
+                        )
                     }
                 }
             }
         )
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.onStart(intent.getBooleanExtra(Keys.RESUME_GAME, false))
+    }
+
     private fun showErrorNotEnoughPlayer() {
         textViewErrorNotEnoughtPlayer.visibility = View.VISIBLE
     }
 
-    private fun showDialogEndGame(gameDialogUiModel: GameUiModel.ShowEndGameDialog) {
-        EndGameDialog.newInstance(gameDialogUiModel).show(supportFragmentManager, "EndGameDialog")
+    private fun showRaiseDialogFragment(bigBlind: Int, stackPlayer: Int) {
+        RaiseDialogFragment
+            .newInstance(bigBlind, stackPlayer, this)
+            .show(supportFragmentManager, "RaiseDialogFragment")
     }
 
-    private fun showDialogEndTurn(gameUiModel: GameUiModel.ShowEndTurnDialog) {
-        EndTurnDialog.newInstance(gameUiModel).show(supportFragmentManager, "EndTurnDialog")
-        viewModel.saveGame(timeRemainingBeforeIncreaseBlinds.toLong())
+    private fun showCustomStackDialogFragment(gameUiModel: GameUiModel.ShowCustomStackDialog) {
+        CustomStackDialogFragment
+            .newInstance(gameUiModel, this)
+            .show(supportFragmentManager, "CustomStackDialogFragment")
     }
 
-    private fun showDialogRaise(bigBlind: Int, stackPlayer: Int) {
-        RaiseDialogFragment.newInstance(bigBlind, stackPlayer).show(supportFragmentManager, "GameActivity")
+    private fun showChooseWinnersDialogFragment(gameUiModel: GameUiModel.ShowChooseWinnersDialog) {
+        ChooseWinnersDialogFragment
+            .newInstance(gameUiModel, this)
+            .show(supportFragmentManager, "ChooseWinnersDialogFragment")
     }
 
-    fun onDismissRaiseDialog(isAllin: Boolean, stackRaised: Int) {
-        if (isAllin) {
-            viewModel.play(ActionPlayer.AllIn.name, stackRaised)
+    private fun showEndTurnDialogFragment(gameUiModel: GameUiModel.ShowEndTurnDialog) {
+        EndTurnDialogFragment
+            .newInstance(gameUiModel, this)
+            .show(supportFragmentManager, "EndTurnDialogFragment")
+        viewModel.onShowDialogEndTurn()
+    }
+
+    private fun showConfirmationEndGameDialogFragment() {
+        ConfirmationEndGameDialogFragment
+            .newInstance(this)
+            .show(supportFragmentManager, "ConfirmationEndGameDialogFragment")
+    }
+
+    private fun showEndGameDialogFragment(gameDialogUiModel: GameUiModel.ShowEndGameDialog) {
+        EndGameDialogFragment
+            .newInstance(gameDialogUiModel, this)
+            .show(supportFragmentManager, "EndGameDialogFragment")
+    }
+
+    override fun onDismissRaiseDialogFragment(uiModel: RaiseUiModel.Check) {
+        if (uiModel.isAllin) {
+            viewModel.onDismissRaiseDialog(ActionPlayer.AllIn, uiModel.stackRaised)
         } else {
-            viewModel.play(ActionPlayer.Raise.name, stackRaised)
+            viewModel.onDismissRaiseDialog(ActionPlayer.Raise, uiModel.stackRaised)
         }
     }
 
-    private fun updateTableCurrentTurn(gameUiModel: GameUiModel.ShowCurrentTurn) {
+    override fun onDismissCustomStackDialogFragment(playerList: List<PlayerCustomStackUiModel>) {
+        viewModel.onDismissCustomStackDialog(playerList)
+    }
+
+    override fun onDismissChooseWinnersDialogFragment(winnerList: List<Winner>) {
+        viewModel.onDismissChooseWinnersDialog(winnerList)
+    }
+
+    override fun onDismissEndTurnDialogFragment() {
+        viewModel.onDismissEndTurnDialog()
+    }
+
+    override fun onDismissConfirmationEndGameDialogFragment() {
+        viewModel.onDismissConfirmationEndGameDialog()
+    }
+
+    override fun onDismissEndGameDialogFragment() {
+        viewModel.onDismissEndGameDialog()
+        goBackToWelcomeActivity()
+    }
+
+    private fun updateViewDuringTurn(gameUiModel: GameUiModel.ShowCurrentTurn) {
         buttonStartGame.visibility = View.GONE
         groupBottomButtonsBetweenTurn.visibility = View.GONE
         groupBottomButtonsDuringTurn.visibility = View.VISIBLE
@@ -195,10 +382,22 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateViewBetweenTurn(gameUiModel: GameUiModel.ShowChooseWinnersDialog) {
+        groupBottomButtonsBetweenTurn.visibility = View.VISIBLE
+        groupBottomButtonsDuringTurn.visibility = View.GONE
+        buttonRight.visibility = View.GONE
+        groupTextViewsDuringTurn.visibility = View.GONE
+        if (gameUiModel.shouldShowChooseWinnersDialog) {
+            showChooseWinnersDialogFragment(gameUiModel)
+        } else {
+            viewModel.notShowChooseWinnersDialog(gameUiModel.potList[0])
+        }
+    }
+
     private fun startTimer(durationInMillis: Long) {
         object : CountDownTimer(durationInMillis, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                timeRemainingBeforeIncreaseBlinds = millisUntilFinished.toInt()
+                viewModel.onTimerTick(millisUntilFinished)
                 val second = millisUntilFinished / 1000 % 60
                 val minute = millisUntilFinished / (1000 * 60) % 60
                 val hour = millisUntilFinished / (1000 * 60 * 60) % 24
@@ -211,155 +410,9 @@ class GameActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
-                viewModel.increaseBlinds()
+                viewModel.onTimerFinish()
             }
         }.start()
-    }
-
-    private fun updateTableChooseWinners(gameUiModel: GameUiModel.ShowChooseWinnersDialog) {
-        if (gameUiModel.potList[0].potentialWinnerList.size > 1) {
-            ChooseWinnersDialogFragment.newInstance(gameUiModel)
-                .show(supportFragmentManager, "ChooseWinnersDialogFragment")
-        } else {
-            viewModel.onDistributeStack(gameUiModel.potList[0])
-        }
-        groupBottomButtonsBetweenTurn.visibility = View.VISIBLE
-        groupBottomButtonsDuringTurn.visibility = View.GONE
-        buttonRight.visibility = View.GONE
-        groupTextViewsDuringTurn.visibility = View.GONE
-    }
-
-    fun onDismissChooseWinnersDialog(winnerList: List<Winner>) {
-        viewModel.onDistributeStack(winnerList)
-    }
-
-    fun onDismissEndTurnDialog() {
-        viewModel.onCheckIfGameOver()
-    }
-
-    private fun setupListeners() {
-        playerProfilView1.imageButtonCheck.setOnClickListener {
-            if (!playerProfilView1.getName().isBlank()) {
-                viewModel.onAddPlayer("1", playerProfilView1.getName())
-            }
-        }
-        playerProfilView2.imageButtonCheck.setOnClickListener {
-            if (!playerProfilView2.getName().isBlank()) {
-                viewModel.onAddPlayer("2", playerProfilView2.getName())
-            }
-        }
-        playerProfilView3.imageButtonCheck.setOnClickListener {
-            if (!playerProfilView3.getName().isBlank()) {
-                viewModel.onAddPlayer("3", playerProfilView3.getName())
-            }
-        }
-        playerProfilView4.imageButtonCheck.setOnClickListener {
-            if (!playerProfilView4.getName().isBlank()) {
-                viewModel.onAddPlayer("4", playerProfilView4.getName())
-            }
-        }
-        playerProfilView5.imageButtonCheck.setOnClickListener {
-            if (!playerProfilView5.getName().isBlank()) {
-                viewModel.onAddPlayer("5", playerProfilView5.getName())
-            }
-        }
-
-        playerProfilView6.imageButtonCheck.setOnClickListener {
-            if (!playerProfilView6.getName().isBlank()) {
-                viewModel.onAddPlayer("6", playerProfilView6.getName())
-            }
-        }
-
-        playerProfilView7.imageButtonCheck.setOnClickListener {
-            if (!playerProfilView7.getName().isBlank()) {
-                viewModel.onAddPlayer("7", playerProfilView7.getName())
-            }
-        }
-
-        playerProfilView8.imageButtonCheck.setOnClickListener {
-            if (!playerProfilView8.getName().isBlank()) {
-                viewModel.onAddPlayer("8", playerProfilView8.getName())
-            }
-        }
-
-        playerProfilView1.constraintLayoutRebuyPlayer.setOnClickListener {
-            viewModel.onRebuyPlayer("1")
-        }
-
-        playerProfilView2.constraintLayoutRebuyPlayer.setOnClickListener {
-            viewModel.onRebuyPlayer("2")
-        }
-
-        playerProfilView3.constraintLayoutRebuyPlayer.setOnClickListener {
-            viewModel.onRebuyPlayer("3")
-        }
-
-        playerProfilView4.constraintLayoutRebuyPlayer.setOnClickListener {
-            viewModel.onRebuyPlayer("4")
-        }
-
-        playerProfilView5.constraintLayoutRebuyPlayer.setOnClickListener {
-            viewModel.onRebuyPlayer("5")
-        }
-
-        playerProfilView6.constraintLayoutRebuyPlayer.setOnClickListener {
-            viewModel.onRebuyPlayer("6")
-        }
-
-        playerProfilView7.constraintLayoutRebuyPlayer.setOnClickListener {
-            viewModel.onRebuyPlayer("7")
-        }
-
-        playerProfilView8.constraintLayoutRebuyPlayer.setOnClickListener {
-            viewModel.onRebuyPlayer("8")
-        }
-
-        buttonStartGame.setOnClickListener {
-            textViewErrorNotEnoughtPlayer.visibility = View.GONE
-            viewModel.onStartGame()
-        }
-
-        buttonLeft.setOnClickListener {
-            viewModel.onClickButtonLeft(buttonLeft.text.toString())
-        }
-
-        buttonMiddle.setOnClickListener {
-            viewModel.onClickButtonMiddle(buttonMiddle.text.toString())
-        }
-
-        buttonRight.setOnClickListener {
-            viewModel.onClickButtonRight(buttonRight.text.toString())
-        }
-
-        buttonStartTurn.setOnClickListener {
-            viewModel.onStartTurn()
-        }
-
-        buttonEndGame.setOnClickListener {
-            ConfirmationEndGameDialog.newInstance()
-                .show(supportFragmentManager, "ConfirmationEndGameDialog")
-        }
-
-        buttonCustomStack.setOnClickListener {
-            viewModel.onCustomStack()
-        }
-    }
-
-    private fun showDialogCustomStack(gameUiModel: GameUiModel.ShowCustomStackDialog) {
-        CustomStackDialog.newInstance(gameUiModel).show(supportFragmentManager, "CustomStackDialog")
-    }
-
-    fun onClickOnCheckInConfirmationEndGameDialog() {
-        viewModel.onEndGame()
-    }
-
-    override fun onBackPressed() {
-        // do nothing
-    }
-
-    fun onDismissEndGameDialog() {
-        viewModel.deleteGame()
-        goBackToWelcomeActivity()
     }
 
     private fun goBackToWelcomeActivity() {
@@ -368,7 +421,7 @@ class GameActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun onCheckCustomStackDialog(playerList: List<PlayerCustomStackUiModel>) {
-        viewModel.onAddOrWithdrawStack(playerList)
+    override fun onBackPressed() {
+        // do nothing
     }
 }

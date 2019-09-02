@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetPlayerListAndInitialStackInteractor @Inject internal constructor() {
 
     fun execute(listener: Listener) {
-        listener.onSuccess(Game.listPlayers)
+        listener.onSuccess(Game.playersList)
     }
 
     interface Listener {

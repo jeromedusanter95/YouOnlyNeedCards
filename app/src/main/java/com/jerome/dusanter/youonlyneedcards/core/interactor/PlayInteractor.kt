@@ -5,21 +5,21 @@ import javax.inject.Inject
 
 class PlayInteractor @Inject internal constructor() {
 
-    fun execute(request: PlayRequest, listener: Listener) {
+    fun execute(request: Request, listener: Listener) {
         when (request.actionPlayer) {
-            ActionPlayer.AllIn.name -> {
+            ActionPlayer.AllIn -> {
                 Game.allin()
             }
-            ActionPlayer.Call.name -> {
+            ActionPlayer.Call -> {
                 Game.call()
             }
-            ActionPlayer.Check.name -> {
+            ActionPlayer.Check -> {
                 Game.check()
             }
-            ActionPlayer.Fold.name -> {
+            ActionPlayer.Fold -> {
                 Game.fold()
             }
-            ActionPlayer.Raise.name -> {
+            ActionPlayer.Raise -> {
                 Game.raise(request.stackRaised)
             }
         }
@@ -28,12 +28,14 @@ class PlayInteractor @Inject internal constructor() {
                 val potList = Game.createAllPot()
                 Game.endTurn()
                 listener.getGameInformations(
-                    Game.getPossibleActions(),
-                    Game.listPlayers,
-                    Game.currentStackTurn,
-                    Game.currentStateTurn,
-                    true,
-                    potList
+                    Response(
+                        actionPlayerList = Game.getPossibleActions(),
+                        playerList = Game.playersList,
+                        stackTurn = Game.currentStackTurn,
+                        stateTurn = Game.currentStateTurn,
+                        isEndTurn = true,
+                        potList = potList
+                    )
                 )
             }
             Game.isPartTurnOver() -> {
@@ -44,37 +46,43 @@ class PlayInteractor @Inject internal constructor() {
                     Game.moveToFirstPlayerAvailableFromSmallBlind()
                 }
                 listener.getGameInformations(
-                    Game.getPossibleActions(),
-                    Game.listPlayers,
-                    Game.currentStackTurn,
-                    Game.currentStateTurn
+                    Response(
+                        actionPlayerList = Game.getPossibleActions(),
+                        playerList = Game.playersList,
+                        stackTurn = Game.currentStackTurn,
+                        stateTurn = Game.currentStateTurn
+                    )
                 )
             }
             else -> {
                 Game.moveToNextPlayerAvailable()
                 listener.getGameInformations(
-                    Game.getPossibleActions(),
-                    Game.listPlayers,
-                    Game.currentStackTurn,
-                    Game.currentStateTurn
+                    Response(
+                        actionPlayerList = Game.getPossibleActions(),
+                        playerList = Game.playersList,
+                        stackTurn = Game.currentStackTurn,
+                        stateTurn = Game.currentStateTurn
+                    )
                 )
             }
         }
     }
 
     interface Listener {
-        fun getGameInformations(
-            actionPlayerList: List<ActionPlayer>,
-            playerList: List<Player>,
-            stackTurn: Int,
-            stateTurn: StateTurn,
-            isEndTurn: Boolean = false,
-            potList: List<Pot> = listOf()
-        )
+        fun getGameInformations(response: Response)
     }
-}
 
-data class PlayRequest(
-    val actionPlayer: String,
-    val stackRaised: Int = 0
-)
+    data class Request(
+        val actionPlayer: ActionPlayer,
+        val stackRaised: Int = 0
+    )
+
+    data class Response(
+        val actionPlayerList: List<ActionPlayer>,
+        val playerList: List<Player>,
+        val stackTurn: Int,
+        val stateTurn: StateTurn,
+        val isEndTurn: Boolean = false,
+        val potList: List<Pot> = listOf()
+    )
+}

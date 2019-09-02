@@ -1,10 +1,10 @@
 package com.jerome.dusanter.youonlyneedcards.core.interactor
 
 import com.google.gson.Gson
-import com.jerome.dusanter.youonlyneedcards.core.SavedParams
-import com.jerome.dusanter.youonlyneedcards.core.Player
-import com.jerome.dusanter.youonlyneedcards.core.boundaries.PreferencesRepository
 import com.jerome.dusanter.youonlyneedcards.core.Game
+import com.jerome.dusanter.youonlyneedcards.core.Player
+import com.jerome.dusanter.youonlyneedcards.core.SavedParams
+import com.jerome.dusanter.youonlyneedcards.core.boundaries.PreferencesRepository
 import javax.inject.Inject
 
 class SaveGameInInteractor @Inject internal constructor(
@@ -16,7 +16,7 @@ class SaveGameInInteractor @Inject internal constructor(
 
     private fun mapToGame(timeRemainingBeforeIncreaseBlinds: Long): SavedParams {
         val arrayList = arrayListOf<Player>()
-        Game.listPlayers.forEach {
+        Game.playersList.forEach {
             arrayList.add(it)
         }
         return SavedParams(

@@ -15,8 +15,8 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import com.jerome.dusanter.youonlyneedcards.R
-import com.jerome.dusanter.youonlyneedcards.app.game.GameActivity
 import com.jerome.dusanter.youonlyneedcards.app.game.GameUiModel
+import com.jerome.dusanter.youonlyneedcards.core.Winner
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.dialog_choose_winners.*
 import java.io.Serializable
@@ -29,6 +29,7 @@ class ChooseWinnersDialogFragment : DialogFragment() {
 
     private lateinit var viewModel: ChooseWinnersViewModel
     private lateinit var adapter: ChooseWinnersAdapter
+    private var listener: Listener? = null
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
@@ -53,6 +54,7 @@ class ChooseWinnersDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        listener = arguments?.get(EXTRA_CHOOSE_WINNERS_DIALOG_LISTENER) as Listener
         setupListeners()
         setupLiveDatas()
         setupRecycler()
@@ -99,9 +101,7 @@ class ChooseWinnersDialogFragment : DialogFragment() {
     }
 
     private fun dismissView(uiModel: ChooseWinnersUiModel.Check) {
-        (activity as GameActivity).onDismissChooseWinnersDialog(
-            uiModel.winnerList
-        )
+        listener?.onDismissChooseWinnersDialogFragment(uiModel.winnerList)
         dismiss()
     }
 
@@ -141,12 +141,22 @@ class ChooseWinnersDialogFragment : DialogFragment() {
             getString(R.string.game_activity_choose_winners_current_pot_stack, currentPotStack)
     }
 
+    interface Listener : Serializable {
+        fun onDismissChooseWinnersDialogFragment(winnerList: List<Winner>)
+    }
+
     companion object {
         private const val EXTRA_POT_LIST = "EXTRA_POT_LIST"
+        private const val EXTRA_CHOOSE_WINNERS_DIALOG_LISTENER =
+            "EXTRA_CHOOSE_WINNERS_DIALOG_LISTENER"
 
-        fun newInstance(uiModel: GameUiModel.ShowChooseWinnersDialog): ChooseWinnersDialogFragment {
+        fun newInstance(
+            uiModel: GameUiModel.ShowChooseWinnersDialog,
+            listener: Listener
+        ): ChooseWinnersDialogFragment {
             val args = Bundle()
             args.putSerializable(EXTRA_POT_LIST, uiModel.potList as Serializable)
+            args.putSerializable(EXTRA_CHOOSE_WINNERS_DIALOG_LISTENER, listener)
             val dialog = ChooseWinnersDialogFragment()
             dialog.arguments = args
             return dialog

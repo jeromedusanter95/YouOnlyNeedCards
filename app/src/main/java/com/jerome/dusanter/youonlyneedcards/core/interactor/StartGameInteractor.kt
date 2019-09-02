@@ -7,16 +7,18 @@ import javax.inject.Inject
 
 class StartGameInteractor @Inject internal constructor() {
     fun execute(listener: Listener) {
-        if (Game.listPlayers.size > 1) {
+        if (Game.playersList.size > 1) {
             Game.initializeListWithGoodOrder()
             Game.initializeStateBlind()
             Game.initializeCurrentPlayerAfterBigBlind()
             listener.onSuccess(
-                Game.getPossibleActions(),
-                Game.listPlayers,
-                Game.currentStackTurn,
-                Game.isIncreaseBlindsEnabled(),
-                Game.settings.frequencyIncreasingBlind
+                Response(
+                    actionPlayerList = Game.getPossibleActions(),
+                    playerList = Game.playersList,
+                    stackTurn = Game.currentStackTurn,
+                    resetTimer = Game.isIncreaseBlindsEnabled(),
+                    durationBeforeIncreasingBlind = Game.settings.frequencyIncreasingBlind
+                )
             )
         } else {
             listener.onError()
@@ -24,16 +26,17 @@ class StartGameInteractor @Inject internal constructor() {
     }
 
     interface Listener {
-        fun onSuccess(
-            actionPlayerList: List<ActionPlayer>,
-            playerList: List<Player>,
-            stackTurn: Int,
-            resetTimer: Boolean,
-            durationBeforeIncreasingBlind: Long
-        )
-
+        fun onSuccess(response: Response)
         fun onError()
     }
+
+    data class Response(
+        val actionPlayerList: List<ActionPlayer>,
+        val playerList: List<Player>,
+        val stackTurn: Int,
+        val resetTimer: Boolean,
+        val durationBeforeIncreasingBlind: Long
+    )
 }
 
 

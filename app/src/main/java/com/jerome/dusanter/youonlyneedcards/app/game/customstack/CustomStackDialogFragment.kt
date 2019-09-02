@@ -12,14 +12,16 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import com.jerome.dusanter.youonlyneedcards.R
-import com.jerome.dusanter.youonlyneedcards.app.game.GameActivity
 import com.jerome.dusanter.youonlyneedcards.app.game.GameUiModel
 import com.jerome.dusanter.youonlyneedcards.app.game.PlayerCustomStackUiModel
 import kotlinx.android.synthetic.main.dialog_custom_stack.*
 import java.io.Serializable
 
 
-class CustomStackDialog : DialogFragment() {
+class CustomStackDialogFragment : DialogFragment() {
+
+    private var playerList = mutableListOf<PlayerCustomStackUiModel>()
+    private var listener: Listener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,11 +33,12 @@ class CustomStackDialog : DialogFragment() {
         false
     )
 
-    private var playerList = mutableListOf<PlayerCustomStackUiModel>()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        playerList = arguments?.get(EXTRA_PlAYER_CUSTOM_STACK_LIST) as MutableList<PlayerCustomStackUiModel>
+        playerList = arguments?.get(
+            EXTRA_PLAYER_CUSTOM_STACK_LIST
+        ) as MutableList<PlayerCustomStackUiModel>
+        listener = arguments?.get(EXTRA_CUSTOM_STACK_DIALOG_LISTENER) as Listener
         setupRecycler(view.context)
         setupListeners()
         dialog.setCanceledOnTouchOutside(false)
@@ -53,7 +56,7 @@ class CustomStackDialog : DialogFragment() {
     private fun setupListeners() {
         imageButtonCheck.setOnClickListener {
             dismiss()
-            (activity as GameActivity).onCheckCustomStackDialog(playerList)
+            listener?.onDismissCustomStackDialogFragment(playerList)
         }
 
         imageButtonClose.setOnClickListener {
@@ -67,16 +70,25 @@ class CustomStackDialog : DialogFragment() {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
 
-    companion object {
-        private const val EXTRA_PlAYER_CUSTOM_STACK_LIST = "EXTRA_PlAYER_CUSTOM_STACK_LIST"
+    interface Listener : Serializable {
+        fun onDismissCustomStackDialogFragment(playerList: List<PlayerCustomStackUiModel>)
+    }
 
-        fun newInstance(uiModel: GameUiModel.ShowCustomStackDialog): CustomStackDialog {
+    companion object {
+        private const val EXTRA_PLAYER_CUSTOM_STACK_LIST = "EXTRA_PLAYER_CUSTOM_STACK_LIST"
+        private const val EXTRA_CUSTOM_STACK_DIALOG_LISTENER = "EXTRA_CUSTOM_STACK_DIALOG_LISTENER"
+
+        fun newInstance(
+            uiModel: GameUiModel.ShowCustomStackDialog,
+            listener: Listener
+        ): CustomStackDialogFragment {
             val args = Bundle()
             args.putSerializable(
-                EXTRA_PlAYER_CUSTOM_STACK_LIST,
+                EXTRA_PLAYER_CUSTOM_STACK_LIST,
                 uiModel.playerCustomStackList as Serializable
             )
-            val dialog = CustomStackDialog()
+            args.putSerializable(EXTRA_CUSTOM_STACK_DIALOG_LISTENER, listener)
+            val dialog = CustomStackDialogFragment()
             dialog.arguments = args
             return dialog
         }

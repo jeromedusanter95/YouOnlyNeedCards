@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.jerome.dusanter.youonlyneedcards.R
+import com.jerome.dusanter.youonlyneedcards.app.Keys
 import com.jerome.dusanter.youonlyneedcards.app.game.GameActivity
 import com.jerome.dusanter.youonlyneedcards.app.settings.SettingsActivity
 import dagger.android.AndroidInjection
@@ -66,7 +67,7 @@ class WelcomeActivity : AppCompatActivity() {
 
     private fun goToGameActivity() {
         val intent = Intent(this, GameActivity::class.java)
-        intent.putExtra("fromWelcome", true)
+        intent.putExtra(Keys.RESUME_GAME, true)
         startActivity(intent)
     }
 }

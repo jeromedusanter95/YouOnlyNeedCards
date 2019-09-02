@@ -15,7 +15,7 @@ class AddOrWithdrawStackInteractor @Inject internal constructor(){
                 Game.withDrawMoneyToPlayerBetweenTurn(it)
             }
         }
-        listener.onSuccess(Game.listPlayers)
+        listener.onSuccess(Game.playersList)
     }
 
     interface Listener {

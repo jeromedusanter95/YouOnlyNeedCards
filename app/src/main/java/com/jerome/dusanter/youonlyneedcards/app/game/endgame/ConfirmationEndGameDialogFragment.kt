@@ -9,11 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import com.jerome.dusanter.youonlyneedcards.R
-import com.jerome.dusanter.youonlyneedcards.app.game.GameActivity
 import kotlinx.android.synthetic.main.dialog_confirmation_end_game.*
+import java.io.Serializable
 
 
-class ConfirmationEndGameDialog : DialogFragment() {
+class ConfirmationEndGameDialogFragment : DialogFragment() {
+
+    private var listener: Listener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,6 +29,7 @@ class ConfirmationEndGameDialog : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        listener = arguments?.get(EXTRA_CONFIRMATION_END_GAME_DIALOG_LISTENER) as Listener
         setupListeners()
     }
 
@@ -34,7 +37,7 @@ class ConfirmationEndGameDialog : DialogFragment() {
     private fun setupListeners() {
         imageButtonCheck.setOnClickListener {
             dismiss()
-            (activity as GameActivity).onClickOnCheckInConfirmationEndGameDialog()
+            listener?.onDismissConfirmationEndGameDialogFragment()
         }
 
         imageButtonClose.setOnClickListener {
@@ -44,17 +47,27 @@ class ConfirmationEndGameDialog : DialogFragment() {
 
     override fun onStart() {
         super.onStart()
-        dialog.window?.setLayout(
-            WRAP_CONTENT,
-            WRAP_CONTENT
-        )
+        dialog.window?.setLayout(WRAP_CONTENT, WRAP_CONTENT)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
 
-    companion object {
+    interface Listener : Serializable {
+        fun onDismissConfirmationEndGameDialogFragment()
+    }
 
-        fun newInstance(): ConfirmationEndGameDialog {
-            return ConfirmationEndGameDialog()
+    companion object {
+        private const val EXTRA_CONFIRMATION_END_GAME_DIALOG_LISTENER =
+            "EXTRA_CONFIRMATION_END_GAME_DIALOG_LISTENER"
+
+        fun newInstance(listener: Listener): ConfirmationEndGameDialogFragment {
+            val args = Bundle()
+            args.putSerializable(
+                EXTRA_CONFIRMATION_END_GAME_DIALOG_LISTENER,
+                listener
+            )
+            val dialog = ConfirmationEndGameDialogFragment()
+            dialog.arguments = args
+            return dialog
         }
     }
 }

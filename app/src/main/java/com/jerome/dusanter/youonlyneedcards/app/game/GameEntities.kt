@@ -15,7 +15,8 @@ sealed class GameUiModel {
     ) : GameUiModel()
 
     data class ShowChooseWinnersDialog(
-        val potList: List<PotChooseWinners>
+        val potList: List<PotChooseWinners>,
+        val shouldShowChooseWinnersDialog: Boolean
     ) : GameUiModel()
 
     data class ShowEndTurnDialog(

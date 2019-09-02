@@ -4,7 +4,7 @@ import com.jerome.dusanter.youonlyneedcards.utils.MutableCircularList
 
 object Game {
 
-    var listPlayers: MutableCircularList<Player> = MutableCircularList(mutableListOf())
+    var playersList: MutableCircularList<Player> = MutableCircularList(mutableListOf())
     lateinit var settings: Settings
     lateinit var currentPlayer: Player
     var currentStackTurn = 0
@@ -25,12 +25,12 @@ object Game {
             stateBlind = StateBlind.Nothing,
             actionPlayer = ActionPlayer.Nothing
         )
-        listPlayers.add(player)
+        playersList.add(player)
         return player
     }
 
     fun initializeListWithGoodOrder() {
-        listPlayers.sortWith(Comparator { player1, player2 ->
+        playersList.sortWith(Comparator { player1, player2 ->
             player1.id.toInt().compareTo(player2.id.toInt())
         })
     }
@@ -46,52 +46,52 @@ object Game {
     }
 
     fun getNumberPlayersNotEliminated(): Int {
-        return listPlayers.filter { it.statePlayer != StatePlayer.Eliminate }.size
+        return playersList.filter { it.statePlayer != StatePlayer.Eliminate }.size
     }
 
     private fun initializeStateBlindTwoPlayers() {
         val previousDealerIndex = getDealerIndex()
-        listPlayers[previousDealerIndex].stateBlind = StateBlind.BigBlind
+        playersList[previousDealerIndex].stateBlind = StateBlind.BigBlind
         val currentDealerIndex =
             getIndexNextPlayerNotEliminatedOrFolded(
                 previousDealerIndex + 1
             )
-        listPlayers[currentDealerIndex].stateBlind = StateBlind.Dealer
+        playersList[currentDealerIndex].stateBlind = StateBlind.Dealer
     }
 
     private fun initializeStateBlindThreePlayersOrMore() {
         val previousDealerIndex = getDealerIndex()
-        listPlayers[previousDealerIndex].stateBlind = StateBlind.Nothing
+        playersList[previousDealerIndex].stateBlind = StateBlind.Nothing
         val currentDealerIndex =
             getIndexNextPlayerNotEliminatedOrFolded(
                 previousDealerIndex + 1
             )
-        listPlayers[currentDealerIndex].stateBlind = StateBlind.Dealer
+        playersList[currentDealerIndex].stateBlind = StateBlind.Dealer
         val currentSmallBlindIndex =
             getIndexNextPlayerNotEliminatedOrFolded(
                 currentDealerIndex + 1
             )
-        listPlayers[currentSmallBlindIndex].stateBlind = StateBlind.SmallBlind
+        playersList[currentSmallBlindIndex].stateBlind = StateBlind.SmallBlind
         val currentBigBlindIndex =
             getIndexNextPlayerNotEliminatedOrFolded(
                 currentSmallBlindIndex + 1
             )
-        listPlayers[currentBigBlindIndex].stateBlind = StateBlind.BigBlind
+        playersList[currentBigBlindIndex].stateBlind = StateBlind.BigBlind
     }
 
     private fun getDealerIndex(): Int {
-        val dealerPlayer = listPlayers.find { it.stateBlind == StateBlind.Dealer }
+        val dealerPlayer = playersList.find { it.stateBlind == StateBlind.Dealer }
         return if (dealerPlayer != null) {
-            listPlayers.indexOf(dealerPlayer)
+            playersList.indexOf(dealerPlayer)
         } else {
             0
         }
     }
 
     private fun getIndexNextPlayerNotEliminatedOrFolded(startIndex: Int): Int {
-        for (i in 0..listPlayers.size) {
-            if (listPlayers[startIndex + i].statePlayer != StatePlayer.Eliminate
-                && listPlayers[startIndex + i].actionPlayer != ActionPlayer.Fold
+        for (i in 0..playersList.size) {
+            if (playersList[startIndex + i].statePlayer != StatePlayer.Eliminate
+                && playersList[startIndex + i].actionPlayer != ActionPlayer.Fold
             ) {
                 return startIndex + i
             }
@@ -100,10 +100,10 @@ object Game {
     }
 
     private fun getIndexNextPlayerNotEliminatedOrFoldedOrAllin(startIndex: Int): Int {
-        for (i in 0..listPlayers.size) {
-            if (listPlayers[startIndex + i].statePlayer != StatePlayer.Eliminate
-                && listPlayers[startIndex + i].actionPlayer != ActionPlayer.Fold
-                && listPlayers[startIndex + i].actionPlayer != ActionPlayer.AllIn
+        for (i in 0..playersList.size) {
+            if (playersList[startIndex + i].statePlayer != StatePlayer.Eliminate
+                && playersList[startIndex + i].actionPlayer != ActionPlayer.Fold
+                && playersList[startIndex + i].actionPlayer != ActionPlayer.AllIn
             ) {
                 return startIndex + i
             }
@@ -112,7 +112,7 @@ object Game {
     }
 
     private fun resetStateBlindForEliminatedPlayers() {
-        listPlayers.forEach {
+        playersList.forEach {
             if (it.statePlayer == StatePlayer.Eliminate) {
                 it.stateBlind = StateBlind.Nothing
             }
@@ -124,24 +124,24 @@ object Game {
         val smallBlindIndex = getSmallBlindIndex()
         val bigBlindIndex = getBigBlindIndex()
         if (getNumberPlayersNotEliminated() == 2) {
-            if (listPlayers[dealerIndex].stack < settings.smallBlind) {
+            if (playersList[dealerIndex].stack < settings.smallBlind) {
                 withDrawMoneyToPlayer(
                     dealerIndex,
-                    listPlayers[dealerIndex].stack
+                    playersList[dealerIndex].stack
                 )
-                listPlayers[dealerIndex].actionPlayer = ActionPlayer.AllIn
+                playersList[dealerIndex].actionPlayer = ActionPlayer.AllIn
             } else {
                 withDrawMoneyToPlayer(
                     dealerIndex,
                     settings.smallBlind
                 )
             }
-            if (listPlayers[bigBlindIndex].stack < settings.smallBlind * 2) {
+            if (playersList[bigBlindIndex].stack < settings.smallBlind * 2) {
                 withDrawMoneyToPlayer(
                     bigBlindIndex,
-                    listPlayers[bigBlindIndex].stack
+                    playersList[bigBlindIndex].stack
                 )
-                listPlayers[bigBlindIndex].actionPlayer = ActionPlayer.AllIn
+                playersList[bigBlindIndex].actionPlayer = ActionPlayer.AllIn
             } else {
                 withDrawMoneyToPlayer(
                     bigBlindIndex,
@@ -149,24 +149,24 @@ object Game {
                 )
             }
         } else {
-            if (listPlayers[smallBlindIndex].stack < settings.smallBlind) {
+            if (playersList[smallBlindIndex].stack < settings.smallBlind) {
                 withDrawMoneyToPlayer(
                     smallBlindIndex,
-                    listPlayers[smallBlindIndex].stack
+                    playersList[smallBlindIndex].stack
                 )
-                listPlayers[smallBlindIndex].actionPlayer = ActionPlayer.AllIn
+                playersList[smallBlindIndex].actionPlayer = ActionPlayer.AllIn
             } else {
                 withDrawMoneyToPlayer(
                     smallBlindIndex,
                     settings.smallBlind
                 )
             }
-            if (listPlayers[bigBlindIndex].stack < settings.smallBlind * 2) {
+            if (playersList[bigBlindIndex].stack < settings.smallBlind * 2) {
                 withDrawMoneyToPlayer(
                     bigBlindIndex,
-                    listPlayers[bigBlindIndex].stack
+                    playersList[bigBlindIndex].stack
                 )
-                listPlayers[bigBlindIndex].actionPlayer = ActionPlayer.AllIn
+                playersList[bigBlindIndex].actionPlayer = ActionPlayer.AllIn
             } else {
                 withDrawMoneyToPlayer(
                     bigBlindIndex,
@@ -177,30 +177,30 @@ object Game {
     }
 
     private fun getSmallBlindIndex(): Int {
-        return listPlayers.indexOf(listPlayers.find { it.stateBlind == StateBlind.SmallBlind })
+        return playersList.indexOf(playersList.find { it.stateBlind == StateBlind.SmallBlind })
     }
 
     private fun getBigBlindIndex(): Int {
-        return listPlayers.indexOf(listPlayers.find { it.stateBlind == StateBlind.BigBlind })
+        return playersList.indexOf(playersList.find { it.stateBlind == StateBlind.BigBlind })
     }
 
     private fun withDrawMoneyToPlayer(index: Int, stack: Int) {
-        listPlayers[index].stack -= stack
-        listPlayers[index].stackBetTurn += stack
-        listPlayers[index].stackBetPartTurn += stack
+        playersList[index].stack -= stack
+        playersList[index].stackBetTurn += stack
+        playersList[index].stackBetPartTurn += stack
         currentStackTurn += stack
         setCurrentMaxRaisePartTurn()
     }
 
     private fun setCurrentMaxRaisePartTurn() {
-        currentMaxRaisePartTurn = listPlayers.maxBy {
+        currentMaxRaisePartTurn = playersList.maxBy {
             it.stackBetPartTurn
         }?.stackBetPartTurn!!
     }
 
     fun initializeCurrentPlayerAfterBigBlind() {
         val bigBlindIndex = getBigBlindIndex()
-        currentPlayer = listPlayers[getIndexNextPlayerNotEliminatedOrFolded(
+        currentPlayer = playersList[getIndexNextPlayerNotEliminatedOrFolded(
             bigBlindIndex + 1
         )]
         currentPlayer.statePlayer = StatePlayer.CurrentTurn
@@ -208,7 +208,7 @@ object Game {
 
     fun check() {
         val currentPlayerIndex = getCurrentPlayerIndex()
-        listPlayers[currentPlayerIndex].actionPlayer = ActionPlayer.Check
+        playersList[currentPlayerIndex].actionPlayer = ActionPlayer.Check
     }
 
     fun call() {
@@ -217,7 +217,7 @@ object Game {
             currentPlayerIndex,
             currentMaxRaisePartTurn - currentPlayer.stackBetPartTurn
         )
-        listPlayers[currentPlayerIndex].actionPlayer = ActionPlayer.Call
+        playersList[currentPlayerIndex].actionPlayer = ActionPlayer.Call
     }
 
     fun raise(stackRaised: Int) {
@@ -226,12 +226,12 @@ object Game {
             currentPlayerIndex,
             stackRaised
         )
-        listPlayers[currentPlayerIndex].actionPlayer = ActionPlayer.Raise
+        playersList[currentPlayerIndex].actionPlayer = ActionPlayer.Raise
     }
 
     fun fold() {
         val currentPlayerIndex = getCurrentPlayerIndex()
-        listPlayers[currentPlayerIndex].actionPlayer = ActionPlayer.Fold
+        playersList[currentPlayerIndex].actionPlayer = ActionPlayer.Fold
     }
 
     fun allin() {
@@ -240,11 +240,11 @@ object Game {
             currentPlayerIndex,
             currentPlayer.stack
         )
-        listPlayers[currentPlayerIndex].actionPlayer = ActionPlayer.AllIn
+        playersList[currentPlayerIndex].actionPlayer = ActionPlayer.AllIn
     }
 
     private fun getCurrentPlayerIndex(): Int {
-        return listPlayers.indexOf(listPlayers.find { it.statePlayer == StatePlayer.CurrentTurn })
+        return playersList.indexOf(playersList.find { it.statePlayer == StatePlayer.CurrentTurn })
     }
 
     fun getPossibleActions(): List<ActionPlayer> {
@@ -280,12 +280,12 @@ object Game {
     fun moveToNextPlayerAvailable() {
         val previousCurrentPlayerIndex =
             getCurrentPlayerIndex()
-        listPlayers[previousCurrentPlayerIndex].statePlayer = StatePlayer.Playing
-        listPlayers[getIndexNextPlayerNotEliminatedOrFoldedOrAllin(
+        playersList[previousCurrentPlayerIndex].statePlayer = StatePlayer.Playing
+        playersList[getIndexNextPlayerNotEliminatedOrFoldedOrAllin(
             previousCurrentPlayerIndex + 1
         )].statePlayer =
             StatePlayer.CurrentTurn
-        currentPlayer = listPlayers[getIndexNextPlayerNotEliminatedOrFoldedOrAllin(
+        currentPlayer = playersList[getIndexNextPlayerNotEliminatedOrFoldedOrAllin(
             previousCurrentPlayerIndex + 1
         )]
     }
@@ -293,22 +293,22 @@ object Game {
     fun moveToFirstPlayerAvailableFromSmallBlind() {
         val previousCurrentPlayerIndex =
             getCurrentPlayerIndex()
-        listPlayers[previousCurrentPlayerIndex].statePlayer = StatePlayer.Playing
+        playersList[previousCurrentPlayerIndex].statePlayer = StatePlayer.Playing
         val newCurrentPlayerIndex =
             getIndexNextPlayerNotEliminatedOrFoldedOrAllin(
                 getSmallBlindIndex()
             )
-        listPlayers[newCurrentPlayerIndex].statePlayer = StatePlayer.CurrentTurn
-        currentPlayer = listPlayers[newCurrentPlayerIndex]
+        playersList[newCurrentPlayerIndex].statePlayer = StatePlayer.CurrentTurn
+        currentPlayer = playersList[newCurrentPlayerIndex]
     }
 
 
     fun moveToBigBlindWhenRemainingOnlyTwoPlayers() {
         val previousCurrentPlayerIndex =
             getCurrentPlayerIndex()
-        listPlayers[previousCurrentPlayerIndex].statePlayer = StatePlayer.Playing
-        listPlayers[getBigBlindIndex()].statePlayer = StatePlayer.CurrentTurn
-        currentPlayer = listPlayers[getBigBlindIndex()]
+        playersList[previousCurrentPlayerIndex].statePlayer = StatePlayer.Playing
+        playersList[getBigBlindIndex()].statePlayer = StatePlayer.CurrentTurn
+        currentPlayer = playersList[getBigBlindIndex()]
     }
 
 
@@ -317,28 +317,28 @@ object Game {
     }
 
     private fun didAllPlayersAllin(): Boolean {
-        return listPlayers.filter {
+        return playersList.filter {
             it.statePlayer != StatePlayer.Eliminate && it.actionPlayer != ActionPlayer.Fold
         }
             .find { it.actionPlayer != ActionPlayer.AllIn } == null
     }
 
     private fun didAllPlayersPlayed(): Boolean {
-        return listPlayers.filter {
+        return playersList.filter {
             it.statePlayer != StatePlayer.Eliminate && it.actionPlayer != ActionPlayer.Fold && it.actionPlayer != ActionPlayer.AllIn
         }
             .find { it.actionPlayer == ActionPlayer.Nothing } == null
     }
 
     private fun didAllPlayersCheck(): Boolean {
-        return listPlayers.filter {
+        return playersList.filter {
             it.statePlayer != StatePlayer.Eliminate && it.actionPlayer != ActionPlayer.Fold && it.actionPlayer != ActionPlayer.AllIn
         }
             .find { it.actionPlayer != ActionPlayer.Check } == null
     }
 
     private fun didAllPlayersPaidMaxRaiseValue(): Boolean {
-        return listPlayers.filter {
+        return playersList.filter {
             it.statePlayer != StatePlayer.Eliminate && it.actionPlayer != ActionPlayer.Fold && it.actionPlayer != ActionPlayer.AllIn
         }
             .find { it.stackBetPartTurn != currentMaxRaisePartTurn } == null
@@ -349,16 +349,16 @@ object Game {
     }
 
     private fun isThereOnlyOnePlayerLeftInPartTurn(): Boolean {
-        return listPlayers.filter { it.statePlayer != StatePlayer.Eliminate && it.actionPlayer != ActionPlayer.Fold }.size == 1
+        return playersList.filter { it.statePlayer != StatePlayer.Eliminate && it.actionPlayer != ActionPlayer.Fold }.size == 1
     }
 
     private fun isTurnOverBeforeRiver(): Boolean {
         val nextCurrentPlayerIndex = getCurrentPlayerIndex() + 1
-        return listPlayers.filter {
+        return playersList.filter {
             it.statePlayer != StatePlayer.Eliminate
                 && it.actionPlayer != ActionPlayer.Fold
                 && it.actionPlayer != ActionPlayer.AllIn
-        }.size <= 1 && currentMaxRaisePartTurn == listPlayers[getIndexNextPlayerNotEliminatedOrFoldedOrAllin(
+        }.size <= 1 && currentMaxRaisePartTurn == playersList[getIndexNextPlayerNotEliminatedOrFoldedOrAllin(
             nextCurrentPlayerIndex
         )].stackBetPartTurn
     }
@@ -389,11 +389,11 @@ object Game {
     }
 
     private fun resetCurrentPlayerStatePlayer() {
-        listPlayers[getCurrentPlayerIndex()].statePlayer = StatePlayer.Playing
+        playersList[getCurrentPlayerIndex()].statePlayer = StatePlayer.Playing
     }
 
     private fun resetActionPlayerExceptFoldedAndAllIn() {
-        listPlayers.forEach {
+        playersList.forEach {
             if (it.statePlayer != StatePlayer.Eliminate
                 && it.actionPlayer != ActionPlayer.Fold
                 && it.actionPlayer != ActionPlayer.AllIn
@@ -404,7 +404,7 @@ object Game {
     }
 
     private fun resetActionPlayer() {
-        listPlayers.forEach {
+        playersList.forEach {
             if (it.statePlayer != StatePlayer.Eliminate) {
                 it.actionPlayer = ActionPlayer.Nothing
             }
@@ -412,11 +412,11 @@ object Game {
     }
 
     private fun resetStackBetPartTurn() {
-        listPlayers.forEach { it.stackBetPartTurn = 0 }
+        playersList.forEach { it.stackBetPartTurn = 0 }
     }
 
     private fun resetStackBetTurn() {
-        listPlayers.forEach { it.stackBetTurn = 0 }
+        playersList.forEach { it.stackBetTurn = 0 }
     }
 
     fun isIncreaseBlindsEnabled(): Boolean {
@@ -426,7 +426,7 @@ object Game {
     fun createAllPot(): MutableList<Pot> {
         val potList = mutableListOf<Pot>()
         var potentialWinners: MutableList<Player> = mutableListOf()
-        listPlayers.filter { it.statePlayer != StatePlayer.Eliminate && it.actionPlayer != ActionPlayer.Fold }
+        playersList.filter { it.statePlayer != StatePlayer.Eliminate && it.actionPlayer != ActionPlayer.Fold }
             .forEach {
                 potentialWinners.add(Player(it.id, it.name, it.stack, it.stackBetTurn))
             }
@@ -472,7 +472,7 @@ object Game {
                 ), it.stackWon
             )
         }
-        listPlayers.filter { it.statePlayer != StatePlayer.Eliminate }.forEach { player ->
+        playersList.filter { it.statePlayer != StatePlayer.Eliminate }.forEach { player ->
             when {
                 winnerList.find { it.id == player.id && it.stackWon > player.stackBetTurn } != null -> {
                     val stackWon =
@@ -514,26 +514,26 @@ object Game {
     }
 
     private fun setStatePlayerEliminateForPLayerWhoLost() {
-        listPlayers.filter { it.statePlayer != StatePlayer.Eliminate && it.stack == 0 }.forEach {
+        playersList.filter { it.statePlayer != StatePlayer.Eliminate && it.stack == 0 }.forEach {
             it.statePlayer = StatePlayer.Eliminate
         }
     }
 
     private fun getPlayerIndexById(id: String): Int {
-        val player = listPlayers.find { it.id == id }
-        return listPlayers.indexOf(player)
+        val player = playersList.find { it.id == id }
+        return playersList.indexOf(player)
     }
 
     private fun addStackToPlayer(index: Int, stack: Int) {
-        listPlayers[index].stack += stack
+        playersList[index].stack += stack
     }
 
     fun isGameOver(): Boolean {
-        return listPlayers.filter { it.statePlayer != StatePlayer.Eliminate }.size < 2
+        return playersList.filter { it.statePlayer != StatePlayer.Eliminate }.size < 2
     }
 
     fun getListPlayerEndGame(): MutableList<PlayerEndGame> {
-        return listPlayers.map {
+        return playersList.map {
             if (it.stack > settings.stack) {
                 PlayerEndGame(it.id, it.name, it.stack, true)
             } else {
@@ -549,7 +549,7 @@ object Game {
     }
 
     fun rebuyPlayer(playerId: String): Player {
-        val playerWhoWantToRebuy = listPlayers.find { it.id == playerId }
+        val playerWhoWantToRebuy = playersList.find { it.id == playerId }
         if (playerWhoWantToRebuy != null && playerWhoWantToRebuy.statePlayer == StatePlayer.Eliminate) {
             playerWhoWantToRebuy.statePlayer = StatePlayer.Playing
             playerWhoWantToRebuy.stack = settings.stack
@@ -558,7 +558,7 @@ object Game {
     }
 
     fun resetGame() {
-        listPlayers = MutableCircularList(mutableListOf())
+        playersList = MutableCircularList(mutableListOf())
         settings = Settings(
             stack = 0,
             isMoneyBetEnabled = false,
@@ -587,14 +587,14 @@ object Game {
     }
 
     fun addMoneyToPlayerBetweenTurn(playerCustomStack: PlayerCustomStack) {
-        val player = listPlayers.find { it.id == playerCustomStack.id }
+        val player = playersList.find { it.id == playerCustomStack.id }
         if (player != null) {
             player.stack += playerCustomStack.stack
         }
     }
 
     fun withDrawMoneyToPlayerBetweenTurn(playerCustomStack: PlayerCustomStack) {
-        val player = listPlayers.find { it.id == playerCustomStack.id }
+        val player = playersList.find { it.id == playerCustomStack.id }
         if (player != null) {
             player.stack -= playerCustomStack.stack
         }

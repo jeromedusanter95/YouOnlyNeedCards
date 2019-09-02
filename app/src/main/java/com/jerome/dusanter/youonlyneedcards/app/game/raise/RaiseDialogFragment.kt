@@ -14,11 +14,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.SeekBar
-import com.jerome.dusanter.youonlyneedcards.app.game.GameActivity
 import com.jerome.dusanter.youonlyneedcards.utils.SeekBarChangeListener
 import com.jerome.dusanter.youonlyneedcards.utils.transformIntoDecade
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.dialog_raise.*
+import java.io.Serializable
 import javax.inject.Inject
 
 
@@ -28,12 +28,12 @@ class RaiseDialogFragment : DialogFragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: RaiseViewModel
+    private var listener: Listener? = null
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +55,7 @@ class RaiseDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         val stackPlayer = arguments?.get(EXTRA_STACK_PLAYER) as Int
         val bigBlind = arguments?.get(EXTRA_BIG_BLIND) as Int
+        listener = arguments?.get(EXTRA_RAISE_DIALOG_LISTENER) as Listener
         setupView(stackPlayer, bigBlind)
         setupLiveData()
         setupListeners()
@@ -112,8 +113,7 @@ class RaiseDialogFragment : DialogFragment() {
 
     private fun finishDialogWithCheck(uiModel: RaiseUiModel.Check) {
         dismiss()
-        val activity = activity as GameActivity
-        activity.onDismissRaiseDialog(uiModel.isAllin, uiModel.stackRaised)
+        listener?.onDismissRaiseDialogFragment(uiModel)
     }
 
 
@@ -126,14 +126,24 @@ class RaiseDialogFragment : DialogFragment() {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
 
+    interface Listener : Serializable {
+        fun onDismissRaiseDialogFragment(uiModel: RaiseUiModel.Check)
+    }
+
     companion object {
         private const val EXTRA_BIG_BLIND = "EXTRA_BIG_BLIND"
         private const val EXTRA_STACK_PLAYER = "EXTRA_STACK_PLAYER"
+        private const val EXTRA_RAISE_DIALOG_LISTENER = "EXTRA_RAISE_DIALOG_LISTENER"
 
-        fun newInstance(bigBlind: Int, stackPlayer: Int): RaiseDialogFragment {
+        fun newInstance(
+            bigBlind: Int,
+            stackPlayer: Int,
+            listener: Listener
+        ): RaiseDialogFragment {
             val args = Bundle()
             args.putInt(EXTRA_BIG_BLIND, bigBlind)
             args.putInt(EXTRA_STACK_PLAYER, stackPlayer)
+            args.putSerializable(EXTRA_RAISE_DIALOG_LISTENER, listener as Serializable)
             val dialog = RaiseDialogFragment()
             dialog.arguments = args
             return dialog

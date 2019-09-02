@@ -9,7 +9,7 @@ import javax.inject.Inject
 class DistributeStackInteractor @Inject internal constructor() {
 
     fun execute(winnerList: List<Winner>, listener: Listener) {
-        listener.onSuccess(Game.distributePotsToWinners(winnerList), Game.listPlayers)
+        listener.onSuccess(Game.distributePotsToWinners(winnerList), Game.playersList)
     }
 
     interface Listener {
