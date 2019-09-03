@@ -14,10 +14,11 @@ class StartGameInteractor @Inject internal constructor() {
             listener.onSuccess(
                 Response(
                     actionPlayerList = Game.getPossibleActions(),
-                    playerList = Game.playersList,
+                    currentPlayer = Game.currentPlayer,
+                    playersList = Game.playersList,
                     stackTurn = Game.currentStackTurn,
                     resetTimer = Game.isIncreaseBlindsEnabled(),
-                    durationBeforeIncreasingBlind = Game.settings.frequencyIncreasingBlind
+                    durationBeforeIncreasingBlinds = Game.settings.frequencyIncreasingBlind
                 )
             )
         } else {
@@ -32,10 +33,11 @@ class StartGameInteractor @Inject internal constructor() {
 
     data class Response(
         val actionPlayerList: List<ActionPlayer>,
-        val playerList: List<Player>,
+        val currentPlayer: Player,
+        val playersList: List<Player>,
         val stackTurn: Int,
         val resetTimer: Boolean,
-        val durationBeforeIncreasingBlind: Long
+        val durationBeforeIncreasingBlinds: Long
     )
 }
 

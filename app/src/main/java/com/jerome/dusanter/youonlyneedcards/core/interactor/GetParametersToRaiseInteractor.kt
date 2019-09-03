@@ -3,13 +3,23 @@ package com.jerome.dusanter.youonlyneedcards.core.interactor
 import com.jerome.dusanter.youonlyneedcards.core.Game
 import javax.inject.Inject
 
-class GetParametersToRaiseInteractor@Inject internal constructor() {
+class GetParametersToRaiseInteractor @Inject internal constructor() {
 
     fun execute(listener: Listener) {
-        listener.onSuccess(Game.settings.smallBlind * 2, Game.currentPlayer.stack)
+        listener.onSuccess(
+            Response(
+                bigBlind = Game.settings.smallBlind * 2,
+                stackPlayer = Game.currentPlayer.stack
+            )
+        )
     }
 
     interface Listener {
-        fun onSuccess(bigBlind: Int, stackPlayer: Int)
+        fun onSuccess(response: Response)
     }
+
+    data class Response(
+        val bigBlind: Int,
+        val stackPlayer: Int
+    )
 }

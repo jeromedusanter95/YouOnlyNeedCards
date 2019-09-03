@@ -5,19 +5,23 @@ import com.jerome.dusanter.youonlyneedcards.core.PlayerEndGame
 import com.jerome.dusanter.youonlyneedcards.core.Settings
 import javax.inject.Inject
 
-class EndGameInteractor@Inject internal constructor() {
+class EndGameInteractor @Inject internal constructor() {
 
     fun execute(listener: Listener) {
         listener.onEndGame(
-            Game.getListPlayerEndGame(),
-            Game.settings
+            Response(
+                playerEndGameList = Game.getListPlayerEndGame(),
+                settings = Game.settings
+            )
         )
     }
 
     interface Listener {
-        fun onEndGame(
-            playerEndGameList: List<PlayerEndGame>?,
-            settings: Settings
-        )
+        fun onEndGame(response: Response)
     }
+
+    data class Response(
+        val playerEndGameList: List<PlayerEndGame>,
+        val settings: Settings
+    )
 }

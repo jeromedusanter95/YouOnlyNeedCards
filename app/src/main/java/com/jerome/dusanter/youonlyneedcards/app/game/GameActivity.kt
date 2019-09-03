@@ -316,7 +316,7 @@ class GameActivity : AppCompatActivity(),
         EndTurnDialogFragment
             .newInstance(gameUiModel, this)
             .show(supportFragmentManager, "EndTurnDialogFragment")
-        viewModel.onShowDialogEndTurn()
+        viewModel.onShowEndTurnDialog()
     }
 
     private fun showConfirmationEndGameDialogFragment() {

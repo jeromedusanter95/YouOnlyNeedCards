@@ -9,10 +9,15 @@ import javax.inject.Inject
 class DistributeStackInteractor @Inject internal constructor() {
 
     fun execute(winnerList: List<Winner>, listener: Listener) {
-        listener.onSuccess(Game.distributePotsToWinners(winnerList), Game.playersList)
+        listener.onSuccess(Response(Game.distributePotsToWinners(winnerList), Game.playersList))
     }
 
     interface Listener {
-        fun onSuccess(playerEndTurnList: List<PlayerEndTurn>, playerList: List<Player>)
+        fun onSuccess(response: Response)
     }
+
+    data class Response(
+        val playersEndTurnList: List<PlayerEndTurn>,
+        val playersList: List<Player>
+    )
 }

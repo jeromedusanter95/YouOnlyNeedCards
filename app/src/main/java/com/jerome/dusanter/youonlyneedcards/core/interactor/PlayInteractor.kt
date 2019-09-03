@@ -27,9 +27,10 @@ class PlayInteractor @Inject internal constructor() {
             Game.isTurnOver() -> {
                 val potList = Game.createAllPot()
                 Game.endTurn()
-                listener.getGameInformations(
+                listener.onSuccess(
                     Response(
                         actionPlayerList = Game.getPossibleActions(),
+                        currentPlayer = Game.currentPlayer,
                         playerList = Game.playersList,
                         stackTurn = Game.currentStackTurn,
                         stateTurn = Game.currentStateTurn,
@@ -45,9 +46,10 @@ class PlayInteractor @Inject internal constructor() {
                 } else {
                     Game.moveToFirstPlayerAvailableFromSmallBlind()
                 }
-                listener.getGameInformations(
+                listener.onSuccess(
                     Response(
                         actionPlayerList = Game.getPossibleActions(),
+                        currentPlayer = Game.currentPlayer,
                         playerList = Game.playersList,
                         stackTurn = Game.currentStackTurn,
                         stateTurn = Game.currentStateTurn
@@ -56,9 +58,10 @@ class PlayInteractor @Inject internal constructor() {
             }
             else -> {
                 Game.moveToNextPlayerAvailable()
-                listener.getGameInformations(
+                listener.onSuccess(
                     Response(
                         actionPlayerList = Game.getPossibleActions(),
+                        currentPlayer = Game.currentPlayer,
                         playerList = Game.playersList,
                         stackTurn = Game.currentStackTurn,
                         stateTurn = Game.currentStateTurn
@@ -69,7 +72,7 @@ class PlayInteractor @Inject internal constructor() {
     }
 
     interface Listener {
-        fun getGameInformations(response: Response)
+        fun onSuccess(response: Response)
     }
 
     data class Request(
@@ -79,6 +82,7 @@ class PlayInteractor @Inject internal constructor() {
 
     data class Response(
         val actionPlayerList: List<ActionPlayer>,
+        val currentPlayer: Player,
         val playerList: List<Player>,
         val stackTurn: Int,
         val stateTurn: StateTurn,

@@ -10,7 +10,7 @@ import javax.inject.Inject
 class GameMapper @Inject internal constructor(
     private val context: Context
 ) {
-    fun map(
+    fun mapShowCurrentTurn(
         actionPlayerList: List<ActionPlayer>,
         nameCurrentPlayer: String,
         stackCurrentPlayer: Int,
@@ -29,13 +29,13 @@ class GameMapper @Inject internal constructor(
         )
     }
 
-    fun map(bigBlind: Int, stackPlayer: Int): GameUiModel.ShowRaiseDialog {
+    fun mapToRaiseDialog(bigBlind: Int, stackPlayer: Int): GameUiModel.ShowRaiseDialog {
         return GameUiModel.ShowRaiseDialog(
             bigBlind = bigBlind, stackPlayer = stackPlayer
         )
     }
 
-    fun map(potList: List<Pot>): GameUiModel.ShowChooseWinnersDialog {
+    fun mapToShowChooseWinnersDialog(potList: List<Pot>): GameUiModel.ShowChooseWinnersDialog {
         val potListChooseWinners = potList.map { pot ->
             PotChooseWinners(pot.potentialWinners.map { player ->
                 PlayerChooseWinners(player.id, player.name)
@@ -47,7 +47,7 @@ class GameMapper @Inject internal constructor(
         )
     }
 
-    fun map(playerEndTurnList: List<PlayerEndTurn>): GameUiModel.ShowEndTurnDialog {
+    fun mapToEndTurnDialog(playerEndTurnList: List<PlayerEndTurn>): GameUiModel.ShowEndTurnDialog {
         return GameUiModel.ShowEndTurnDialog(
             playerEndTurnList.map {
                 PlayerEndTurnUiModel(
@@ -72,8 +72,8 @@ class GameMapper @Inject internal constructor(
         )
     }
 
-    fun map(
-        playerEndGameList: MutableList<PlayerEndGame>,
+    fun mapEndGameDialog(
+        playerEndGameList: List<PlayerEndGame>,
         settings: Settings
     ): GameUiModel.ShowEndGameDialog {
         val listStack = mutableListOf<Int>()
@@ -109,7 +109,7 @@ class GameMapper @Inject internal constructor(
             }
         }
 
-        playerEndGameList.sortWith(Comparator { player1, player2 ->
+        playerEndGameList.toMutableList().sortWith(Comparator { player1, player2 ->
             player2.stack.compareTo(player1.stack)
         })
 

@@ -8,22 +8,22 @@ import javax.inject.Inject
 class CheckIfGameOverInteractor @Inject internal constructor() {
 
     fun execute(listener: Listener) {
-        if (Game.isGameOver()) {
-            listener.onSuccess(
-                true,
-                Game.getListPlayerEndGame(),
-                Game.settings
+        listener.onSuccess(
+            Response(
+                isGameOver = Game.isGameOver(),
+                playerEndGameList = if (Game.isGameOver()) Game.getListPlayerEndGame() else listOf(),
+                settings = Game.settings
             )
-        } else {
-            listener.onSuccess(false, null, Game.settings)
-        }
+        )
     }
 
     interface Listener {
-        fun onSuccess(
-            isGameOver: Boolean,
-            playerEndGameList: List<PlayerEndGame>?,
-            settings: Settings
-        )
+        fun onSuccess(response: Response)
     }
+
+    data class Response(
+        val isGameOver: Boolean,
+        val playerEndGameList: List<PlayerEndGame>,
+        val settings: Settings
+    )
 }

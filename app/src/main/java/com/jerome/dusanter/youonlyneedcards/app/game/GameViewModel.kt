@@ -2,6 +2,7 @@ package com.jerome.dusanter.youonlyneedcards.app.game
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.util.Log
 import com.jerome.dusanter.youonlyneedcards.app.game.choosewinners.PotChooseWinners
 import com.jerome.dusanter.youonlyneedcards.app.game.playerprofile.PlayerProfileMapper
 import com.jerome.dusanter.youonlyneedcards.app.game.playerprofile.PlayerProfileUiModel
@@ -42,7 +43,7 @@ class GameViewModel @Inject internal constructor(
     val stateGame = MutableLiveData<GameUiModel>()
 
     //locale variables
-    var actionPlayersList = listOf<ActionPlayer>()
+    private var actionPlayersList = listOf<ActionPlayer>()
     private var timeRemainingBeforeIncreaseBlind: Long = 0
 
     fun onStart(booleanExtra: Boolean) {
@@ -91,8 +92,12 @@ class GameViewModel @Inject internal constructor(
     }
 
     fun onClickButtonRight() {
-        val actionPlayer = mapToActionPlayer(PlayButton.RIGHT)
-        play(actionPlayer)
+        try {
+            val actionPlayer = mapToActionPlayer(PlayButton.RIGHT)
+            play(actionPlayer)
+        } catch (e: Exception) {
+            Log.d("GameViewModel", e.message)
+        }
     }
 
     fun notShowChooseWinnersDialog(potChooseWinners: PotChooseWinners) {
@@ -103,7 +108,7 @@ class GameViewModel @Inject internal constructor(
         )
     }
 
-    fun onShowDialogEndTurn() {
+    fun onShowEndTurnDialog() {
         saveGame(timeRemainingBeforeIncreaseBlind)
     }
 
@@ -144,14 +149,22 @@ class GameViewModel @Inject internal constructor(
 
     private fun updatePlayerById(player: Player) {
         when (player.id) {
-            "1" -> statePlayerProfileView1.value = playerProfileMapper.map(player)
-            "2" -> statePlayerProfileView2.value = playerProfileMapper.map(player)
-            "3" -> statePlayerProfileView3.value = playerProfileMapper.map(player)
-            "4" -> statePlayerProfileView4.value = playerProfileMapper.map(player)
-            "5" -> statePlayerProfileView5.value = playerProfileMapper.map(player)
-            "6" -> statePlayerProfileView6.value = playerProfileMapper.map(player)
-            "7" -> statePlayerProfileView7.value = playerProfileMapper.map(player)
-            "8" -> statePlayerProfileView8.value = playerProfileMapper.map(player)
+            "1" -> statePlayerProfileView1.value =
+                playerProfileMapper.mapToProfilePlayerUiModel(player)
+            "2" -> statePlayerProfileView2.value =
+                playerProfileMapper.mapToProfilePlayerUiModel(player)
+            "3" -> statePlayerProfileView3.value =
+                playerProfileMapper.mapToProfilePlayerUiModel(player)
+            "4" -> statePlayerProfileView4.value =
+                playerProfileMapper.mapToProfilePlayerUiModel(player)
+            "5" -> statePlayerProfileView5.value =
+                playerProfileMapper.mapToProfilePlayerUiModel(player)
+            "6" -> statePlayerProfileView6.value =
+                playerProfileMapper.mapToProfilePlayerUiModel(player)
+            "7" -> statePlayerProfileView7.value =
+                playerProfileMapper.mapToProfilePlayerUiModel(player)
+            "8" -> statePlayerProfileView8.value =
+                playerProfileMapper.mapToProfilePlayerUiModel(player)
         }
     }
 
@@ -171,56 +184,56 @@ class GameViewModel @Inject internal constructor(
     private fun updatePlayerOrHidePlayer(list: List<Player>) {
         val player1 = list.find { it.id == "1" }
         if (player1 != null) {
-            statePlayerProfileView1.value = playerProfileMapper.map(player1)
+            statePlayerProfileView1.value = playerProfileMapper.mapToProfilePlayerUiModel(player1)
         } else {
             statePlayerProfileView1.value = null
         }
 
         val player2 = list.find { it.id == "2" }
         if (player2 != null) {
-            statePlayerProfileView2.value = playerProfileMapper.map(player2)
+            statePlayerProfileView2.value = playerProfileMapper.mapToProfilePlayerUiModel(player2)
         } else {
             statePlayerProfileView2.value = null
         }
 
         val player3 = list.find { it.id == "3" }
         if (player3 != null) {
-            statePlayerProfileView3.value = playerProfileMapper.map(player3)
+            statePlayerProfileView3.value = playerProfileMapper.mapToProfilePlayerUiModel(player3)
         } else {
             statePlayerProfileView3.value = null
         }
 
         val player4 = list.find { it.id == "4" }
         if (player4 != null) {
-            statePlayerProfileView4.value = playerProfileMapper.map(player4)
+            statePlayerProfileView4.value = playerProfileMapper.mapToProfilePlayerUiModel(player4)
         } else {
             statePlayerProfileView4.value = null
         }
 
         val player5 = list.find { it.id == "5" }
         if (player5 != null) {
-            statePlayerProfileView5.value = playerProfileMapper.map(player5)
+            statePlayerProfileView5.value = playerProfileMapper.mapToProfilePlayerUiModel(player5)
         } else {
             statePlayerProfileView5.value = null
         }
 
         val player6 = list.find { it.id == "6" }
         if (player6 != null) {
-            statePlayerProfileView6.value = playerProfileMapper.map(player6)
+            statePlayerProfileView6.value = playerProfileMapper.mapToProfilePlayerUiModel(player6)
         } else {
             statePlayerProfileView6.value = null
         }
 
         val player7 = list.find { it.id == "7" }
         if (player7 != null) {
-            statePlayerProfileView7.value = playerProfileMapper.map(player7)
+            statePlayerProfileView7.value = playerProfileMapper.mapToProfilePlayerUiModel(player7)
         } else {
             statePlayerProfileView7.value = null
         }
 
         val player8 = list.find { it.id == "8" }
         if (player8 != null) {
-            statePlayerProfileView8.value = playerProfileMapper.map(player8)
+            statePlayerProfileView8.value = playerProfileMapper.mapToProfilePlayerUiModel(player8)
         } else {
             statePlayerProfileView8.value = null
         }
@@ -234,18 +247,16 @@ class GameViewModel @Inject internal constructor(
         object : StartGameInteractor.Listener {
             override fun onSuccess(response: StartGameInteractor.Response) {
                 actionPlayersList = response.actionPlayerList
-                val currentPlayer =
-                    response.playerList.find { it.statePlayer == StatePlayer.CurrentTurn }
-                stateGame.value = gameMapper.map(
+                stateGame.value = gameMapper.mapShowCurrentTurn(
                     actionPlayerList = response.actionPlayerList,
                     namePartTurn = StateTurn.PreFlop.name,
                     stackTurn = response.stackTurn,
-                    nameCurrentPlayer = currentPlayer!!.name,
-                    stackCurrentPlayer = currentPlayer.stack,
+                    nameCurrentPlayer = response.currentPlayer.name,
+                    stackCurrentPlayer = response.currentPlayer.stack,
                     resetTimer = response.resetTimer,
-                    durationBeforeIncreasingBlinds = response.durationBeforeIncreasingBlind
+                    durationBeforeIncreasingBlinds = response.durationBeforeIncreasingBlinds
                 )
-                updatePlayerOrHidePlayer(response.playerList)
+                updatePlayerOrHidePlayer(response.playersList)
             }
 
             override fun onError() {
@@ -253,26 +264,24 @@ class GameViewModel @Inject internal constructor(
             }
         }
 
-    private fun mapToActionPlayer(playButton: PlayButton): ActionPlayer {
-        return if (actionPlayersList.size == 3) {
-            when (playButton) {
-                PlayButton.LEFT -> actionPlayersList[0]
-                PlayButton.MIDDLE -> actionPlayersList[1]
-                PlayButton.RIGHT -> actionPlayersList[2]
-            }
-        } else {
-            when (playButton) {
-                PlayButton.LEFT -> actionPlayersList[0]
-                PlayButton.MIDDLE -> actionPlayersList[1]
-                else -> ActionPlayer.Nothing // TODO HandleException
-            }
-        }
+    private fun startTurn() {
+        startTurnInteractor.execute(buildStartTurnListener())
     }
 
-    private fun buildGetBigBlindListener(): GetParametersToRaiseInteractor.Listener =
-        object : GetParametersToRaiseInteractor.Listener {
-            override fun onSuccess(bigBlind: Int, stackPlayer: Int) {
-                stateGame.value = gameMapper.map(bigBlind, stackPlayer)
+    private fun buildStartTurnListener(): StartTurnInteractor.Listener =
+        object : StartTurnInteractor.Listener {
+            override fun onSuccess(response: StartTurnInteractor.Response) {
+                actionPlayersList = response.actionPlayerList
+                stateGame.value = gameMapper.mapShowCurrentTurn(
+                    actionPlayerList = response.actionPlayerList,
+                    namePartTurn = response.stateTurn.name,
+                    stackTurn = response.stackTurn,
+                    nameCurrentPlayer = response.currentPlayer.name,
+                    stackCurrentPlayer = response.currentPlayer.stack,
+                    resetTimer = response.resetTimer,
+                    durationBeforeIncreasingBlinds = response.durationBeforeIncreasingBlinds
+                )
+                updatePlayerOrHidePlayer(response.playerList)
             }
         }
 
@@ -291,17 +300,41 @@ class GameViewModel @Inject internal constructor(
         )
     }
 
+    private fun mapToActionPlayer(playButton: PlayButton): ActionPlayer {
+        return if (actionPlayersList.size == 3) {
+            when (playButton) {
+                PlayButton.LEFT -> actionPlayersList[0]
+                PlayButton.MIDDLE -> actionPlayersList[1]
+                PlayButton.RIGHT -> actionPlayersList[2]
+            }
+        } else {
+            when (playButton) {
+                PlayButton.LEFT -> actionPlayersList[0]
+                PlayButton.MIDDLE -> actionPlayersList[1]
+                else -> throw Exception("Button right can't be clicked in this situation")
+            }
+        }
+    }
+
+    private fun buildGetBigBlindListener(): GetParametersToRaiseInteractor.Listener =
+        object : GetParametersToRaiseInteractor.Listener {
+            override fun onSuccess(response: GetParametersToRaiseInteractor.Response) {
+                stateGame.value = gameMapper.mapToRaiseDialog(
+                    bigBlind = response.bigBlind,
+                    stackPlayer = response.stackPlayer
+                )
+            }
+        }
+
     private fun buildPlayListener(): PlayInteractor.Listener =
         object : PlayInteractor.Listener {
-            override fun getGameInformations(response: PlayInteractor.Response) {
+            override fun onSuccess(response: PlayInteractor.Response) {
                 if (!response.isEndTurn) {
-                    val currentPlayer =
-                        response.playerList.find { it.statePlayer == StatePlayer.CurrentTurn }
                     actionPlayersList = response.actionPlayerList
-                    stateGame.value = gameMapper.map(
+                    stateGame.value = gameMapper.mapShowCurrentTurn(
                         actionPlayerList = response.actionPlayerList,
-                        nameCurrentPlayer = currentPlayer!!.name,
-                        stackCurrentPlayer = currentPlayer.stack,
+                        nameCurrentPlayer = response.currentPlayer.name,
+                        stackCurrentPlayer = response.currentPlayer.stack,
                         namePartTurn = response.stateTurn.name,
                         stackTurn = response.stackTurn
                     )
@@ -309,33 +342,10 @@ class GameViewModel @Inject internal constructor(
                         updatePlayerById(it)
                     }
                 } else {
-                    stateGame.value = gameMapper.map(
+                    stateGame.value = gameMapper.mapToShowChooseWinnersDialog(
                         response.potList
                     )
                 }
-            }
-        }
-
-    private fun startTurn() {
-        startTurnInteractor.execute(buildStartTurnListener())
-    }
-
-    private fun buildStartTurnListener(): StartTurnInteractor.Listener =
-        object : StartTurnInteractor.Listener {
-            override fun onSuccess(response: StartTurnInteractor.Response) {
-                actionPlayersList = response.actionPlayerList
-                val currentPlayer =
-                    response.playerList.find { it.statePlayer == StatePlayer.CurrentTurn }
-                stateGame.value = gameMapper.map(
-                    response.actionPlayerList,
-                    currentPlayer!!.name,
-                    currentPlayer.stack,
-                    response.stateTurn.name,
-                    response.stackTurn,
-                    response.resetTimer,
-                    response.durationBeforeIncreasingBlinds
-                )
-                updatePlayerOrHidePlayer(response.playerList)
             }
         }
 
@@ -345,12 +355,9 @@ class GameViewModel @Inject internal constructor(
 
     private fun buildDistributeStackListener(): DistributeStackInteractor.Listener =
         object : DistributeStackInteractor.Listener {
-            override fun onSuccess(
-                playerEndTurnList: List<PlayerEndTurn>,
-                playerList: List<Player>
-            ) {
-                stateGame.value = gameMapper.map(playerEndTurnList)
-                playerList.forEach {
+            override fun onSuccess(response: DistributeStackInteractor.Response) {
+                stateGame.value = gameMapper.mapToEndTurnDialog(response.playersEndTurnList)
+                response.playersList.forEach {
                     if (it.statePlayer == StatePlayer.Eliminate) {
                         showRebuyById(it)
                     } else {
@@ -367,15 +374,11 @@ class GameViewModel @Inject internal constructor(
 
     private fun buildCheckIfGameOverListener(): CheckIfGameOverInteractor.Listener =
         object : CheckIfGameOverInteractor.Listener {
-            override fun onSuccess(
-                isGameOver: Boolean,
-                playerEndGameList: List<PlayerEndGame>?,
-                settings: Settings
-            ) {
-                if (isGameOver) {
-                    stateGame.value = gameMapper.map(
-                        playerEndGameList = playerEndGameList!!.toMutableList(),
-                        settings = settings
+            override fun onSuccess(response: CheckIfGameOverInteractor.Response) {
+                if (response.isGameOver) {
+                    stateGame.value = gameMapper.mapEndGameDialog(
+                        playerEndGameList = response.playerEndGameList,
+                        settings = response.settings
                     )
                 }
             }
@@ -387,10 +390,10 @@ class GameViewModel @Inject internal constructor(
 
     private fun buildEndGameInteractor(): EndGameInteractor.Listener =
         object : EndGameInteractor.Listener {
-            override fun onEndGame(playerEndGameList: List<PlayerEndGame>?, settings: Settings) {
-                stateGame.value = gameMapper.map(
-                    playerEndGameList = playerEndGameList!!.toMutableList(),
-                    settings = settings
+            override fun onEndGame(response: EndGameInteractor.Response) {
+                stateGame.value = gameMapper.mapEndGameDialog(
+                    playerEndGameList = response.playerEndGameList,
+                    settings = response.settings
                 )
             }
         }
@@ -419,7 +422,9 @@ class GameViewModel @Inject internal constructor(
         }
 
     private fun customStack() {
-        getPlayerListAndInitialStackInteractor.execute(buildGetPlayerListAndInitialStackInteractor())
+        getPlayerListAndInitialStackInteractor.execute(
+            buildGetPlayerListAndInitialStackInteractor()
+        )
     }
 
     private fun buildGetPlayerListAndInitialStackInteractor(): GetPlayerListAndInitialStackInteractor.Listener =

@@ -251,9 +251,9 @@ object Game {
         val list = mutableListOf<ActionPlayer>()
         when {
             currentMaxRaisePartTurn == settings.smallBlind * 2
-                && currentPlayer.stackBetPartTurn == currentMaxRaisePartTurn
-                && currentStateTurn == StateTurn.PreFlop
-                && !didAllPlayersPlayed()
+                    && currentPlayer.stackBetPartTurn == currentMaxRaisePartTurn
+                    && currentStateTurn == StateTurn.PreFlop
+                    && !didAllPlayersPlayed()
             -> {
                 list.add(ActionPlayer.Check)
                 list.add(ActionPlayer.Raise)
@@ -356,8 +356,8 @@ object Game {
         val nextCurrentPlayerIndex = getCurrentPlayerIndex() + 1
         return playersList.filter {
             it.statePlayer != StatePlayer.Eliminate
-                && it.actionPlayer != ActionPlayer.Fold
-                && it.actionPlayer != ActionPlayer.AllIn
+                    && it.actionPlayer != ActionPlayer.Fold
+                    && it.actionPlayer != ActionPlayer.AllIn
         }.size <= 1 && currentMaxRaisePartTurn == playersList[getIndexNextPlayerNotEliminatedOrFoldedOrAllin(
             nextCurrentPlayerIndex
         )].stackBetPartTurn
@@ -452,9 +452,12 @@ object Game {
             )
         }
         if (potentialWinners.size == 1) {
-            potList.add(Pot(potentialWinners,
-                currentStackTurn
-            ))
+            potList.add(
+                Pot(
+                    potentialWinners,
+                    currentStackTurn
+                )
+            )
         }
         return potList
     }
@@ -532,14 +535,14 @@ object Game {
         return playersList.filter { it.statePlayer != StatePlayer.Eliminate }.size < 2
     }
 
-    fun getListPlayerEndGame(): MutableList<PlayerEndGame> {
+    fun getListPlayerEndGame(): List<PlayerEndGame> {
         return playersList.map {
             if (it.stack > settings.stack) {
                 PlayerEndGame(it.id, it.name, it.stack, true)
             } else {
                 PlayerEndGame(it.id, it.name, it.stack, false)
             }
-        }.toMutableList()
+        }
     }
 
     fun increaseBlinds() {

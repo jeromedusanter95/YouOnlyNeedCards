@@ -26,6 +26,7 @@ class StartTurnInteractor @Inject internal constructor() {
         listener.onSuccess(
             Response(
                 actionPlayerList = Game.getPossibleActions(),
+                currentPlayer = Game.currentPlayer,
                 playerList = Game.playersList,
                 stackTurn = Game.currentStackTurn,
                 stateTurn = Game.currentStateTurn,
@@ -43,6 +44,7 @@ class StartTurnInteractor @Inject internal constructor() {
 
     data class Response(
         val actionPlayerList: List<ActionPlayer>,
+        val currentPlayer: Player,
         val playerList: List<Player>,
         val stackTurn: Int,
         val stateTurn: StateTurn,
